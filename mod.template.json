@@ -1,0 +1,14 @@
+{
+	"_QPVersion": "0.1.1",
+	"name": "Colorama",
+	"id": "colorama",
+	"author": "cal117",
+	"version": "${version}",
+	"packageId": "com.beatgames.beatsaber",
+	"packageVersion": "1.17.1",
+	"description": "Change the colors of the menu and other neat color related options.",
+	"dependencies": [],
+	"modFiles": [],
+	"libraryFiles": [],
+	"fileCopies": []
+}
