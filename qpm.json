@@ -27,7 +27,7 @@
     },
     {
       "id": "codegen",
-      "versionRange": "^0.20.0",
+      "versionRange": "^0.21.0",
       "additionalData": {}
     },
     {
@@ -37,7 +37,12 @@
     },
     {
       "id": "questui",
-      "versionRange": "=0.13.2",
+      "versionRange": "^0.13.3",
+      "additionalData": {}
+    },
+    {
+      "id": "config-utils",
+      "versionRange": "^0.7.2",
       "additionalData": {}
     }
   ],
