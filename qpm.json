@@ -4,8 +4,8 @@
   "info": {
     "name": "Colorama",
     "id": "colorama",
-    "version": "0.1.0",
-    "url": null,
+    "version": "1.0.0",
+    "url": "https://github.com/cal117/Colorama",
     "additionalData": {
       "overrideSoName": "libcolorama.so"
     }
@@ -43,6 +43,11 @@
     {
       "id": "config-utils",
       "versionRange": "^0.7.2",
+      "additionalData": {}
+    },
+    {
+      "id": "custom-types",
+      "versionRange": "^0.15.8",
       "additionalData": {}
     }
   ],

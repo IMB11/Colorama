@@ -13,16 +13,13 @@ DECLARE_CONFIG(ColoramaConfig,
     CONFIG_VALUE(Game_LColor, Color, "Left Arrow Color", Color::get_white())
     CONFIG_VALUE(Game_RColor, Color, "Right Arrow Color", Color::get_white())
 
-    CONFIG_VALUE(Menu_Enabled, bool, "Menu_Enabled", true)
-    CONFIG_VALUE(Menu_DefaultColor, Color, "Menu_DefaultColor", Color::get_cyan())
-
-    CONFIG_VALUE(Menu_FreeplayColor, Color, "Menu_FreeplayColor", Color::get_white())
-    CONFIG_VALUE(Menu_ResultsColor, Color, "Menu_ResultsColor", Color::get_white())
-    CONFIG_VALUE(Menu_ResultsFailColor, Color, "Menu_ResultsFailColor", Color::get_white())
-    CONFIG_VALUE(Menu_CampaignsColor, Color, "Menu_CampaignsColor", Color::get_white())
-    CONFIG_VALUE(Menu_FeetColor, Color, "Menu_FeetColor", Color::get_white())
-    CONFIG_VALUE(Menu_MultiplayerColor, Color, "Menu_MultiplayerColor", Color::get_white())
-    CONFIG_VALUE(Menu_MultiplayerCountdownColor, Color, "Menu_MultiplayerCountdownColor", Color::get_white())
+    CONFIG_VALUE(Menu_Enabled, bool, "Menu Colors Enabled", false)
+    CONFIG_VALUE(Menu_GamemodeColor, Color, "Gamemode Selection Menu Color", Color::get_white())
+    CONFIG_VALUE(Menu_FreeplayColor, Color, "Solo/Party Menu Color", Color::get_white())
+    CONFIG_VALUE(Menu_ResultsColor, Color, "Results Menu Color", Color::get_white())
+    CONFIG_VALUE(Menu_ResultsFailColor, Color, "Fail Menu Color", Color::get_white())
+    CONFIG_VALUE(Menu_CampaignsColor, Color, "Campaign Menu Color", Color::get_white())
+    CONFIG_VALUE(Menu_FeetColor, Color, "Feet Indicator Color", Color::get_white())
 
     CONFIG_INIT_FUNCTION(
         CONFIG_INIT_VALUE(Game_Enabled)
@@ -32,15 +29,13 @@ DECLARE_CONFIG(ColoramaConfig,
         CONFIG_INIT_VALUE(Game_LColor)
 
         CONFIG_INIT_VALUE(Menu_Enabled)
-        CONFIG_INIT_VALUE(Menu_DefaultColor)
 
         CONFIG_INIT_VALUE(Menu_FreeplayColor)
+        CONFIG_INIT_VALUE(Menu_GamemodeColor)
         CONFIG_INIT_VALUE(Menu_ResultsColor)
         CONFIG_INIT_VALUE(Menu_ResultsFailColor)
         CONFIG_INIT_VALUE(Menu_CampaignsColor)
         CONFIG_INIT_VALUE(Menu_FeetColor)
-        CONFIG_INIT_VALUE(Menu_MultiplayerColor)
-        CONFIG_INIT_VALUE(Menu_MultiplayerCountdownColor)
     )
 )
 // clang-format on

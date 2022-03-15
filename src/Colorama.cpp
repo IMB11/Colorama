@@ -29,7 +29,6 @@ extern "C" void load() {
     il2cpp_functions::Init();
 
     getColoramaConfig().Init(modInfo);
-
     getLogger().info("Installing hooks...");
     Colorama::Hooks::InstallHooks(getLogger());
     QuestUI::Register::RegisterMainMenuModSettingsViewController(modInfo, "Colorama", Colorama::UI::MainViewController::DidActivate);
