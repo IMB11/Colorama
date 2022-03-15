@@ -7,11 +7,11 @@ using namespace UnityEngine;
 
 // clang-format off
 DECLARE_CONFIG(ColoramaConfig,
-    CONFIG_VALUE(Game_Enabled, bool, "Game_Enabled", false)
-    CONFIG_VALUE(Game_LEnabled, bool, "Game_LEnabled", false)
-    CONFIG_VALUE(Game_REnabled, bool, "Game_REnabled", false)
-    CONFIG_VALUE(Game_LColor, Color, "Game_LColor", Color::get_white())
-    CONFIG_VALUE(Game_RColor, Color, "Game_RColor", Color::get_white())
+    CONFIG_VALUE(Game_Enabled, bool, "Gameplay Colors Enabled", false)
+    CONFIG_VALUE(Game_LEnabled, bool, "Left Arrow Color Enabled", false)
+    CONFIG_VALUE(Game_REnabled, bool, "Right Arrow Color Enabled", false)
+    CONFIG_VALUE(Game_LColor, Color, "Left Arrow Color", Color::get_white())
+    CONFIG_VALUE(Game_RColor, Color, "Right Arrow Color", Color::get_white())
 
     CONFIG_VALUE(Menu_Enabled, bool, "Menu_Enabled", true)
     CONFIG_VALUE(Menu_DefaultColor, Color, "Menu_DefaultColor", Color::get_cyan())

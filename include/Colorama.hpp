@@ -10,17 +10,8 @@
 
 static ModInfo modInfo;
 
-Configuration& getConfig() {
-    static Configuration config(modInfo);
-    config.Load();
-    return config;
-}
-
-// Returns a logger, useful for printing debug messages
-Logger &getLogger() {
-    static Logger *logger = new Logger(modInfo);
-    return *logger;
-}
+Configuration& getConfig();
+Logger &getLogger();
 
 namespace Colorama {
     class Hooks {
