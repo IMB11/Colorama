@@ -1,12 +1,4 @@
 #include "Colorama.hpp"
-#include "GlobalNamespace/MainFlowCoordinator.hpp"
-#include "GlobalNamespace/MenuLightsPresetSO.hpp"
-#include "GlobalNamespace/MenuLightsManager.hpp"
-#include "GlobalNamespace/ColorSO.hpp"
-#include "GlobalNamespace/SimpleColorSO.hpp"
-#include "UnityEngine/ScriptableObject.hpp"
-#include "GlobalNamespace/MenuLightsPresetSO_LightIdColorPair.hpp"
-#include "UnityEngine/SpriteRenderer.hpp"
 
 #include "GlobalNamespace/SoloFreePlayFlowCoordinator.hpp"
 #include "GlobalNamespace/PartyFreePlayFlowCoordinator.hpp"
@@ -16,35 +8,40 @@
 #include <map>
 
 using namespace GlobalNamespace;
+using namespace Colorama;
 
-static MenuLightsPresetSO* defaultLights;
-
-ColorSO* createColorSO(Color color) {
-    float t = color.r + color.g + color.b;
-    auto so = ScriptableObject::CreateInstance<SimpleColorSO*>();
-    so->dyn__color() = color;
-    return so;
-}
-
-MenuLightsPresetSO* createMenuLights(Color color) {
-    float t = color.r + color.g + color.b;
-    auto colorSO = createColorSO(color);
-    auto menuPresetSO = Object::Instantiate(defaultLights);
-    auto colorPairs = menuPresetSO->dyn__lightIdColorPairs();
-    for (int i = 0; i < colorPairs.Length(); ++i) {
-        auto pair = MenuLightsPresetSO::LightIdColorPair::New_ctor();
-        pair->dyn_lightId() = colorPairs[i]->dyn_lightId();
-        pair->dyn_baseColor() = colorSO;
-        pair->dyn_intensity() = colorPairs[i]->dyn_intensity();
-        colorPairs[i] = pair;
+namespace MFCH_Utils {
+    GlobalNamespace::ColorSO* createColorSO(Color color) {
+        float t = color.r + color.g + color.b;
+        auto so = ScriptableObject::CreateInstance<GlobalNamespace::SimpleColorSO*>();
+        so->dyn__color() = color;
+        return so;
     }
-    return menuPresetSO;
+
+    GlobalNamespace::MenuLightsPresetSO* createMenuLights(Color color) {
+        float t = color.r + color.g + color.b;
+        auto colorSO = createColorSO(color);
+        auto menuPresetSO = Object::Instantiate(defaultLights);
+        auto colorPairs = menuPresetSO->dyn__lightIdColorPairs();
+        for (int i = 0; i < colorPairs.Length(); ++i) {
+            auto pair = GlobalNamespace::MenuLightsPresetSO::LightIdColorPair::New_ctor();
+            pair->dyn_lightId() = colorPairs[i]->dyn_lightId();
+            pair->dyn_baseColor() = colorSO;
+            pair->dyn_intensity() = colorPairs[i]->dyn_intensity();
+            colorPairs[i] = pair;
+        }
+        return menuPresetSO;
+    }
 }
 
 MAKE_HOOK_MATCH(MainMenu, &GlobalNamespace::MainFlowCoordinator::DidActivate, void, GlobalNamespace::MainFlowCoordinator* self, bool a, bool b, bool c) {
+    using namespace MFCH_Utils;
+
     if(!defaultLights) {
         defaultLights = self->dyn__menuLightsManager()->dyn__defaultPreset();
     }
+
+    mfc = self->dyn__menuLightsManager();
 
     auto soloFreeplay = self->dyn__soloFreePlayFlowCoordinator();
     auto partyFreeplay = self->dyn__partyFreePlayFlowCoordinator();
@@ -52,7 +49,7 @@ MAKE_HOOK_MATCH(MainMenu, &GlobalNamespace::MainFlowCoordinator::DidActivate, vo
 
     getLogger().info("MainFlowCoordinator::DidActivate - Begin Inject");
 
-    if(getColoramaConfig().Menu_Enabled.GetValue()) {
+    if(getColoramaConfig().Enabled.GetValue()) {
         GameObject::Find("PlayersPlace")->GetComponentInChildren<SpriteRenderer*>()->set_color(getColoramaConfig().Menu_FeetColor.GetValue());
 
         self->dyn__defaultLightsPreset() = createMenuLights(getColoramaConfig().Menu_GamemodeColor.GetValue());

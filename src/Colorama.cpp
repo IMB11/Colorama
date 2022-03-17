@@ -1,7 +1,7 @@
 #include "Colorama.hpp"
 
 #include "questui/shared/QuestUI.hpp"
-#include "UI/MainViewController.hpp"
+#include "UI/CFlowCoordinator.hpp"
 
 DEFINE_CONFIG(ColoramaConfig);
 
@@ -29,8 +29,13 @@ extern "C" void load() {
     il2cpp_functions::Init();
 
     getColoramaConfig().Init(modInfo);
+
     getLogger().info("Installing hooks...");
     Colorama::Hooks::InstallHooks(getLogger());
-    QuestUI::Register::RegisterMainMenuModSettingsViewController(modInfo, "Colorama", Colorama::UI::MainViewController::DidActivate);
     getLogger().info("Installed all hooks!");
+
+    custom_types::Register::AutoRegister();
+
+    QuestUI::Init();
+    QuestUI::Register::RegisterMainMenuModSettingsFlowCoordinator<Colorama::UI::CFlowCoordinator*>(modInfo);
 }

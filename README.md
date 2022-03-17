@@ -22,3 +22,7 @@ Here are the person(s) that have contributed to this mod.
 <a href="https://github.com/cal117/colorama/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=cal117/colorama" />
 </a>
+
+#### Notable Mentions
+
+Kaitlyn - for the settings layout - anytweaks inspired.

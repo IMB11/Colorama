@@ -23,7 +23,7 @@
 //                bool useRandomRotation) {
 //    NoteController_Init(self, noteData, worldRotation, moveStartPos, moveEndPos, jumpEndPos, moveDuration, jumpDuration, jumpGravity, endRotation, uniformScale, rotateTowardsPlayer, useRandomRotation);
 //
-//    if (!getColoramaConfig().Game_Enabled.GetValue() || (!getColoramaConfig().Game_LEnabled.GetValue() && !getColoramaConfig().Game_REnabled.GetValue())) {
+//    if (!getColoramaConfig().Enabled.GetValue() || (!getColoramaConfig().Game_LEnabled.GetValue() && !getColoramaConfig().Game_REnabled.GetValue())) {
 //        return;
 //    }
 //
