@@ -8,8 +8,7 @@ DECLARE_CLASS_CODEGEN(Colorama::UI, CViewController, HMUI::ViewController,
 
     DECLARE_INSTANCE_FIELD(HMUI::FlowCoordinator*, flowCoordinator);
     DECLARE_INSTANCE_FIELD(UnityEngine::UI::Button*, menuColorsButton);
-    DECLARE_INSTANCE_FIELD(UnityEngine::UI::Button*, miscColorsButton);
-    DECLARE_INSTANCE_FIELD(UnityEngine::UI::Button*, gameplayColorsButton);
+    DECLARE_INSTANCE_FIELD(UnityEngine::UI::Button*, atmosphereButton);
 
 public:
     // Credits AnyTweaks - amazing UI layout.

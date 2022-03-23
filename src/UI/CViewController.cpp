@@ -8,7 +8,10 @@
 #include "UnityEngine/UI/ContentSizeFitter.hpp"
 
 #include "questui/shared/CustomTypes/Components/Backgroundable.hpp"
+
 #include "UI/MenuColorViewController.hpp"
+#include "UI/AtmosphereViewController.hpp"
+
 #include "UnityEngine/Events/UnityEvent.hpp"
 #include "UnityEngine/Events/UnityEvent_1.hpp"
 #include "UnityEngine/UI/Toggle_ToggleEvent.hpp"
@@ -39,6 +42,9 @@ void CViewController::DidActivate(bool firstActivation, bool addedToHierarchy,
             if (menuColorsButton) {
                 menuColorsButton->set_interactable(getColoramaConfig().Enabled.GetValue());
             }
+            if(atmosphereButton) {
+                atmosphereButton->set_interactable(getColoramaConfig().Enabled.GetValue());
+            }
         };
 
         enabled_toggle->dyn_onValueChanged()->AddListener(il2cpp_utils::MakeDelegate<Events::UnityAction_1<bool>*>(classof(Events::UnityAction_1<bool>*), e));
@@ -52,9 +58,15 @@ void CViewController::DidActivate(bool firstActivation, bool addedToHierarchy,
 
         auto mCvC = QuestUI::BeatSaberUI::CreateViewController<MenuColorViewController*>();
         mCvC->parentFlowCoordinator = flowCoordinator;
-        menuColorsButton = CreateUIViewControllerButton(scrollView->get_transform(), "Menu Lighting", "Change the lighting around the menus.", mCvC);
+        menuColorsButton = CreateUIViewControllerButton(scrollView->get_transform(), "Lighting", "Change the lighting around the menus.", mCvC);
 
         menuColorsButton->set_interactable(getColoramaConfig().Enabled.GetValue());
+
+        auto avC = QuestUI::BeatSaberUI::CreateViewController<AtmosphereViewController*>();
+        avC->parentFlowCoordinator = flowCoordinator;
+        atmosphereButton = CreateUIViewControllerButton(scrollView->get_transform(), "Environment", "Change options related to objects in the menus.", avC);
+
+        atmosphereButton->set_interactable(getColoramaConfig().Enabled.GetValue());
 
         HorizontalLayoutGroup *horizontalLayoutGroup =
             QuestUI::BeatSaberUI::CreateHorizontalLayoutGroup(
