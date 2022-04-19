@@ -6,6 +6,8 @@
 
 DEFINE_TYPE(Colorama::UI, MenuColorViewController);
 
+#define reset_clr(a) getColoramaConfig().a.SetValue(Color::get_cyan());
+
 using namespace HMUI;
 using namespace UnityEngine;
 using namespace UnityEngine::UI;
@@ -19,6 +21,14 @@ void MenuColorViewController::DidActivate(bool firstActivation,
     if (firstActivation) {
         GameObject *container =
             BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
+
+        BeatSaberUI::CreateUIButton(container->get_transform(), "Reset All", []() {
+            reset_clr(Menu_GamemodeColor);
+            reset_clr(Menu_FreeplayColor);
+            reset_clr(Menu_ResultsColor);
+            reset_clr(Menu_ResultsFailColor);
+            reset_clr(Menu_CampaignsColor);
+        });
 
         AddConfigValueColorPicker(
             container->get_transform(), getColoramaConfig().Menu_GamemodeColor);
