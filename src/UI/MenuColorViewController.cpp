@@ -4,6 +4,12 @@
 
 #include "GlobalNamespace/ColorChangeUIEventType.hpp"
 
+#include "UI/CViewController.hpp"
+#include "UI/CFlowCoordinator.hpp"
+
+#include "HMUI/ViewController_AnimationDirection.hpp"
+#include "HMUI/ViewController_AnimationType.hpp"
+
 DEFINE_TYPE(Colorama::UI, MenuColorViewController);
 
 #define reset_clr(a) getColoramaConfig().a.SetValue(Color::get_cyan());
@@ -22,12 +28,14 @@ void MenuColorViewController::DidActivate(bool firstActivation,
         GameObject *container =
             BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
 
-        BeatSaberUI::CreateUIButton(container->get_transform(), "Reset All", []() {
+        BeatSaberUI::CreateUIButton(container->get_transform(), "Reset All", [this]() {
             reset_clr(Menu_GamemodeColor);
             reset_clr(Menu_FreeplayColor);
             reset_clr(Menu_ResultsColor);
             reset_clr(Menu_ResultsFailColor);
             reset_clr(Menu_CampaignsColor);
+
+            parentFlowCoordinator->DismissViewController(this, ViewController::AnimationDirection::Horizontal, nullptr, false);
         });
 
         AddConfigValueColorPicker(
