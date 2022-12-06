@@ -16,7 +16,7 @@ namespace MFCH_Utils {
         float t = color.r + color.g + color.b;
         auto so = ScriptableObject::CreateInstance<
             GlobalNamespace::SimpleColorSO *>();
-        so->dyn__color() = color;
+        so->color = color;
         return so;
     }
 
@@ -24,13 +24,13 @@ namespace MFCH_Utils {
         float t = color.r + color.g + color.b;
         auto colorSO = createColorSO(color);
         auto menuPresetSO = Object::Instantiate(defaultLights);
-        auto colorPairs = menuPresetSO->dyn__lightIdColorPairs();
+        auto colorPairs = menuPresetSO->lightIdColorPairs;
         for (int i = 0; i < colorPairs.Length(); ++i) {
             auto pair = GlobalNamespace::MenuLightsPresetSO::LightIdColorPair::
                 New_ctor();
-            pair->dyn_lightId() = colorPairs[i]->dyn_lightId();
-            pair->dyn_baseColor() = colorSO;
-            pair->dyn_intensity() = colorPairs[i]->dyn_intensity();
+            pair->lightId = colorPairs[i]->lightId;
+            pair->baseColor = colorSO;
+            pair->intensity = colorPairs[i]->intensity;
             colorPairs[i] = pair;
         }
         return menuPresetSO;
@@ -43,14 +43,14 @@ MAKE_HOOK_MATCH(MainMenu, &GlobalNamespace::MainFlowCoordinator::DidActivate,
     using namespace MFCH_Utils;
 
     if (!defaultLights) {
-        defaultLights = self->dyn__menuLightsManager()->dyn__defaultPreset();
+        defaultLights = self->menuLightsManager->defaultPreset;
     }
 
-    mfc = self->dyn__menuLightsManager();
+    mfc = self->menuLightsManager;
 
-    auto soloFreeplay = self->dyn__soloFreePlayFlowCoordinator();
-    auto partyFreeplay = self->dyn__partyFreePlayFlowCoordinator();
-    auto campaignCoordinator = self->dyn__campaignFlowCoordinator();
+    auto soloFreeplay = self->soloFreePlayFlowCoordinator;
+    auto partyFreeplay = self->partyFreePlayFlowCoordinator;
+    auto campaignCoordinator = self->campaignFlowCoordinator;
 
     getLogger().info("MainFlowCoordinator::DidActivate - Begin Inject");
 
@@ -111,26 +111,26 @@ MAKE_HOOK_MATCH(MainMenu, &GlobalNamespace::MainFlowCoordinator::DidActivate,
             }
         }
 
-        self->dyn__defaultLightsPreset() =
+        self->defaultLightsPreset =
             createMenuLights(getColoramaConfig().Menu_GamemodeColor.GetValue());
-        soloFreeplay->dyn__defaultLightsPreset() =
+        soloFreeplay->defaultLightsPreset =
             createMenuLights(getColoramaConfig().Menu_FreeplayColor.GetValue());
-        partyFreeplay->dyn__defaultLightsPreset() =
+        partyFreeplay->defaultLightsPreset =
             createMenuLights(getColoramaConfig().Menu_FreeplayColor.GetValue());
-        soloFreeplay->dyn__resultsClearedLightsPreset() =
+        soloFreeplay->resultsClearedLightsPreset =
             createMenuLights(getColoramaConfig().Menu_ResultsColor.GetValue());
-        partyFreeplay->dyn__resultsClearedLightsPreset() =
+        partyFreeplay->resultsClearedLightsPreset =
             createMenuLights(getColoramaConfig().Menu_ResultsColor.GetValue());
-        campaignCoordinator->dyn__resultsClearedLightsPreset() =
+        campaignCoordinator->resultsClearedLightsPreset =
             createMenuLights(getColoramaConfig().Menu_ResultsColor.GetValue());
-        campaignCoordinator->dyn__resultsFailedLightsPreset() =
+        campaignCoordinator->resultsFailedLightsPreset =
             createMenuLights(
                 getColoramaConfig().Menu_ResultsFailColor.GetValue());
-        soloFreeplay->dyn__resultsFailedLightsPreset() = createMenuLights(
+        soloFreeplay->resultsFailedLightsPreset = createMenuLights(
             getColoramaConfig().Menu_ResultsFailColor.GetValue());
-        partyFreeplay->dyn__resultsFailedLightsPreset() = createMenuLights(
+        partyFreeplay->resultsFailedLightsPreset = createMenuLights(
             getColoramaConfig().Menu_ResultsFailColor.GetValue());
-        campaignCoordinator->dyn__defaultLightsPreset() = createMenuLights(
+        campaignCoordinator->defaultLightsPreset = createMenuLights(
             getColoramaConfig().Menu_CampaignsColor.GetValue());
 
     } else {
@@ -172,28 +172,28 @@ MAKE_HOOK_MATCH(MainMenu, &GlobalNamespace::MainFlowCoordinator::DidActivate,
             if (bgTransform) { bgTransform->get_gameObject()->SetActive(true); }
         }
 
-        self->dyn__defaultLightsPreset() = defaultLights;
+        self->defaultLightsPreset = defaultLights;
 
-        soloFreeplay->dyn__defaultLightsPreset() = defaultLights;
+        soloFreeplay->defaultLightsPreset = defaultLights;
 
-        partyFreeplay->dyn__defaultLightsPreset() = defaultLights;
+        partyFreeplay->defaultLightsPreset = defaultLights;
 
-        soloFreeplay->dyn__resultsClearedLightsPreset() = defaultLights;
+        soloFreeplay->resultsClearedLightsPreset = defaultLights;
 
-        partyFreeplay->dyn__resultsClearedLightsPreset() = defaultLights;
+        partyFreeplay->resultsClearedLightsPreset = defaultLights;
 
-        campaignCoordinator->dyn__resultsClearedLightsPreset() = defaultLights;
+        campaignCoordinator->resultsClearedLightsPreset = defaultLights;
 
-        campaignCoordinator->dyn__resultsFailedLightsPreset() =
+        campaignCoordinator->resultsFailedLightsPreset =
             createMenuLights(Color::get_red());
 
-        soloFreeplay->dyn__resultsFailedLightsPreset() =
+        soloFreeplay->resultsFailedLightsPreset =
             createMenuLights(Color::get_red());
 
-        partyFreeplay->dyn__resultsFailedLightsPreset() =
+        partyFreeplay->resultsFailedLightsPreset =
             createMenuLights(Color::get_red());
 
-        campaignCoordinator->dyn__defaultLightsPreset() = defaultLights;
+        campaignCoordinator->defaultLightsPreset = defaultLights;
     }
 
     getLogger().info("MainFlowCoordinator::DidActivate - End Inject");

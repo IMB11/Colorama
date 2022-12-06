@@ -47,7 +47,7 @@ void CViewController::DidActivate(bool firstActivation, bool addedToHierarchy,
             }
         };
 
-        enabled_toggle->dyn_onValueChanged()->AddListener(il2cpp_utils::MakeDelegate<Events::UnityAction_1<bool>*>(classof(Events::UnityAction_1<bool>*), e));
+        enabled_toggle->dyn_onValueChanged()->AddListener(custom_types::MakeDelegate<Events::UnityAction_1<bool>*>(e));
 
         GameObject *scrollView = QuestUI::BeatSaberUI::CreateScrollView(
             verticalLayoutGroup->get_transform());
@@ -76,11 +76,11 @@ void CViewController::DidActivate(bool firstActivation, bool addedToHierarchy,
 
 
         BeatSaberUI::CreateText(horizontalLayoutGroup->get_transform(),
-                                "Colorama (GPL-2.0) cal117", Vector2::get_zero(),
+                                "Colorama (GPL-2.0) mineblock11", Vector2::get_zero(),
                                 Vector2(4, 4));
         Button *donateButton = BeatSaberUI::CreateUIButton(
-            horizontalLayoutGroup->get_transform(), "Support cal117",
-            []() { Application::OpenURL("https://bit.ly/cal117_support"); });
+            horizontalLayoutGroup->get_transform(), "Support mineblock11",
+            []() { Application::OpenURL("https://mineblock11.dev/support"); });
         BeatSaberUI::SetButtonTextSize(donateButton, 3);
     }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Colorama.hpp"
+#include "custom-types/shared/delegate.hpp"
 
 // clang-format off
 DECLARE_CLASS_CODEGEN(Colorama::UI, CViewController, HMUI::ViewController,

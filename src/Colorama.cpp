@@ -3,8 +3,6 @@
 #include "questui/shared/QuestUI.hpp"
 #include "UI/CFlowCoordinator.hpp"
 
-DEFINE_CONFIG(ColoramaConfig);
-
 Configuration& getConfig() {
     static Configuration config(modInfo);
     config.Load();

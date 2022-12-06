@@ -12,7 +12,7 @@
 
 DEFINE_TYPE(Colorama::UI, MenuColorViewController);
 
-#define reset_clr(a) getColoramaConfig().a.SetValue(Color::get_cyan());
+#define reset_clr(a) getColoramaConfig().a.SetValue(UnityEngine::Color::get_cyan());
 
 using namespace HMUI;
 using namespace UnityEngine;
@@ -20,6 +20,18 @@ using namespace UnityEngine::UI;
 using namespace QuestUI;
 using namespace GlobalNamespace;
 using namespace Colorama::UI;
+
+template<::QuestUI::BeatSaberUI::HasTransform P>
+inline ::QuestUI::ColorSetting* CreateConfigValueColorPicker(P parent, ConfigUtils::ConfigValue<ConfigUtils::Color>& configValue) {
+    auto object = ::QuestUI::BeatSaberUI::CreateColorPicker(parent, configValue.GetName(), configValue.GetValue(),
+                                                            [&configValue](::UnityEngine::Color value) {
+                                                                configValue.SetValue(value);
+                                                            }
+    );
+    if(!configValue.GetHoverHint().empty())
+        ::QuestUI::BeatSaberUI::AddHoverHint(object, configValue.GetHoverHint());
+    return object;
+}
 
 void MenuColorViewController::DidActivate(bool firstActivation,
                                           bool addedToHierarchy,
@@ -38,16 +50,16 @@ void MenuColorViewController::DidActivate(bool firstActivation,
             parentFlowCoordinator->DismissViewController(this, ViewController::AnimationDirection::Horizontal, nullptr, false);
         });
 
-        AddConfigValueColorPicker(
+        CreateConfigValueColorPicker(
             container->get_transform(), getColoramaConfig().Menu_GamemodeColor);
-        AddConfigValueColorPicker(
+        CreateConfigValueColorPicker(
             container->get_transform(), getColoramaConfig().Menu_FreeplayColor);
-        AddConfigValueColorPicker(
+        CreateConfigValueColorPicker(
             container->get_transform(), getColoramaConfig().Menu_ResultsColor);
-        AddConfigValueColorPicker(
+        CreateConfigValueColorPicker(
             container->get_transform(),
             getColoramaConfig().Menu_ResultsFailColor);
-        AddConfigValueColorPicker(
+        CreateConfigValueColorPicker(
             container->get_transform(),
             getColoramaConfig().Menu_CampaignsColor);
     }
