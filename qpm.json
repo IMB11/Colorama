@@ -49,6 +49,11 @@
       "id": "lapiz",
       "versionRange": "^0.1.4",
       "additionalData": {}
+    },
+    {
+      "id": "bsml",
+      "versionRange": "^0.2.1",
+      "additionalData": {}
     }
   ],
   "additionalData": {}

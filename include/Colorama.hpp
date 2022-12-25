@@ -16,6 +16,8 @@ static ModInfo modInfo;
 
 Logger &getLogger();
 
+#define LOG(...) getLogger().info(__VA_ARGS__)
+
 #define DECLARE_OVERRIDE_METHOD_MATCH(retval, name, mptr, ...) \
     DECLARE_OVERRIDE_METHOD(retval, name, il2cpp_utils::il2cpp_type_check::MetadataGetter<mptr>::get(), __VA_ARGS__)
 

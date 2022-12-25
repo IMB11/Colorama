@@ -24,13 +24,17 @@ extern "C" void load() {
   custom_types::Register::AutoRegister();
 
   getLogger().info("Preparing Zenject");
+
   auto zenjector = ::Lapiz::Zenject::Zenjector::Get();
   zenjector->Install<Colorama::Installers::MenuColorInstaller*>(Lapiz::Zenject::Location::Menu);
+
   getLogger().info("Completed Zenject");
 
 
   getLogger().info("Installing hooks...");
+
   Colorama::Hooks::InstallHooks(getLogger());
+
   getLogger().info("Installed all hooks!");
 
 

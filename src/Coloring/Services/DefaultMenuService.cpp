@@ -13,9 +13,9 @@
 
 DEFINE_TYPE(Colorama::Coloring::Services, DefaultMenuService)
 
-void Colorama::Coloring::Services::DefaultMenuService::ctor(GlobalNamespace::MenuLightsManager *_lightsManager, Tweening::Tween *_tween) {
-  this->_lightsManager = _lightsManager;
-  this->_tween = _tween;
+void Colorama::Coloring::Services::DefaultMenuService::ctor(GlobalNamespace::MenuLightsManager *lightsManager, Tweening::Tween *tween) {
+  this->_lightsManager = lightsManager;
+  this->_tween = tween;
 }
 
 void Colorama::Coloring::Services::DefaultMenuService::set_v_color(UnityEngine::Color color) {
@@ -23,8 +23,16 @@ void Colorama::Coloring::Services::DefaultMenuService::set_v_color(UnityEngine::
   SetColor(color);
 }
 
-void Colorama::Coloring::Services::DefaultMenuService::get_v_color() {
+UnityEngine::Color Colorama::Coloring::Services::DefaultMenuService::get_v_color() {
   return this->_color;
+}
+
+StringW Colorama::Coloring::Services::DefaultMenuService::get_v_name() {
+  return "Normal Menu Color";
+}
+
+std::reference_wrapper<ConfigUtils::ConfigValue<ConfigUtils::Color>> Colorama::Coloring::Services::DefaultMenuService::get_v_relatedValue() {
+  return std::ref(getColoramaConfig().Menu_FreeplayColor);
 }
 
 void Colorama::Coloring::Services::DefaultMenuService::SetColor(UnityEngine::Color color) {

@@ -16,5 +16,6 @@ DECLARE_CLASS_CODEGEN(Colorama::Coloring::Services, DefaultMenuService, Colorama
                       void set_v_color(UnityEngine::Color color);
                       UnityEngine::Color get_v_color();
                       StringW get_v_name();
+                      std::reference_wrapper<ConfigUtils::ConfigValue<ConfigUtils::Color>> get_v_relatedValue();
                       void SetColor(UnityEngine::Color color);
 )
