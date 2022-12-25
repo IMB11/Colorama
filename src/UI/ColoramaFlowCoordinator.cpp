@@ -1,19 +1,28 @@
 #include "UI/ColoramaFlowCoordinator.hpp"
 
-#include "bsml/shared/BSML.hpp"
-#include "bsml/shared/BSMLDataCache.hpp"
+#include "HMUI/ViewController_AnimationType.hpp"
+#include "HMUI/ViewController_AnimationDirection.hpp"
+#include "HMUI/ViewController.hpp"
 
 using namespace Colorama::UI;
 
 DEFINE_TYPE(Colorama::UI, ColoramaFlowCoordinator);
 
 void ColoramaFlowCoordinator::Dispose() {
+  BSML::Register::UnRegisterMenuButton(this->_menuButton);
+  this->_menuButton = nullptr;
+}
 
+void ColoramaFlowCoordinator::Inject(ListWrapper<Colorama::Coloring::Services::ColorizerService *> colorizerServices) {
+  this->_colorizerServices = colorizerServices;
 }
 
 void ColoramaFlowCoordinator::Initialize() {
   LOG("Initialize");
-  BSML::Register::RegisterMenuButton("Colorama", "Open the configuration menu for Colorama", )
+  this->_menuButton = BSML::Register::RegisterMenuButton("Colorama", "Open the configuration menu for Colorama", [this]() {
+    auto fc = QuestUI::BeatSaberUI::GetMainFlowCoordinator()->YoungestChildFlowCoordinatorOrSelf();
+    fc->PresentFlowCoordinator(this, nullptr, HMUI::ViewController::AnimationDirection::Horizontal, false, false);
+  });
 }
 
 void ColoramaFlowCoordinator::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
@@ -23,7 +32,7 @@ void ColoramaFlowCoordinator::DidActivate(bool firstActivation, bool addedToHier
 
   if(firstActivation) {
     this->set_showBackButton(true);
-    SetTitle("Colorama");
+    SetTitle("Colorama", ViewController::AnimationType::_get_None());
   }
 }
 

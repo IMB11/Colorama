@@ -7,6 +7,11 @@
 #include "UnityEngine/MonoBehaviour.hpp"
 #include "Zenject/IInitializable.hpp"
 
+#include "lapiz/shared/macros.hpp"
+
+#include "bsml/shared/BSML.hpp"
+#include "bsml/shared/BSMLDataCache.hpp"
+
 #include "Coloring/Services/ColorizerService.hpp"
 
 #define ColoramaFlowCoordinator_INTERFACES                                     \
@@ -18,7 +23,9 @@ ___DECLARE_TYPE_WRAPPER_INHERITANCE(
     0, nullptr,
     DECLARE_INSTANCE_FIELD(
         ListWrapper<Colorama::Coloring::Services::ColorizerService *>,
-        colorizerServices);
+        _colorizerServices);
+    DECLARE_INSTANCE_FIELD(BSML::MenuButton*, _menuButton);
+    DECLARE_INJECT_METHOD(void, Inject, ListWrapper<Colorama::Coloring::Services::ColorizerService *> colorizerServices);
     DECLARE_OVERRIDE_METHOD(void, Initialize,
                             il2cpp_utils::il2cpp_type_check::MetadataGetter<
                                 &::Zenject::IInitializable::Initialize>::get());
@@ -42,5 +49,4 @@ ___DECLARE_TYPE_WRAPPER_INHERITANCE(
         il2cpp_utils::FindMethodUnsafe("HMUI", "FlowCoordinator",
                                        "BackButtonWasPressed", 1),
         HMUI::ViewController *topViewController);
-
 )
