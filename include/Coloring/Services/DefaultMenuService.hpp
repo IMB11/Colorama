@@ -8,7 +8,7 @@
 #include "Tweening/Tween.hpp"
 #include "Tweening/TweeningManager.hpp"
 
-DECLARE_CLASS_CODEGEN(Colorama::Coloring::Services, DefaultMenuService, Colorama::Coloring::Services::ColorizerService,
+DECLARE_CLASS_CUSTOM(Colorama::Coloring::Services, DefaultMenuService, Colorama::Coloring::Services::ColorizerService,
                   DECLARE_INSTANCE_FIELD_PRIVATE(GlobalNamespace::MenuLightsManager*, _lightsManager);
                   DECLARE_INSTANCE_FIELD_PRIVATE(Tweening::Tween*, _tween);
                   DECLARE_CTOR(ctor, GlobalNamespace::MenuLightsManager* _lightsManager, Tweening::Tween* _tween);

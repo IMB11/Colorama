@@ -5,6 +5,8 @@
 #include "Installers/MenuColorInstaller.hpp"
 #include "questui/shared/QuestUI.hpp"
 
+#include "UI/ColoramaFlowCoordinator.hpp"
+
 // Returns a logger, useful for printing debug messages
 Logger &getLogger() {
   static Logger *logger = new Logger(modInfo);
@@ -33,7 +35,7 @@ extern "C" void load() {
 
   getLogger().info("Installing hooks...");
 
-  Colorama::Hooks::InstallHooks(getLogger());
+//  Colorama::Hooks::InstallHooks(getLogger());
 
   getLogger().info("Installed all hooks!");
 
