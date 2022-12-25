@@ -1,13 +1,11 @@
 #pragma once
 
-#include "config-utils/shared/config-utils.hpp"
 #include "UnityEngine/Color.hpp"
+#include "config-utils/shared/config-utils.hpp"
 
 #include <string>
 
 using namespace UnityEngine;
-
-
 
 // clang-format off
 DECLARE_CONFIG(ColoramaConfig,

@@ -1,39 +1,39 @@
 #include "Colorama.hpp"
 
-#include "questui/shared/QuestUI.hpp"
-#include "UI/CFlowCoordinator.hpp"
 
-Configuration& getConfig() {
-    static Configuration config(modInfo);
-    config.Load();
-    return config;
-}
+#include "lapiz/shared/zenject/Zenjector.hpp"
+#include "Installers/MenuColorInstaller.hpp"
+#include "questui/shared/QuestUI.hpp"
 
 // Returns a logger, useful for printing debug messages
 Logger &getLogger() {
-    static Logger *logger = new Logger(modInfo);
-    return *logger;
+  static Logger *logger = new Logger(modInfo);
+  return *logger;
 }
 
-extern "C" void setup(ModInfo& info) {
-    info.id = ID;
-    info.version = VERSION;
-    modInfo = info;
-    getConfig().Load();
-    getLogger().info("Completed setup!");
+extern "C" void setup(ModInfo &info) {
+  info.id = ID;
+  info.version = VERSION;
+  modInfo = info;
+  getColoramaConfig().Init(modInfo);
+  getLogger().info("Completed setup!");
 }
 
 extern "C" void load() {
-    il2cpp_functions::Init();
+  il2cpp_functions::Init();
+  custom_types::Register::AutoRegister();
 
-    getColoramaConfig().Init(modInfo);
+  getLogger().info("Preparing Zenject");
+  auto zenjector = ::Lapiz::Zenject::Zenjector::Get();
+  zenjector->Install<Colorama::Installers::MenuColorInstaller*>(Lapiz::Zenject::Location::Menu);
+  getLogger().info("Completed Zenject");
 
-    getLogger().info("Installing hooks...");
-    Colorama::Hooks::InstallHooks(getLogger());
-    getLogger().info("Installed all hooks!");
 
-    custom_types::Register::AutoRegister();
+  getLogger().info("Installing hooks...");
+  Colorama::Hooks::InstallHooks(getLogger());
+  getLogger().info("Installed all hooks!");
 
-    QuestUI::Init();
-    QuestUI::Register::RegisterMainMenuModSettingsFlowCoordinator<Colorama::UI::CFlowCoordinator*>(modInfo);
+
+
+  QuestUI::Init();
 }

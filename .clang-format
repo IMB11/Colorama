@@ -3,5 +3,5 @@ AllowShortBlocksOnASingleLine: Always
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortIfStatementsOnASingleLine: true
 Cpp11BracedListStyle: true
-IndentWidth: 4
+IndentWidth: 2
 NamespaceIndentation: All
