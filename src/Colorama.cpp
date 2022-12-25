@@ -12,7 +12,7 @@ Logger &getLogger() {
 }
 
 extern "C" void setup(ModInfo &info) {
-  info.id = ID;
+  info.id = MOD_ID;
   info.version = VERSION;
   modInfo = info;
   getColoramaConfig().Init(modInfo);
@@ -36,8 +36,6 @@ extern "C" void load() {
   Colorama::Hooks::InstallHooks(getLogger());
 
   getLogger().info("Installed all hooks!");
-
-
 
   QuestUI::Init();
 }

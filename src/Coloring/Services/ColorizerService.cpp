@@ -6,5 +6,5 @@ using namespace Colorama::Coloring::Services;
 
 void ColorizerService::ctor(Tweening::TimeTweeningManager*timeTweeningManager) {
   this->_tweeningManager = timeTweeningManager;
-  this->set_v_color(this->get_v_relatedValue().get().GetValue())
+  this->set_v_color(this->get_v_relatedValue().get().GetValue());
 }

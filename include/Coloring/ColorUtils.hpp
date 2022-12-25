@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Colorama.hpp"
 
 #include "GlobalNamespace/ColorSO.hpp"
@@ -12,13 +14,13 @@
 #include <map>
 
 namespace Colorama::Coloring::Utils {
-  GlobalNamespace::ColorSO *createColorSO(Color color) {
-    float t = color.r + color.g + color.b;
-    auto so =
-        ScriptableObject::CreateInstance<GlobalNamespace::SimpleColorSO *>();
-    so->color = color;
-    return so;
-  }
+//  GlobalNamespace::ColorSO *createColorSO(Color color) {
+//    float t = color.r + color.g + color.b;
+//    auto so =
+//        ScriptableObject::CreateInstance<GlobalNamespace::SimpleColorSO *>();
+//    so->color = color;
+//    return so;
+//  }
 
 //  GlobalNamespace::MenuLightsPresetSO *createMenuLights(Color color) {
 //    float t = color.r + color.g + color.b;
