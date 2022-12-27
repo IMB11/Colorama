@@ -6,12 +6,7 @@ DEFINE_TYPE(Colorama::UI, MenuButtonManager);
 
 using namespace Colorama::UI;
 
-void MenuButtonManager::ctor(GlobalNamespace::MainFlowCoordinator *mfc, ColoramaFlowCoordinator *mofc) {
-  this->_mainFlowCoordinator = mfc;
-  this->_modFlowCoordinator = mofc;
-
-  auto modSettingsInfo = QuestUI::Register
-
+void MenuButtonManager::ctor() {
   this->_menuButton = BSML::MenuButton::Make_new("Colorama", "Open Colorama's configuration screen.", std::bind(&MenuButtonManager::SummonModFlowCoordinator, this));
 }
 

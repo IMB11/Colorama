@@ -16,14 +16,9 @@ void ColoramaFlowCoordinator::Dispose() {
   _instance = nullptr;
 }
 
-void ColoramaFlowCoordinator::Inject(ListWrapper<Colorama::Coloring::Services::ColorizerService *> colorizerServices) {
-  this->_colorizerServices = colorizerServices;
-  _instance = this;
-  LOG("Inject");
-}
-
 void ColoramaFlowCoordinator::Initialize() {
   LOG("Initialize");
+  _instance = this;
 }
 
 void ColoramaFlowCoordinator::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
@@ -38,7 +33,7 @@ void ColoramaFlowCoordinator::DidActivate(bool firstActivation, bool addedToHier
     LOG("SetTitle");
     SetTitle("Colorama", ViewController::AnimationType::_get_None());
     LOG("SetViewControllers");
-    ProvideInitialViewControllers(nullptr, nullptr, nullptr, nullptr, nullptr);
+    ProvideInitialViewControllers(_configViewController, nullptr, nullptr, nullptr, nullptr);
   }
 }
 

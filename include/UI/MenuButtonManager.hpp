@@ -11,11 +11,10 @@
 #include "bsml/shared/BSMLDataCache.hpp"
 
 DECLARE_CLASS_CODEGEN_ZENJECT(Colorama::UI, MenuButtonManager, Il2CppObject,
-    DECLARE_INSTANCE_FIELD(GlobalNamespace::MainFlowCoordinator*, _mainFlowCoordinator);
-    DECLARE_INSTANCE_FIELD(ColoramaFlowCoordinator*, _modFlowCoordinator);
+    DECLARE_INJECT_FIELD(GlobalNamespace::MainFlowCoordinator*, _mainFlowCoordinator);
+    DECLARE_INJECT_FIELD(ColoramaFlowCoordinator*, _modFlowCoordinator);
     DECLARE_INSTANCE_FIELD(BSML::MenuButton*, _menuButton);
-    DECLARE_CTOR(ctor, GlobalNamespace::MainFlowCoordinator* mfc, ColoramaFlowCoordinator* mofc);
-//    DECLARE_INJECT_METHOD(void, Inject, GlobalNamespace::MainFlowCoordinator* mfc, ColoramaFlowCoordinator* mofc);
+    DECLARE_CTOR(ctor);
     DECLARE_INSTANCE_METHOD(void, SummonModFlowCoordinator);
     DECLARE_OVERRIDE_METHOD(void, Initialize,
                             il2cpp_utils::il2cpp_type_check::MetadataGetter<
