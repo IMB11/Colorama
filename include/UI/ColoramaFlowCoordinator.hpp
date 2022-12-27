@@ -4,6 +4,7 @@
 
 #include "HMUI/FlowCoordinator.hpp"
 #include "System/IDisposable.hpp"
+#include "GlobalNamespace/MainFlowCoordinator.hpp"
 #include "UnityEngine/MonoBehaviour.hpp"
 #include "Zenject/IInitializable.hpp"
 
@@ -24,7 +25,6 @@ ___DECLARE_TYPE_WRAPPER_INHERITANCE(
     DECLARE_INSTANCE_FIELD(
         ListWrapper<Colorama::Coloring::Services::ColorizerService *>,
         _colorizerServices);
-    DECLARE_INSTANCE_FIELD(BSML::MenuButton*, _menuButton);
     DECLARE_INJECT_METHOD(void, Inject, ListWrapper<Colorama::Coloring::Services::ColorizerService *> colorizerServices);
     DECLARE_OVERRIDE_METHOD(void, Initialize,
                             il2cpp_utils::il2cpp_type_check::MetadataGetter<

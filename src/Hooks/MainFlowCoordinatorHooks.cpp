@@ -1,4 +1,4 @@
-//#include "Colorama.hpp"
+#include "Colorama.hpp"
 //
 //#include "GlobalNamespace/BloomPrePassBackgroundColor.hpp"
 //#include "GlobalNamespace/CampaignFlowCoordinator.hpp"
@@ -17,8 +17,8 @@
 //
 //#include <map>
 //
-//using namespace GlobalNamespace;
-//using namespace Colorama;
+using namespace GlobalNamespace;
+using namespace Colorama;
 //
 //namespace MFCH_Utils {
 //
@@ -175,8 +175,15 @@
 //  MainMenu(self, a, b, c);
 //}
 //
-//void MainFlowCoordinatorHooks(Logger &logger) {
-////  INSTALL_HOOK(logger, MainMenu);
-//}
-//
-//ColoramaInstallHooks(MainFlowCoordinatorHooks)
+
+MAKE_HOOK_MATCH(MainMenuAlert, &GlobalNamespace::MainFlowCoordinator::DidActivate,
+                void, GlobalNamespace::MainFlowCoordinator *self, bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
+  MainMenuAlert(self, firstActivation, addedToHierarchy, screenSystemEnabling);
+
+}
+
+void MainFlowCoordinatorHooks(Logger &logger) {
+  INSTALL_HOOK(logger, MainMenuAlert);
+}
+
+ColoramaInstallHooks(MainFlowCoordinatorHooks)

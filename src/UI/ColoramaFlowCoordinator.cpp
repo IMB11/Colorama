@@ -4,25 +4,25 @@
 #include "HMUI/ViewController_AnimationDirection.hpp"
 #include "HMUI/ViewController.hpp"
 
+#include "questui/shared/BeatSaberUI.hpp"
+
 using namespace Colorama::UI;
 
 DEFINE_TYPE(Colorama::UI, ColoramaFlowCoordinator);
 
+static SafePtrUnity<ColoramaFlowCoordinator> _instance;
+
 void ColoramaFlowCoordinator::Dispose() {
-  BSML::Register::UnRegisterMenuButton(this->_menuButton);
-  this->_menuButton = nullptr;
+  _instance = nullptr;
 }
 
 void ColoramaFlowCoordinator::Inject(ListWrapper<Colorama::Coloring::Services::ColorizerService *> colorizerServices) {
   this->_colorizerServices = colorizerServices;
+  _instance = this;
 }
 
 void ColoramaFlowCoordinator::Initialize() {
   LOG("Initialize");
-  this->_menuButton = BSML::Register::RegisterMenuButton("Colorama", "Open the configuration menu for Colorama", [this]() {
-    auto fc = QuestUI::BeatSaberUI::GetMainFlowCoordinator()->YoungestChildFlowCoordinatorOrSelf();
-    fc->PresentFlowCoordinator(this, nullptr, HMUI::ViewController::AnimationDirection::Horizontal, false, false);
-  });
 }
 
 void ColoramaFlowCoordinator::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
