@@ -11,13 +11,14 @@
 #include "bsml/shared/BSMLDataCache.hpp"
 
 #include "Coloring/Services/ColorizerService.hpp"
-#include "UI/ConfigViewController.hpp"
+#include "UI/Views/ConfigViewController.hpp"
 
 DECLARE_CLASS_CODEGEN_ZENJECT(Colorama::UI, ColoramaFlowCoordinator, HMUI::FlowCoordinator,
     DECLARE_INJECT_FIELD(
         ListWrapper<Colorama::Coloring::Services::ColorizerService *>,
         _colorizerServices);
-    DECLARE_INJECT_FIELD(Colorama::UI::ConfigViewController*, _configViewController);
+    DECLARE_INSTANCE_FIELD(Colorama::UI::ConfigViewController*, _configViewController);
+    DECLARE_INJECT_METHOD(void, Inject, ListWrapper<Colorama::Coloring::Services::ColorizerService *> _colorizerServices);
     DECLARE_OVERRIDE_METHOD(void, Initialize,
                             il2cpp_utils::il2cpp_type_check::MetadataGetter<
                                 &::Zenject::IInitializable::Initialize>::get());

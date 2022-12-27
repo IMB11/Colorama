@@ -2,11 +2,11 @@
 
 #include "lapiz/shared/utilities/ZenjectExtensions.hpp"
 
+#include "UI/Views/ConfigViewController.hpp"
 #include "UI/ColoramaFlowCoordinator.hpp"
 #include "UI/MenuButtonManager.hpp"
 
 #include "Coloring/Services/ColorizerService.hpp"
-#include "UI/ConfigViewController.hpp"
 #include "Coloring/Services/DefaultMenuService.hpp"
 
 #include "Zenject/ConcreteIdBinderGeneric_1.hpp"
@@ -22,8 +22,8 @@ void Colorama::Installers::MenuColorInstaller::InstallBindings() {
   auto container = get_Container();
 
   Lapiz::Zenject::ZenjectExtensions::FromNewComponentOnNewGameObject(container->Bind<ColoramaFlowCoordinator*>())->AsSingle()->NonLazy();
-  Lapiz::Zenject::ZenjectExtensions::FromNewComponentAsViewController(container->Bind<ConfigViewController*>())->AsSingle()->NonLazy();
 
+  container->Bind<ConfigViewController*>()->AsSingle();
   container->BindInterfacesAndSelfTo<MenuButtonManager*>()->AsSingle();
 
 //  container->Bind<ColorizerService*>()->To<DefaultMenuService*>()->AsSingle();

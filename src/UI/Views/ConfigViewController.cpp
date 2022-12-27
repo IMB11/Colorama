@@ -1,8 +1,14 @@
-#include "UI/ConfigViewController.hpp"
+#include "UI/Views/ConfigViewController.hpp"
 
 DEFINE_TYPE(Colorama::UI, ConfigViewController)
 
+#include "UI/ColoramaFlowCoordinator.hpp"
+
 using namespace Colorama::UI;
+
+void ConfigViewController::Inject(Colorama::Coloring::Services::DefaultMenuService *defaultMenuService) {
+  this->_defaultMenuService = defaultMenuService;
+}
 
 void ConfigViewController::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
   using namespace UnityEngine;
