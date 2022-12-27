@@ -42,4 +42,5 @@ extern "C" void load() {
   getLogger().info("Installed all hooks!");
 
   QuestUI::Init();
+//  QuestUI::Register::RegisterAllModSettingsFlowCoordinator<Colorama::UI::ColoramaFlowCoordinator*>(modInfo);
 }

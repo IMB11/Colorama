@@ -4,13 +4,13 @@
 #include "beatsaber-hook/shared/utils/hooking.hpp"
 #include "beatsaber-hook/shared/utils/il2cpp-functions.hpp"
 #include "beatsaber-hook/shared/utils/logging.hpp"
-#include "custom-types/shared/macros.hpp"
 #include "modloader/shared/modloader.hpp"
 
 #include "GlobalNamespace/MenuLightsManager.hpp"
 #include "GlobalNamespace/MenuLightsPresetSO.hpp"
 
 #include "ColoramaConfig.hpp"
+#include "ColoramaMacros.hpp"
 
 static ModInfo modInfo;
 

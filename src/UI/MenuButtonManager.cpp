@@ -9,14 +9,14 @@ using namespace Colorama::UI;
 void MenuButtonManager::ctor(GlobalNamespace::MainFlowCoordinator *mfc, ColoramaFlowCoordinator *mofc) {
   this->_mainFlowCoordinator = mfc;
   this->_modFlowCoordinator = mofc;
-  this->_menuButton = BSML::MenuButton::Make_new("Colorama", "Open Colorama's configuration screen.", [this] { SummonModFlowCoordinator(); });
 
-  LOG(_mainFlowCoordinator == nullptr ? "no" : "yes");
-  LOG(_modFlowCoordinator == nullptr ? "no" : "yes");
+  auto modSettingsInfo = QuestUI::Register
+
+  this->_menuButton = BSML::MenuButton::Make_new("Colorama", "Open Colorama's configuration screen.", std::bind(&MenuButtonManager::SummonModFlowCoordinator, this));
 }
 
 void MenuButtonManager::SummonModFlowCoordinator() {
-  this->_mainFlowCoordinator->PresentFlowCoordinator(this->_modFlowCoordinator, nullptr, HMUI::ViewController::AnimationDirection::_get_Vertical(), false, false);
+  _mainFlowCoordinator->PresentFlowCoordinator(this->_modFlowCoordinator, nullptr, HMUI::ViewController::AnimationDirection::_get_Vertical(), false, false);
 }
 
 //void MenuButtonManager::Inject(GlobalNamespace::MainFlowCoordinator *mfc, ColoramaFlowCoordinator *mofc) {

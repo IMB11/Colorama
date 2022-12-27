@@ -19,6 +19,7 @@ void ColoramaFlowCoordinator::Dispose() {
 void ColoramaFlowCoordinator::Inject(ListWrapper<Colorama::Coloring::Services::ColorizerService *> colorizerServices) {
   this->_colorizerServices = colorizerServices;
   _instance = this;
+  LOG("Inject");
 }
 
 void ColoramaFlowCoordinator::Initialize() {
@@ -30,9 +31,14 @@ void ColoramaFlowCoordinator::DidActivate(bool firstActivation, bool addedToHier
   using namespace HMUI;
   using namespace UnityEngine;
 
+  LOG("DidActivate");
   if(firstActivation) {
+    LOG("SetBack");
     this->set_showBackButton(true);
+    LOG("SetTitle");
     SetTitle("Colorama", ViewController::AnimationType::_get_None());
+    LOG("SetViewControllers");
+    ProvideInitialViewControllers(nullptr, nullptr, nullptr, nullptr, nullptr);
   }
 }
 

@@ -3,25 +3,16 @@
 #include "Colorama.hpp"
 
 #include "HMUI/FlowCoordinator.hpp"
-#include "System/IDisposable.hpp"
+
 #include "GlobalNamespace/MainFlowCoordinator.hpp"
 #include "UnityEngine/MonoBehaviour.hpp"
-#include "Zenject/IInitializable.hpp"
-
-#include "lapiz/shared/macros.hpp"
 
 #include "bsml/shared/BSML.hpp"
 #include "bsml/shared/BSMLDataCache.hpp"
 
 #include "Coloring/Services/ColorizerService.hpp"
 
-#define ColoramaFlowCoordinator_INTERFACES                                     \
-  { classof(::Zenject::IInitializable *), classof(::System::IDisposable *) }
-
-___DECLARE_TYPE_WRAPPER_INHERITANCE(
-    Colorama::UI, ColoramaFlowCoordinator, Il2CppTypeEnum::IL2CPP_TYPE_CLASS,
-    HMUI::FlowCoordinator, "Colorama::UI", ColoramaFlowCoordinator_INTERFACES,
-    0, nullptr,
+DECLARE_CLASS_CODEGEN_ZENJECT(Colorama::UI, ColoramaFlowCoordinator, HMUI::FlowCoordinator,
     DECLARE_INSTANCE_FIELD(
         ListWrapper<Colorama::Coloring::Services::ColorizerService *>,
         _colorizerServices);
