@@ -1,7 +1,6 @@
 #include "Installers/MenuColorInstaller.hpp"
 
-#include "Coloring/Services/ColorizerService.hpp"
-#include "Coloring/Services/DefaultMenuService.hpp"
+#include "Coloring/MenuColorSwapper.hpp"
 #include "UI/ColoramaFlowCoordinator.hpp"
 #include "UI/MenuButtonManager.hpp"
 #include "UI/Views/InfoViewController.hpp"
@@ -12,7 +11,6 @@
 
 DEFINE_TYPE(Colorama::Installers, MenuColorInstaller)
 
-using namespace Colorama::Coloring::Services;
 using namespace Colorama::UI;
 
 void Colorama::Installers::MenuColorInstaller::InstallBindings() {
@@ -26,5 +24,6 @@ void Colorama::Installers::MenuColorInstaller::InstallBindings() {
       ->AsSingle();
 
   container->BindInterfacesAndSelfTo<MenuButtonManager*>()->AsSingle();
-  //  container->Bind<ColorizerService*>()->To<DefaultMenuService*>()->AsSingle();
+
+  container->BindInterfacesAndSelfTo<Coloring::MenuColorSwapper*>()->AsSingle();
 }

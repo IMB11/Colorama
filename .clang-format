@@ -1,6 +1,6 @@
 BasedOnStyle: Google
 AlignAfterOpenBracket: Align
-SortIncludes: true
+SortIncludes: CaseSensitive
 SpaceAfterCStyleCast: true
 SpaceAfterLogicalNot: true
 SpaceAfterTemplateKeyword: true

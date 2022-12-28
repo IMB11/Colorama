@@ -7,15 +7,21 @@
 
 using namespace UnityEngine;
 
+#define ENABLE_COLOR_CONFIG_VALUE(name, desc)  \
+  CONFIG_VALUE(Can_##name, bool, desc, false); \
+  CONFIG_VALUE(name, ConfigUtils::Color, desc, \
+               static_cast<ConfigUtils::Color>(Color::get_red()));
+
 // clang-format off
 DECLARE_CONFIG(ColoramaConfig,
-    CONFIG_VALUE(Enabled, bool, "Colorama Enabled", false);
-    CONFIG_VALUE(Menu_GamemodeColor, ConfigUtils::Color, "Gamemode Selection Menu Color", static_cast<ConfigUtils::Color>(Color::get_cyan()));
-    CONFIG_VALUE(Menu_FreeplayColor, ConfigUtils::Color, "Solo/Party Menu Color", static_cast<ConfigUtils::Color>(Color::get_cyan()));
-    CONFIG_VALUE(Menu_ResultsColor, ConfigUtils::Color, "Results Menu Color", static_cast<ConfigUtils::Color>(Color::get_cyan()));
-    CONFIG_VALUE(Menu_ResultsFailColor, ConfigUtils::Color, "Fail Menu Color", static_cast<ConfigUtils::Color>(Color::get_cyan()));
-    CONFIG_VALUE(Menu_CampaignsColor, ConfigUtils::Color, "Campaign Menu Color", static_cast<ConfigUtils::Color>(Color::get_cyan()));
-    CONFIG_VALUE(Menu_FeetColor, ConfigUtils::Color, "Feet Indicator Color", static_cast<ConfigUtils::Color>(Color::get_cyan()));
+    ENABLE_COLOR_CONFIG_VALUE(Menu_GamemodeColor, "Gamemode Selection Menu Color");
+    ENABLE_COLOR_CONFIG_VALUE(Menu_FreeplayColor, "Solo/Party Menu Color");
+    ENABLE_COLOR_CONFIG_VALUE(Menu_ResultsColor, "Results Menu Color");
+    ENABLE_COLOR_CONFIG_VALUE(Menu_ResultsFailColor, "Fail Menu Color");
+    ENABLE_COLOR_CONFIG_VALUE(Menu_CampaignsColor, "Campaign Menu Color");
+    ENABLE_COLOR_CONFIG_VALUE(Menu_FeetColor, "Feet Indicator Color");
+	ENABLE_COLOR_CONFIG_VALUE(Menu_MultiplayerColor, "Multiplayer Lobby Color");
+	ENABLE_COLOR_CONFIG_VALUE(Menu_MultiplayerCountdownColor, "Multiplayer Lobby Countdown Color");
 
     CONFIG_VALUE(Menu_MenuFogRing, bool, "Menu Fog Ring", true);
     CONFIG_VALUE(Menu_Notes, bool, "Menu Notes", true);
