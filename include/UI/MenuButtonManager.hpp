@@ -1,19 +1,21 @@
 #pragma once
 
 #include "Colorama.hpp"
-#include "UI/ColoramaFlowCoordinator.hpp"
-
-#include "HMUI/FlowCoordinator.hpp"
 #include "GlobalNamespace/MainFlowCoordinator.hpp"
+#include "HMUI/FlowCoordinator.hpp"
+#include "UI/ColoramaFlowCoordinator.hpp"
 #include "UnityEngine/MonoBehaviour.hpp"
-
 #include "bsml/shared/BSML.hpp"
 #include "bsml/shared/BSMLDataCache.hpp"
 
-DECLARE_CLASS_CODEGEN_ZENJECT(Colorama::UI, MenuButtonManager, Il2CppObject,
-    DECLARE_INSTANCE_FIELD(GlobalNamespace::MainFlowCoordinator*, _mainFlowCoordinator);
+DECLARE_CLASS_CODEGEN_ZENJECT(
+    Colorama::UI, MenuButtonManager, Il2CppObject,
+    DECLARE_INSTANCE_FIELD(GlobalNamespace::MainFlowCoordinator*,
+                           _mainFlowCoordinator);
     DECLARE_INSTANCE_FIELD(ColoramaFlowCoordinator*, _modFlowCoordinator);
-    DECLARE_INJECT_METHOD(void, Inject, GlobalNamespace::MainFlowCoordinator* mainfc, ColoramaFlowCoordinator* modfc);
+    DECLARE_INJECT_METHOD(void, Inject,
+                          GlobalNamespace::MainFlowCoordinator* mainfc,
+                          ColoramaFlowCoordinator* modfc);
     DECLARE_INSTANCE_FIELD(BSML::MenuButton*, _menuButton);
     DECLARE_DEFAULT_CTOR();
     DECLARE_INSTANCE_METHOD(void, SummonModFlowCoordinator);
@@ -22,5 +24,4 @@ DECLARE_CLASS_CODEGEN_ZENJECT(Colorama::UI, MenuButtonManager, Il2CppObject,
                                 &::Zenject::IInitializable::Initialize>::get());
     DECLARE_OVERRIDE_METHOD(void, Dispose,
                             il2cpp_utils::il2cpp_type_check::MetadataGetter<
-                                &::System::IDisposable::Dispose>::get());
-)
+                                &::System::IDisposable::Dispose>::get());)

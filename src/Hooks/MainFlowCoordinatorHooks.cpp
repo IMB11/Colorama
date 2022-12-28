@@ -20,11 +20,11 @@
 using namespace GlobalNamespace;
 using namespace Colorama;
 //
-//namespace MFCH_Utils {
+// namespace MFCH_Utils {
 //
 //} // namespace MFCH_Utils
 //
-//MAKE_HOOK_MATCH(MainMenu, &GlobalNamespace::MainFlowCoordinator::DidActivate,
+// MAKE_HOOK_MATCH(MainMenu, &GlobalNamespace::MainFlowCoordinator::DidActivate,
 //                void, GlobalNamespace::MainFlowCoordinator *self, bool a,
 //                bool b, bool c) {
 //  using namespace MFCH_Utils;
@@ -85,8 +85,9 @@ using namespace Colorama;
 //            getColoramaConfig().Menu_MenuFogRing.GetValue());
 //      }
 //
-//      bgTransform = menuEnvCore->get_transform()->FindChild("BasicMenuGround");
-//      if (bgTransform) {
+//      bgTransform =
+//      menuEnvCore->get_transform()->FindChild("BasicMenuGround"); if
+//      (bgTransform) {
 //
 //        bgTransform->get_gameObject()->SetActive(
 //            getColoramaConfig().Menu_MenuGround.GetValue());
@@ -143,8 +144,9 @@ using namespace Colorama;
 //      bgTransform = menuEnvCore->get_transform()->FindChild("MenuFogRing");
 //      if (bgTransform) { bgTransform->get_gameObject()->SetActive(true); }
 //
-//      bgTransform = menuEnvCore->get_transform()->FindChild("BasicMenuGround");
-//      if (bgTransform) { bgTransform->get_gameObject()->SetActive(true); }
+//      bgTransform =
+//      menuEnvCore->get_transform()->FindChild("BasicMenuGround"); if
+//      (bgTransform) { bgTransform->get_gameObject()->SetActive(true); }
 //    }
 //
 //    self->defaultLightsPreset = defaultLights;
@@ -176,10 +178,12 @@ using namespace Colorama;
 //}
 //
 
-MAKE_HOOK_MATCH(MainMenuAlert, &GlobalNamespace::MainFlowCoordinator::DidActivate,
-                void, GlobalNamespace::MainFlowCoordinator *self, bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
+MAKE_HOOK_MATCH(MainMenuAlert,
+                &GlobalNamespace::MainFlowCoordinator::DidActivate, void,
+                GlobalNamespace::MainFlowCoordinator *self,
+                bool firstActivation, bool addedToHierarchy,
+                bool screenSystemEnabling) {
   MainMenuAlert(self, firstActivation, addedToHierarchy, screenSystemEnabling);
-
 }
 
 void MainFlowCoordinatorHooks(Logger &logger) {

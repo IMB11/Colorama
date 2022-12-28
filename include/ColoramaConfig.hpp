@@ -1,9 +1,9 @@
 #pragma once
 
+#include <string>
+
 #include "UnityEngine/Color.hpp"
 #include "config-utils/shared/config-utils.hpp"
-
-#include <string>
 
 using namespace UnityEngine;
 

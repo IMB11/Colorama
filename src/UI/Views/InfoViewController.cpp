@@ -11,8 +11,10 @@ using namespace Colorama::UI;
 #include "UnityEngine/UI/ContentSizeFitter.hpp"
 #include "questui/shared/CustomTypes/Components/Backgroundable.hpp"
 
-UnityEngine::UI::Button *CreateApplicationButton(
-    UnityEngine::Transform *parent, std::string title, std::string description, std::string URL) {
+UnityEngine::UI::Button *CreateApplicationButton(UnityEngine::Transform *parent,
+                                                 std::string title,
+                                                 std::string description,
+                                                 std::string URL) {
   using namespace HMUI;
   using namespace UnityEngine;
   using namespace UnityEngine::UI;
@@ -48,9 +50,7 @@ UnityEngine::UI::Button *CreateApplicationButton(
 
   Button *openButton = QuestUI::BeatSaberUI::CreateUIButton(
       horizontalLayoutGroup->get_transform(), ">", "PlayButton",
-      [URL]() {
-        Application::OpenURL(URL);
-  });
+      [URL]() { Application::OpenURL(URL); });
   BeatSaberUI::SetButtonTextSize(openButton, 5);
 
   Object::Destroy(openButton->get_transform()
@@ -61,21 +61,22 @@ UnityEngine::UI::Button *CreateApplicationButton(
       openButton->get_gameObject()->AddComponent<ContentSizeFitter *>();
   contentSizeFitter->set_horizontalFit(
       ContentSizeFitter::FitMode::PreferredSize);
-  contentSizeFitter->set_verticalFit(
-      ContentSizeFitter::FitMode::PreferredSize);
+  contentSizeFitter->set_verticalFit(ContentSizeFitter::FitMode::PreferredSize);
 
   return openButton;
 }
 
-void InfoViewController::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
+void InfoViewController::DidActivate(bool firstActivation,
+                                     bool addedToHierarchy,
+                                     bool screenSystemEnabling) {
   using namespace HMUI;
   using namespace UnityEngine;
   using namespace UnityEngine::UI;
   using namespace QuestUI;
 
-  if(firstActivation) {
-    auto vertGroup = BeatSaberUI::CreateVerticalLayoutGroup(get_transform());
-    auto titleText = BeatSaberUI::CreateText(vertGroup->get_transform(), "<size=18><b>Colorama</b></size> v3.0.0");
-
+  if (firstActivation) {
+	auto vertGroup = BeatSaberUI::CreateVerticalLayoutGroup(get_transform());
+	auto titleText = BeatSaberUI::CreateText(
+	    vertGroup->get_transform(), "<size=18><b>Colorama</b></size> v3.0.0");
   }
 }

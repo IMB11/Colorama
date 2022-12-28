@@ -1,11 +1,9 @@
 #include "Colorama.hpp"
 
-
-#include "lapiz/shared/zenject/Zenjector.hpp"
 #include "Installers/MenuColorInstaller.hpp"
-#include "questui/shared/QuestUI.hpp"
-
 #include "UI/ColoramaFlowCoordinator.hpp"
+#include "lapiz/shared/zenject/Zenjector.hpp"
+#include "questui/shared/QuestUI.hpp"
 
 // Returns a logger, useful for printing debug messages
 Logger &getLogger() {
@@ -30,17 +28,17 @@ extern "C" void load() {
   getLogger().info("Preparing Zenject");
 
   auto zenjector = ::Lapiz::Zenject::Zenjector::Get();
-  zenjector->Install<Colorama::Installers::MenuColorInstaller*>(Lapiz::Zenject::Location::Menu);
+  zenjector->Install<Colorama::Installers::MenuColorInstaller *>(
+      Lapiz::Zenject::Location::Menu);
 
   getLogger().info("Completed Zenject");
 
-
   getLogger().info("Installing hooks...");
 
-//  Colorama::Hooks::InstallHooks(getLogger());
+  //  Colorama::Hooks::InstallHooks(getLogger());
 
   getLogger().info("Installed all hooks!");
 
   QuestUI::Init();
-//  QuestUI::Register::RegisterAllModSettingsFlowCoordinator<Colorama::UI::ColoramaFlowCoordinator*>(modInfo);
+  //  QuestUI::Register::RegisterAllModSettingsFlowCoordinator<Colorama::UI::ColoramaFlowCoordinator*>(modInfo);
 }

@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Colorama.hpp"
+#include <map>
 
+#include "Colorama.hpp"
 #include "GlobalNamespace/ColorSO.hpp"
 #include "GlobalNamespace/MainFlowCoordinator.hpp"
 #include "GlobalNamespace/MenuLightsManager.hpp"
@@ -10,8 +11,6 @@
 #include "GlobalNamespace/SimpleColorSO.hpp"
 #include "UnityEngine/ScriptableObject.hpp"
 #include "UnityEngine/SpriteRenderer.hpp"
-
-#include <map>
 
 namespace Colorama::Coloring::Utils {
 //  GlobalNamespace::ColorSO *createColorSO(Color color) {
@@ -37,4 +36,4 @@ namespace Colorama::Coloring::Utils {
 //    }
 //    return menuPresetSO;
 //  }
-}
+}  // namespace Colorama::Coloring::Utils
