@@ -16,6 +16,7 @@ void ColoramaFlowCoordinator::Construct(
   this->_mainFlowCoordinator = mainFlowCoordinator;
   this->_infoViewController = infoViewController;
   this->_configViewController = configViewController;
+  this->_configViewController->parentFlow = this;
 }
 
 void ColoramaFlowCoordinator::DidActivate(bool firstActivation,
@@ -40,5 +41,6 @@ void ColoramaFlowCoordinator::BackButtonWasPressed(
   using namespace HMUI;
   using namespace UnityEngine;
 
+  getColoramaConfig().Save();
   parentFlowCoordinator->DismissFlowCoordinator(this, ViewController::AnimationDirection::Horizontal, nullptr, false);
 }

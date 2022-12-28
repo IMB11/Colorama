@@ -13,6 +13,7 @@ DECLARE_CLASS_CODEGEN(
     DECLARE_INSTANCE_FIELD(UnityEngine::GameObject*, multiplierRingTab);
     DECLARE_INSTANCE_FIELD(UnityEngine::GameObject*, progressBarTab);
     DECLARE_INSTANCE_FIELD(UnityEngine::GameObject*, comboTab);
+    DECLARE_INSTANCE_FIELD(HMUI::FlowCoordinator*, parentFlow);
     DECLARE_INJECT_METHOD(
         void, Construct,
         Colorama::Coloring::MenuColorSwapper* _menuColorSwapper);

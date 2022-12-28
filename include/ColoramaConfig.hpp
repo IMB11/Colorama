@@ -8,7 +8,7 @@
 using namespace UnityEngine;
 
 #define ENABLE_COLOR_CONFIG_VALUE(name, desc)  \
-  CONFIG_VALUE(Can_##name, bool, desc, false); \
+  CONFIG_VALUE(Can_##name, bool, "Can" desc, false); \
   CONFIG_VALUE(name, ConfigUtils::Color, desc, \
                static_cast<ConfigUtils::Color>(Color::get_red()));
 
