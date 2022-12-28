@@ -2,30 +2,52 @@
 
 #include <string>
 
+#include "Colorama.hpp"
 #include "UnityEngine/Color.hpp"
+#include "beatsaber-hook/shared/config/rapidjson-utils.hpp"
 #include "config-utils/shared/config-utils.hpp"
 
 using namespace UnityEngine;
 
-#define ENABLE_COLOR_CONFIG_VALUE(name, desc)  \
+#define ENABLE_COLOR_CONFIG_VALUE(name, desc)        \
   CONFIG_VALUE(Can_##name, bool, "Can" desc, false); \
-  CONFIG_VALUE(name, ConfigUtils::Color, desc, \
+  CONFIG_VALUE(name, ConfigUtils::Color, desc,       \
                static_cast<ConfigUtils::Color>(Color::get_red()));
 
-// clang-format off
-DECLARE_CONFIG(ColoramaConfig,
-    ENABLE_COLOR_CONFIG_VALUE(Menu_GamemodeColor, "Gamemode Selection Menu Color");
-    ENABLE_COLOR_CONFIG_VALUE(Menu_FreeplayColor, "Solo/Party Menu Color");
-    ENABLE_COLOR_CONFIG_VALUE(Menu_ResultsColor, "Results Menu Color");
-    ENABLE_COLOR_CONFIG_VALUE(Menu_ResultsFailColor, "Fail Menu Color");
-    ENABLE_COLOR_CONFIG_VALUE(Menu_CampaignsColor, "Campaign Menu Color");
-    ENABLE_COLOR_CONFIG_VALUE(Menu_FeetColor, "Feet Indicator Color");
-	ENABLE_COLOR_CONFIG_VALUE(Menu_MultiplayerColor, "Multiplayer Lobby Color");
-	ENABLE_COLOR_CONFIG_VALUE(Menu_MultiplayerCountdownColor, "Multiplayer Lobby Countdown Color");
+DECLARE_JSON_CLASS(
+    ColorPair,
+    VALUE_DEFAULT(float, r, 255.0f);
+    VALUE_DEFAULT(float, g, 0.0);
+    VALUE_DEFAULT(float, b, 0.0f);
+    VALUE_DEFAULT(float, a, 0.0f);
+    VALUE_DEFAULT(bool, enabled, false);
+    operator UnityEngine::Color() const;
+    static ColorPair convert(UnityEngine::Color color, bool enabled) {
+      ColorPair pair = {};
+      pair.r = color.r * 255.0f;
+      pair.g = color.g * 255.0f;
+      pair.b = color.b * 255.0f;
+      pair.a = color.a * 255.0f;
+      pair.enabled = enabled;
+      return pair;
+    };)
 
-    CONFIG_VALUE(Menu_MenuFogRing, bool, "Menu Fog Ring", true);
-    CONFIG_VALUE(Menu_Notes, bool, "Menu Notes", true);
-    CONFIG_VALUE(Menu_LogoGlowLines, bool, "Logo Glow Lines", false);
-    CONFIG_VALUE(Menu_MenuGround, bool, "Menu Ground", true);
-)
-// clang-format on
+DECLARE_JSON_CLASS()
+
+DECLARE_JSON_CLASS(MenuConfiguration,
+                   VALUE_DEFAULT(ColorPair, gamemodeLighting, {});
+                   VALUE_DEFAULT(ColorPair, freeplayLighting, {});
+                   VALUE_DEFAULT(ColorPair, campaignLighting, {});
+                   VALUE_DEFAULT(ColorPair, multiplayerIdleColor, {});
+                   VALUE_DEFAULT(ColorPair, multiplayerCountdownColor, {})
+                       VALUE_DEFAULT(ColorPair, resultsLighting, {});
+                   VALUE_DEFAULT(ColorPair, resultsFailLighting, {});
+                   VALUE_DEFAULT(ColorPair, feetColor, {});
+                   VALUE_DEFAULT(bool, enableFogRing, true);
+                   VALUE_DEFAULT(bool, enableNoteDecor, true);
+                   VALUE_DEFAULT(bool, enableLogoGlowLines, true);
+                   VALUE_DEFAULT(bool, enableFloor, true);)
+
+DECLARE_CONFIG(ColoramaConfig,
+               CONFIG_VALUE(menuConfiguration, MenuConfiguration,
+                            "Menu Configuration Tab", {});)

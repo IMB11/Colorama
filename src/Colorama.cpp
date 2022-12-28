@@ -15,8 +15,7 @@ extern "C" void setup(ModInfo &info) {
   info.id = MOD_ID;
   info.version = VERSION;
   modInfo = info;
-
-  getLogger().info("Completed setup!");
+  INFO("Completed setup!");
 }
 
 extern "C" void load() {
@@ -25,20 +24,18 @@ extern "C" void load() {
 
   getColoramaConfig().Init(modInfo);
 
-  getLogger().info("Preparing Zenject");
-
+  INFO("Preparing Zenject");
   auto zenjector = ::Lapiz::Zenject::Zenjector::Get();
   zenjector->Install<Colorama::Installers::MenuColorInstaller *>(
       Lapiz::Zenject::Location::Menu);
 
-  getLogger().info("Completed Zenject");
+  INFO("Completed Zenject");
 
-  getLogger().info("Installing hooks...");
+  INFO("Installing hooks...");
 
-  //  Colorama::Hooks::InstallHooks(getLogger());
+  Colorama::Hooks::InstallHooks(getLogger());
 
-  getLogger().info("Installed all hooks!");
+  INFO("Installed all hooks!");
 
   QuestUI::Init();
-  //  QuestUI::Register::RegisterAllModSettingsFlowCoordinator<Colorama::UI::ColoramaFlowCoordinator*>(modInfo);
 }

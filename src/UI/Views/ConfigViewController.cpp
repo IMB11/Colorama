@@ -200,30 +200,33 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	headerA->set_alignment(TMPro::TextAlignmentOptions::_get_Center());
 	headerA->set_color(Color::get_gray());
 
-#define CreateCPE(title, configName)                             \
-  CreateColorPickerEnable(                                       \
-      _menuTab->get_transform(), title,                          \
-      getColoramaConfig().Can_##configName.GetValue(),           \
-      getColoramaConfig().configName.GetValue(),                 \
-      [this](bool newValue) {                                    \
-	    getColoramaConfig().Can_##configName.SetValue(newValue); \
-	    getColoramaConfig().Save();                              \
-	    this->_menuColorSwapper->UpdateColors();                 \
-      },                                                         \
-      [this](Color newValue) {                                   \
-	    getColoramaConfig().configName.SetValue(newValue);       \
-	    getColoramaConfig().Save();                              \
-	    this->_menuColorSwapper->UpdateColors();                 \
-      },                                                         \
-      this->_menuColorSwapper)
+	MenuConfiguration configuration = getColoramaConfig().menuConfiguration.GetValue();
 
-	CreateCPE("Gamemode Selection Menu", Menu_GamemodeColor);
-	CreateCPE("Solo/Party Menu", Menu_FreeplayColor);
-	CreateCPE("Campaign Menu", Menu_CampaignsColor);
-	CreateCPE("Multiplayer Lobby (Idle)", Menu_MultiplayerColor);
-	CreateCPE("Multiplayer Lobby (Countdown)", Menu_MultiplayerCountdownColor);
-	CreateCPE("Results Menu (Pass)", Menu_ResultsColor);
-	CreateCPE("Results Menu (Fail)", Menu_ResultsFailColor);
+#define CPE(title, subValue) \
+	CreateColorPickerEnable( \
+		_menuTab->get_transform(), title, \
+		configuration.subValue.enabled, \
+	    configuration.subValue, \
+		[this, &configuration](bool newValue) { \
+		  configuration.subValue.enabled = newValue; \
+	      getColoramaConfig().menuConfiguration.SetValue(configuration); \
+		  this->_menuColorSwapper->UpdateColors(); \
+		}, \
+		[this, &configuration](Color newValue) { \
+	      auto newPair = ColorPair::convert(newValue, configuration.subValue.enabled); \
+	      configuration.subValue = newPair; \
+	      getColoramaConfig().menuConfiguration.SetValue(configuration); \
+	      this->_menuColorSwapper->UpdateColors(); \
+		}, \
+		this->_menuColorSwapper);
+
+	CPE("Gamemode Selection Menu", gamemodeLighting);
+	CPE("Solo/Party Menu", freeplayLighting);
+	CPE("Campaign Menu", campaignLighting);
+	CPE("Multiplayer Lobby (Idle)", multiplayerIdleColor);
+	CPE("Multiplayer Lobby (Countdown)", multiplayerCountdownColor);
+	CPE("Results Menu (Pass)", resultsLighting);
+	CPE("Results Menu (Fail)", resultsFailLighting);
 
 	auto headerB = BeatSaberUI::CreateText(_menuTab->get_transform(),
 	                                       "Menu Environment", false);
@@ -231,6 +234,15 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	headerB->set_color(Color::get_gray());
 
 	auto vertGroup_menuTab = BeatSaberUI::CreateVerticalLayoutGroup(_menuTab->get_transform());
+
+#define CMT(title, configValue) \
+	BeatSaberUI::CreateToggle(vertGroup_menuTab->get_transform(), title, configuration.configValue, [this, configuration](bool newValue) { \
+	  configuration.configValue = newValue; \
+	  getColoramaConfig().menuConfiguration.SetValue(configuration); \
+	  this->_menuColorSwapper->UpdateColors(); \
+	});
+
+	CMT("Enable Fog Ring", enableFogRing)
 
 	AddConfigValueToggle(vertGroup_menuTab->get_transform(), getColoramaConfig().Menu_Notes);
 	AddConfigValueToggle(vertGroup_menuTab->get_transform(), getColoramaConfig().Menu_MenuGround);

@@ -1,6 +1,7 @@
 #include "Coloring/MenuColorSwapper.hpp"
 
 #include "Coloring/ColorUtils.hpp"
+#include "UnityEngine/GameObject.hpp"
 
 DEFINE_TYPE(Colorama::Coloring, MenuColorSwapper)
 

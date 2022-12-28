@@ -32,6 +32,7 @@ DECLARE_CLASS_CODEGEN_ZENJECT(
                                    _defaultFailLightPreset);
     DECLARE_OVERRIDE_METHOD_MATCH(void, Initialize,
                                   &Zenject::IInitializable::Initialize);
+    DECLARE_OVERRIDE_METHOD_MATCH(void, Dispose, &System::IDisposable::Dispose);
     DECLARE_INJECT_METHOD(
         void, Inject, MenuLightsManager* menuLightsManager,
         MainFlowCoordinator* mainFlowCoordinator,

@@ -36,11 +36,6 @@
       "additionalData": {}
     },
     {
-      "id": "config-utils",
-      "versionRange": "*",
-      "additionalData": {}
-    },
-    {
       "id": "custom-types",
       "versionRange": "^0.15.22",
       "additionalData": {}
@@ -54,7 +49,16 @@
       "id": "bsml",
       "versionRange": "^0.2.1",
       "additionalData": {}
+    },
+    {
+      "id": "paper",
+      "versionRange": "^1.2.9",
+      "additionalData": {}
+    },
+    {
+      "id": "config-utils",
+      "versionRange": "^1.0.1",
+      "additionalData": {}
     }
-  ],
-  "additionalData": {}
+  ]
 }

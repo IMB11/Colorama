@@ -18,6 +18,8 @@ project(${COMPILE_ID})
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED 20)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # define that stores the actual source directory
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -33,6 +35,8 @@ add_compile_definitions(MOD_ID=\"${MOD_ID}\")
 # recursively get all src files
 RECURSE_FILES(cpp_file_list ${SOURCE_DIR}/*.cpp)
 RECURSE_FILES(c_file_list ${SOURCE_DIR}/*.c)
+RECURSE_FILES(hpp_file_list ${INCLUDE_DIR}/*.hpp)
+RECURSE_FILES(h_file_list ${INCLUDE_DIR}/*.h)
 
 # add all src files to compile
 add_library(
@@ -40,6 +44,8 @@ add_library(
         SHARED
         ${cpp_file_list}
         ${c_file_list}
+        ${hpp_file_list}
+        ${h_file_list}
 )
 
 target_include_directories(${COMPILE_ID} PRIVATE .)
