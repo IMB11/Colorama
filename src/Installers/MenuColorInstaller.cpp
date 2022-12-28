@@ -4,6 +4,8 @@
 #include "UI/ColoramaFlowCoordinator.hpp"
 #include "UI/MenuButtonManager.hpp"
 #include "UI/Views/InfoViewController.hpp"
+#include "UI/Views/ConfigViewController.hpp"
+
 #include "Zenject/ConcreteIdBinderGeneric_1.hpp"
 #include "Zenject/DiContainer.hpp"
 #include "Zenject/FromBinderNonGeneric.hpp"
@@ -21,6 +23,9 @@ void Colorama::Installers::MenuColorInstaller::InstallBindings() {
       ->AsSingle();
   Lapiz::Zenject::ZenjectExtensions::FromNewComponentAsViewController(
       container->Bind<InfoViewController*>())
+      ->AsSingle();
+  Lapiz::Zenject::ZenjectExtensions::FromNewComponentAsViewController(
+      container->Bind<ConfigViewController*>())
       ->AsSingle();
 
   container->BindInterfacesAndSelfTo<MenuButtonManager*>()->AsSingle();

@@ -1,23 +1,27 @@
 #pragma once
 
 #include "Colorama.hpp"
-#include "Coloring/Services/ColorizerService.hpp"
+#include "Coloring/MenuColorSwapper.hpp"
+#include "UI/Views/InfoViewController.hpp"
+#include "UI/Views/ConfigViewController.hpp"
+
 #include "GlobalNamespace/MainFlowCoordinator.hpp"
 #include "HMUI/FlowCoordinator.hpp"
-#include "UI/Views/InfoViewController.hpp"
 #include "UnityEngine/MonoBehaviour.hpp"
+
 #include "bsml/shared/BSML.hpp"
 #include "bsml/shared/BSMLDataCache.hpp"
 
 DECLARE_CLASS_CODEGEN(
     Colorama::UI, ColoramaFlowCoordinator, HMUI::FlowCoordinator,
-    DECLARE_PRIVATE_FIELD(GlobalNamespace::MainFlowCoordinator*,
+    DECLARE_INSTANCE_FIELD_PRIVATE(GlobalNamespace::MainFlowCoordinator*,
                           _mainFlowCoordinator);
-    DECLARE_PRIVATE_FIELD(InfoViewController*, _infoViewController);
+    DECLARE_INSTANCE_FIELD_PRIVATE(InfoViewController*, _infoViewController);
+    DECLARE_INSTANCE_FIELD_PRIVATE(ConfigViewController*, _configViewController);
     DECLARE_INJECT_METHOD(
         void, Construct,
         GlobalNamespace::MainFlowCoordinator* mainFlowCoordinator,
-        InfoViewController* infoViewController);
+        InfoViewController* infoViewController, ConfigViewController* configViewController);
     DECLARE_OVERRIDE_METHOD_MATCH(void, DidActivate,
                                   &HMUI::FlowCoordinator::DidActivate,
                                   bool firstActivation, bool addedToHierarchy,

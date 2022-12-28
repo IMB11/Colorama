@@ -14,7 +14,8 @@ using namespace GlobalNamespace;
 using namespace UnityEngine;
 
 DECLARE_CLASS_CODEGEN_ZENJECT(
-    Colorama::Coloring, MenuColorSwapper, Il2CppObject, DECLARE_DEFAULT_CTOR();
+    Colorama::Coloring, MenuColorSwapper, Il2CppObject,
+    DECLARE_DEFAULT_CTOR();
     DECLARE_INSTANCE_FIELD_PRIVATE(MenuLightsManager*, _menuLightsManager);
     DECLARE_INSTANCE_FIELD_PRIVATE(MainFlowCoordinator*, _mainFlowCoordinator);
     DECLARE_INSTANCE_FIELD_PRIVATE(CampaignFlowCoordinator*,
