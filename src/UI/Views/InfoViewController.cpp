@@ -14,7 +14,7 @@ using namespace Colorama::UI;
 UnityEngine::UI::Button *CreateApplicationButton(UnityEngine::Transform *parent,
                                                  std::string title,
                                                  std::string description,
-                                                 std::string URL) {
+                                                 const std::string& URL) {
   using namespace HMUI;
   using namespace UnityEngine;
   using namespace UnityEngine::UI;
@@ -41,10 +41,10 @@ UnityEngine::UI::Button *CreateApplicationButton(UnityEngine::Transform *parent,
       verticalLayoutGroup->GetComponent<LayoutElement *>();
   verticalLayoutGroupLayoutElement->set_preferredWidth(65);
 
-  BeatSaberUI::CreateText(verticalLayoutGroup->get_transform(), title,
+  BeatSaberUI::CreateText(verticalLayoutGroup->get_transform(), std::move(title),
                           Vector2::get_zero())
       ->set_fontSize(5);
-  BeatSaberUI::CreateText(verticalLayoutGroup->get_transform(), description,
+  BeatSaberUI::CreateText(verticalLayoutGroup->get_transform(), std::move(description),
                           Vector2::get_zero())
       ->set_fontSize(3);
 
@@ -57,7 +57,7 @@ UnityEngine::UI::Button *CreateApplicationButton(UnityEngine::Transform *parent,
                       ->Find("Content")
                       ->GetComponent<LayoutElement *>());
 
-  ContentSizeFitter *contentSizeFitter =
+  auto *contentSizeFitter =
       openButton->get_gameObject()->AddComponent<ContentSizeFitter *>();
   contentSizeFitter->set_horizontalFit(
       ContentSizeFitter::FitMode::PreferredSize);
@@ -67,6 +67,7 @@ UnityEngine::UI::Button *CreateApplicationButton(UnityEngine::Transform *parent,
 }
 
 #include <chrono>
+#include <utility>
 
 int getCurrentYear() {
   using namespace std::chrono;

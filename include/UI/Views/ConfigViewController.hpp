@@ -8,9 +8,15 @@ DECLARE_CLASS_CODEGEN(
     DECLARE_DEFAULT_CTOR();
     DECLARE_INSTANCE_FIELD_PRIVATE(Colorama::Coloring::MenuColorSwapper*,
                                    _menuColorSwapper);
+    DECLARE_INSTANCE_FIELD(UnityEngine::GameObject*, menuTab);
+    DECLARE_INSTANCE_FIELD(UnityEngine::GameObject*, energyTab);
+    DECLARE_INSTANCE_FIELD(UnityEngine::GameObject*, multiplierRingTab);
+    DECLARE_INSTANCE_FIELD(UnityEngine::GameObject*, progressBarTab);
+    DECLARE_INSTANCE_FIELD(UnityEngine::GameObject*, comboTab);
     DECLARE_INJECT_METHOD(
         void, Construct,
         Colorama::Coloring::MenuColorSwapper* _menuColorSwapper);
+    DECLARE_INSTANCE_METHOD(void, SwitchTab, int idx);
     DECLARE_OVERRIDE_METHOD_MATCH(void, DidActivate,
                                   &HMUI::ViewController::DidActivate,
                                   bool firstActivation, bool addedToHierarchy,

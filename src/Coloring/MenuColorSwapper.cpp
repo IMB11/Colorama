@@ -34,6 +34,10 @@ void MenuColorSwapper::Initialize() {
   UpdateColors();
 }
 
+void MenuColorSwapper::PreviewColor(UnityEngine::Color color) {
+  this->_menuLightsManager->SetColorPreset(Utils::createMenuLights(this->_defaultLightPreset, color), true);
+}
+
 void MenuColorSwapper::UpdateColors() {
 #define config getColoramaConfig()
 #define resetPreset(val) val = this->_defaultLightPreset

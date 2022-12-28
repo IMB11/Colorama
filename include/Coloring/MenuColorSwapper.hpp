@@ -39,4 +39,6 @@ DECLARE_CLASS_CODEGEN_ZENJECT(
         SoloFreePlayFlowCoordinator* soloFreePlayFlowCoordinator,
         PartyFreePlayFlowCoordinator* partyFreePlayFlowCoordinator,
         CenterStageScreenController* centerStageScreenController);
-    DECLARE_INSTANCE_METHOD(void, UpdateColors);)
+    DECLARE_INSTANCE_METHOD(void, UpdateColors);
+    DECLARE_INSTANCE_METHOD(void, PreviewColor, UnityEngine::Color color);
+    )
