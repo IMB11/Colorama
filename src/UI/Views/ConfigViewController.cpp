@@ -136,8 +136,9 @@ DEFINE_TYPE(Colorama::UI, ConfigViewController)
 using namespace Colorama::UI;
 
 void ConfigViewController::Construct(
-    Colorama::Coloring::MenuColorSwapper *menuColorSwapper) {
+    Colorama::Coloring::MenuColorSwapper *menuColorSwapper, PreviewViewController* previewViewController) {
   this->_menuColorSwapper = menuColorSwapper;
+  this->_previewViewController = previewViewController;
 }
 
 template <::QuestUI::BeatSaberUI::HasTransform P>
@@ -175,11 +176,11 @@ void ConfigViewController::DidActivate(bool firstActivation,
   using namespace QuestUI;
 
   static ArrayW<StringW> options(5);
-  options[0] = "Menu";
-  options[1] = "Energy Bar";
-  options[2] = "Multiring";
-  options[3] = "Progress Bar";
-  options[4] = "Combo Indicator";
+	  options[0] = "Menu";
+	  options[1] = "Energy Bar";
+	  options[2] = "Multiring";
+	  options[3] = "Progress Bar";
+	  options[4] = "Combo Indicator";
 
   if (firstActivation) {
 	auto root = BeatSaberUI::CreateVerticalLayoutGroup(get_transform());
@@ -206,7 +207,7 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	CreateColorPickerEnable( \
 		_menuTab->get_transform(), title, \
 		configuration.subValue.enabled, \
-	    ColorPair::convert(configuration.subValue), \
+	    configuration.subValue, \
 		[this](bool newValue) { \
 		  auto cfg = getColoramaConfig().menuConfiguration.GetValue(); \
 	      cfg.subValue.enabled = newValue;\
@@ -263,6 +264,8 @@ void ConfigViewController::DidActivate(bool firstActivation,
 }
 
 void ConfigViewController::SwitchTab(int idx) {
+  this->_previewViewController->UpdatePanelVisibility(idx);
+
   menuTab->SetActive(idx == 0);
   energyTab->SetActive(idx == 1);
   multiplierRingTab->SetActive(idx == 2);

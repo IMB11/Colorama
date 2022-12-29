@@ -19,6 +19,13 @@
       il2cpp_utils::il2cpp_type_check::MetadataGetter<mptr>::get(), \
       __VA_ARGS__)
 
+#define DECLARE_ZENJECT_INSTALLER(klassName)               \
+  DECLARE_CLASS_CODEGEN(                                   \
+      Colorama::Installers, klassName, Zenject::Installer, \
+      DECLARE_DEFAULT_CTOR();                              \
+      DECLARE_OVERRIDE_METHOD_MATCH(void, InstallBindings, \
+                                    &Zenject::Installer::InstallBindings);)
+
 template <class T, class U>
 bool is_inst(U u) {
   return il2cpp_utils::try_cast<T>(u).has_value();

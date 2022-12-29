@@ -50,11 +50,11 @@ void MenuColorSwapper::UpdateColors() {
 
   _playersPlace->set_color(
       configuration.feetColor.enabled
-          ? ColorPair::convert(configuration.feetColor)
+          ? configuration.feetColor
           : _playersPlace->get_color());
 
-  if (configuration.freeplayLighting.enabled) {
-	auto lights = Utils::createMenuLights(this->_defaultLightPreset, ColorPair::convert(configuration.freeplayLighting));
+  if (configuration.freeplayLighting) {
+	auto lights = Utils::createMenuLights(this->_defaultLightPreset, configuration.freeplayLighting);
 	this->_soloFreePlayFlowCoordinator->defaultLightsPreset = lights;
 	this->_partyFreePlayFlowCoordinator->defaultLightsPreset = lights;
   } else {
@@ -62,8 +62,8 @@ void MenuColorSwapper::UpdateColors() {
 	resetPreset(this->_partyFreePlayFlowCoordinator->defaultLightsPreset);
   }
 
-  if (configuration.resultsLighting.enabled) {
-	auto lights = Utils::createMenuLights(this->_defaultLightPreset, ColorPair::convert(configuration.resultsLighting));
+  if (configuration.resultsLighting) {
+	auto lights = Utils::createMenuLights(this->_defaultLightPreset, configuration.resultsLighting);
 	this->_soloFreePlayFlowCoordinator->resultsClearedLightsPreset = lights;
 	this->_campaignFlowCoordinator->resultsClearedLightsPreset = lights;
 	this->_partyFreePlayFlowCoordinator->resultsClearedLightsPreset = lights;
@@ -74,9 +74,9 @@ void MenuColorSwapper::UpdateColors() {
 	resetPreset(this->_campaignFlowCoordinator->resultsClearedLightsPreset);
   }
 
-  if (configuration.resultsFailLighting.enabled) {
+  if (configuration.resultsFailLighting) {
 	auto lights = Utils::createMenuLights(
-	    this->_defaultLightPreset, ColorPair::convert(configuration.resultsFailLighting));
+	    this->_defaultLightPreset, configuration.resultsFailLighting);
 	this->_soloFreePlayFlowCoordinator->resultsFailedLightsPreset = lights;
 	this->_partyFreePlayFlowCoordinator->resultsClearedLightsPreset = lights;
   } else {
@@ -86,33 +86,32 @@ void MenuColorSwapper::UpdateColors() {
 	    this->_defaultFailLightPreset;
   }
 
-  if (configuration.campaignLighting.enabled) {
+  if (configuration.campaignLighting) {
 	auto lights = Utils::createMenuLights(
-	    this->_defaultLightPreset, ColorPair::convert(configuration.campaignLighting));
+	    this->_defaultLightPreset, configuration.campaignLighting);
 	this->_campaignFlowCoordinator->defaultLightsPreset = lights;
   } else {
 	resetPreset(this->_campaignFlowCoordinator->defaultLightsPreset);
   }
 
-  if (configuration.multiplayerIdleColor.enabled) {
+  if (configuration.multiplayerIdleColor) {
 	auto lights = Utils::createMenuLights(
-	    this->_defaultLightPreset, ColorPair::convert(configuration.multiplayerIdleColor));
+	    this->_defaultLightPreset, configuration.multiplayerIdleColor);
 	this->_centerStageScreenController->lobbyLightsPreset = lights;
   } else {
 	resetPreset(this->_centerStageScreenController->lobbyLightsPreset);
   }
 
-  if (configuration.multiplayerCountdownColor.enabled) {
+  if (configuration.multiplayerCountdownColor) {
 	auto lights = Utils::createMenuLights(
-	    this->_defaultLightPreset,
-	    ColorPair::convert(configuration.multiplayerCountdownColor));
+	    this->_defaultLightPreset, configuration.multiplayerCountdownColor);
 	this->_centerStageScreenController->countdownMenuLightsPreset = lights;
   } else {
 	resetPreset(this->_centerStageScreenController->countdownMenuLightsPreset);
   }
 
-  if (configuration.gamemodeLighting.enabled) {
-	auto lights = Utils::createMenuLights(this->_defaultLightPreset, ColorPair::convert(configuration.gamemodeLighting));
+  if (configuration.gamemodeLighting) {
+	auto lights = Utils::createMenuLights(this->_defaultLightPreset, configuration.gamemodeLighting);
 	this->_mainFlowCoordinator->defaultLightsPreset = lights;
   } else {
 	resetPreset(this->_mainFlowCoordinator->defaultLightsPreset);

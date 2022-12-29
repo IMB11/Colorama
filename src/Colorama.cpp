@@ -1,6 +1,6 @@
 #include "Colorama.hpp"
 
-#include "Installers/MenuColorInstaller.hpp"
+#include "Installers/ZenjectInstallers.hpp"
 #include "UI/ColoramaFlowCoordinator.hpp"
 #include "lapiz/shared/zenject/Zenjector.hpp"
 #include "questui/shared/QuestUI.hpp"
@@ -18,16 +18,26 @@ extern "C" void setup(ModInfo &info) {
   INFO("Completed setup!");
 }
 
+#include "GlobalNamespace/ComboUIController.hpp"
+
 extern "C" void load() {
+
+  using namespace Colorama::Installers;
+  using namespace ::Lapiz::Zenject;
+
   il2cpp_functions::Init();
   custom_types::Register::AutoRegister();
 
   getColoramaConfig().Init(modInfo);
 
   INFO("Preparing Zenject");
-  auto zenjector = ::Lapiz::Zenject::Zenjector::Get();
-  zenjector->Install<Colorama::Installers::MenuColorInstaller *>(
-      Lapiz::Zenject::Location::Menu);
+
+  auto zenjector = Zenjector::Get();
+
+  zenjector->Expose<GlobalNamespace::ComboUIController*>("Environment");
+
+  zenjector->Install<MenuColorInstaller *>(Location::Menu);
+  zenjector->Install<PanelModifierInstaller *>(Location::StandardPlayer | Location::CampaignPlayer);
 
   INFO("Completed Zenject");
 
