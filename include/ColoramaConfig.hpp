@@ -9,44 +9,39 @@
 
 using namespace UnityEngine;
 
-#define ENABLE_COLOR_CONFIG_VALUE(name, desc)        \
-  CONFIG_VALUE(Can_##name, bool, "Can" desc, false); \
-  CONFIG_VALUE(name, ConfigUtils::Color, desc,       \
-               static_cast<ConfigUtils::Color>(Color::get_red()));
-
 DECLARE_JSON_CLASS(
     ColorPair,
-    VALUE_DEFAULT(float, r, 255.0f);
-    VALUE_DEFAULT(float, g, 0.0);
-    VALUE_DEFAULT(float, b, 0.0f);
-    VALUE_DEFAULT(float, a, 0.0f);
-    VALUE_DEFAULT(bool, enabled, false);
-    operator UnityEngine::Color() const;
+    NAMED_VALUE_DEFAULT(float, r, 255.0f, "r");
+    NAMED_VALUE_DEFAULT(float, g, 0.0, "g");
+    NAMED_VALUE_DEFAULT(float, b, 0.0f, "b");
+    NAMED_VALUE_DEFAULT(float, a, 1.0f, "a");
+    NAMED_VALUE_DEFAULT(bool, enabled, false, "enabled");
+    static UnityEngine::Color convert(ColorPair pair) {
+      return UnityEngine::Color(pair.r / 255.0f, pair.g / 255.0f, pair.b / 255.0f, pair.a);
+    }
     static ColorPair convert(UnityEngine::Color color, bool enabled) {
       ColorPair pair = {};
       pair.r = color.r * 255.0f;
       pair.g = color.g * 255.0f;
       pair.b = color.b * 255.0f;
-      pair.a = color.a * 255.0f;
+      pair.a = color.a;
       pair.enabled = enabled;
       return pair;
     };)
 
-DECLARE_JSON_CLASS()
-
 DECLARE_JSON_CLASS(MenuConfiguration,
-                   VALUE_DEFAULT(ColorPair, gamemodeLighting, {});
-                   VALUE_DEFAULT(ColorPair, freeplayLighting, {});
-                   VALUE_DEFAULT(ColorPair, campaignLighting, {});
-                   VALUE_DEFAULT(ColorPair, multiplayerIdleColor, {});
-                   VALUE_DEFAULT(ColorPair, multiplayerCountdownColor, {})
-                       VALUE_DEFAULT(ColorPair, resultsLighting, {});
-                   VALUE_DEFAULT(ColorPair, resultsFailLighting, {});
-                   VALUE_DEFAULT(ColorPair, feetColor, {});
-                   VALUE_DEFAULT(bool, enableFogRing, true);
-                   VALUE_DEFAULT(bool, enableNoteDecor, true);
-                   VALUE_DEFAULT(bool, enableLogoGlowLines, true);
-                   VALUE_DEFAULT(bool, enableFloor, true);)
+                   NAMED_VALUE_DEFAULT(ColorPair, gamemodeLighting, {}, "gamemodeLighting");
+                   NAMED_VALUE_DEFAULT(ColorPair, freeplayLighting, {}, "freeplayLighting");
+                   NAMED_VALUE_DEFAULT(ColorPair, campaignLighting, {}, "campaignLighting");
+                   NAMED_VALUE_DEFAULT(ColorPair, multiplayerIdleColor, {}, "multiplayerIdleColor");
+                   NAMED_VALUE_DEFAULT(ColorPair, multiplayerCountdownColor, {}, "multiplayerCountdownColor");
+                   NAMED_VALUE_DEFAULT(ColorPair, resultsLighting, {}, "resultsLighting");
+                   NAMED_VALUE_DEFAULT(ColorPair, resultsFailLighting, {}, "resultsFailLighting");
+                   NAMED_VALUE_DEFAULT(ColorPair, feetColor, {}, "feetColor");
+                   NAMED_VALUE_DEFAULT(bool, enableFogRing, true, "enableFogRing");
+                   NAMED_VALUE_DEFAULT(bool, enableNoteDecor, true, "enableNoteDecor");
+                   NAMED_VALUE_DEFAULT(bool, enableLogoGlowLines, true, "enableLogoGlowLines");
+                   NAMED_VALUE_DEFAULT(bool, enableFloor, true, "enableFloor"));
 
 DECLARE_CONFIG(ColoramaConfig,
                CONFIG_VALUE(menuConfiguration, MenuConfiguration,

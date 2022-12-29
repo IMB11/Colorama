@@ -206,16 +206,18 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	CreateColorPickerEnable( \
 		_menuTab->get_transform(), title, \
 		configuration.subValue.enabled, \
-	    configuration.subValue, \
-		[this, &configuration](bool newValue) { \
-		  configuration.subValue.enabled = newValue; \
-	      getColoramaConfig().menuConfiguration.SetValue(configuration); \
+	    ColorPair::convert(configuration.subValue), \
+		[this](bool newValue) { \
+		  auto cfg = getColoramaConfig().menuConfiguration.GetValue(); \
+	      cfg.subValue.enabled = newValue;\
+	      getColoramaConfig().menuConfiguration.SetValue(cfg, false); \
 		  this->_menuColorSwapper->UpdateColors(); \
 		}, \
-		[this, &configuration](Color newValue) { \
-	      auto newPair = ColorPair::convert(newValue, configuration.subValue.enabled); \
-	      configuration.subValue = newPair; \
-	      getColoramaConfig().menuConfiguration.SetValue(configuration); \
+		[this](Color newValue) {   \
+	      auto cfg = getColoramaConfig().menuConfiguration.GetValue(); \
+	      auto newPair = ColorPair::convert(newValue, cfg.subValue.enabled); \
+	      cfg.subValue = newPair; \
+	      getColoramaConfig().menuConfiguration.SetValue(cfg, false); \
 	      this->_menuColorSwapper->UpdateColors(); \
 		}, \
 		this->_menuColorSwapper);
@@ -236,18 +238,17 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	auto vertGroup_menuTab = BeatSaberUI::CreateVerticalLayoutGroup(_menuTab->get_transform());
 
 #define CMT(title, configValue) \
-	BeatSaberUI::CreateToggle(vertGroup_menuTab->get_transform(), title, configuration.configValue, [this, configuration](bool newValue) { \
-	  configuration.configValue = newValue; \
-	  getColoramaConfig().menuConfiguration.SetValue(configuration); \
+	BeatSaberUI::CreateToggle(vertGroup_menuTab->get_transform(), title, configuration.configValue, [this](bool newValue) { \
+      auto cfg = getColoramaConfig().menuConfiguration.GetValue(); \
+	  cfg.configValue = newValue; \
+	  getColoramaConfig().menuConfiguration.SetValue(cfg, false); \
 	  this->_menuColorSwapper->UpdateColors(); \
 	});
 
 	CMT("Enable Fog Ring", enableFogRing)
-
-	AddConfigValueToggle(vertGroup_menuTab->get_transform(), getColoramaConfig().Menu_Notes);
-	AddConfigValueToggle(vertGroup_menuTab->get_transform(), getColoramaConfig().Menu_MenuGround);
-	AddConfigValueToggle(vertGroup_menuTab->get_transform(), getColoramaConfig().Menu_LogoGlowLines);
-	AddConfigValueToggle(vertGroup_menuTab->get_transform(), getColoramaConfig().Menu_MenuFogRing);
+    CMT("Enable Menu Floor", enableFloor)
+	CMT("Enable Note Decor", enableNoteDecor)
+	CMT("Enable Logo Glow Lines", enableLogoGlowLines)
 
 	this->menuTab =
 	    AdjustedScrollContainerObject(_menuTab->get_gameObject(), true);

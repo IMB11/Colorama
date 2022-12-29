@@ -24,6 +24,10 @@ void MenuColorSwapper::Inject(
   this->_centerStageScreenController = centerStageScreenController;
 }
 
+void MenuColorSwapper::Dispose() {
+  // ... utterly useless.
+}
+
 void MenuColorSwapper::Initialize() {
   this->_defaultLightPreset = this->_menuLightsManager->defaultPreset;
   this->_defaultFailLightPreset =
@@ -40,16 +44,17 @@ void MenuColorSwapper::PreviewColor(UnityEngine::Color color) {
 }
 
 void MenuColorSwapper::UpdateColors() {
-#define config getColoramaConfig()
 #define resetPreset(val) val = this->_defaultLightPreset
+
+  MenuConfiguration configuration = getColoramaConfig().menuConfiguration.GetValue();
+
   _playersPlace->set_color(
-      config.Can_Menu_FeetColor.GetValue()
-          ? config.Menu_FeetColor.GetValue().operator UnityEngine::Color()
+      configuration.feetColor.enabled
+          ? ColorPair::convert(configuration.feetColor)
           : _playersPlace->get_color());
 
-  if (config.Can_Menu_FreeplayColor.GetValue()) {
-	auto lights = Utils::createMenuLights(this->_defaultLightPreset,
-	                                      config.Menu_FreeplayColor.GetValue());
+  if (configuration.freeplayLighting.enabled) {
+	auto lights = Utils::createMenuLights(this->_defaultLightPreset, ColorPair::convert(configuration.freeplayLighting));
 	this->_soloFreePlayFlowCoordinator->defaultLightsPreset = lights;
 	this->_partyFreePlayFlowCoordinator->defaultLightsPreset = lights;
   } else {
@@ -57,9 +62,8 @@ void MenuColorSwapper::UpdateColors() {
 	resetPreset(this->_partyFreePlayFlowCoordinator->defaultLightsPreset);
   }
 
-  if (config.Can_Menu_ResultsColor.GetValue()) {
-	auto lights = Utils::createMenuLights(this->_defaultLightPreset,
-	                                      config.Menu_ResultsColor.GetValue());
+  if (configuration.resultsLighting.enabled) {
+	auto lights = Utils::createMenuLights(this->_defaultLightPreset, ColorPair::convert(configuration.resultsLighting));
 	this->_soloFreePlayFlowCoordinator->resultsClearedLightsPreset = lights;
 	this->_campaignFlowCoordinator->resultsClearedLightsPreset = lights;
 	this->_partyFreePlayFlowCoordinator->resultsClearedLightsPreset = lights;
@@ -70,9 +74,9 @@ void MenuColorSwapper::UpdateColors() {
 	resetPreset(this->_campaignFlowCoordinator->resultsClearedLightsPreset);
   }
 
-  if (config.Can_Menu_ResultsFailColor.GetValue()) {
+  if (configuration.resultsFailLighting.enabled) {
 	auto lights = Utils::createMenuLights(
-	    this->_defaultLightPreset, config.Menu_ResultsFailColor.GetValue());
+	    this->_defaultLightPreset, ColorPair::convert(configuration.resultsFailLighting));
 	this->_soloFreePlayFlowCoordinator->resultsFailedLightsPreset = lights;
 	this->_partyFreePlayFlowCoordinator->resultsClearedLightsPreset = lights;
   } else {
@@ -82,34 +86,33 @@ void MenuColorSwapper::UpdateColors() {
 	    this->_defaultFailLightPreset;
   }
 
-  if (config.Can_Menu_CampaignsColor.GetValue()) {
+  if (configuration.campaignLighting.enabled) {
 	auto lights = Utils::createMenuLights(
-	    this->_defaultLightPreset, config.Menu_CampaignsColor.GetValue());
+	    this->_defaultLightPreset, ColorPair::convert(configuration.campaignLighting));
 	this->_campaignFlowCoordinator->defaultLightsPreset = lights;
   } else {
 	resetPreset(this->_campaignFlowCoordinator->defaultLightsPreset);
   }
 
-  if (config.Can_Menu_MultiplayerColor.GetValue()) {
+  if (configuration.multiplayerIdleColor.enabled) {
 	auto lights = Utils::createMenuLights(
-	    this->_defaultLightPreset, config.Menu_MultiplayerColor.GetValue());
+	    this->_defaultLightPreset, ColorPair::convert(configuration.multiplayerIdleColor));
 	this->_centerStageScreenController->lobbyLightsPreset = lights;
   } else {
 	resetPreset(this->_centerStageScreenController->lobbyLightsPreset);
   }
 
-  if (config.Can_Menu_MultiplayerCountdownColor.GetValue()) {
+  if (configuration.multiplayerCountdownColor.enabled) {
 	auto lights = Utils::createMenuLights(
 	    this->_defaultLightPreset,
-	    config.Menu_MultiplayerCountdownColor.GetValue());
+	    ColorPair::convert(configuration.multiplayerCountdownColor));
 	this->_centerStageScreenController->countdownMenuLightsPreset = lights;
   } else {
 	resetPreset(this->_centerStageScreenController->countdownMenuLightsPreset);
   }
 
-  if (config.Can_Menu_GamemodeColor.GetValue()) {
-	auto lights = Utils::createMenuLights(this->_defaultLightPreset,
-	                                      config.Menu_GamemodeColor.GetValue());
+  if (configuration.gamemodeLighting.enabled) {
+	auto lights = Utils::createMenuLights(this->_defaultLightPreset, ColorPair::convert(configuration.gamemodeLighting));
 	this->_mainFlowCoordinator->defaultLightsPreset = lights;
   } else {
 	resetPreset(this->_mainFlowCoordinator->defaultLightsPreset);
