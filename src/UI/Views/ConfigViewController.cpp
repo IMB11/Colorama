@@ -136,7 +136,8 @@ DEFINE_TYPE(Colorama::UI, ConfigViewController)
 using namespace Colorama::UI;
 
 void ConfigViewController::Construct(
-    Colorama::Coloring::MenuColorSwapper *menuColorSwapper, PreviewViewController* previewViewController) {
+    Colorama::Coloring::MenuColorSwapper *menuColorSwapper,
+    PreviewViewController *previewViewController) {
   this->_menuColorSwapper = menuColorSwapper;
   this->_previewViewController = previewViewController;
 }
@@ -155,6 +156,7 @@ inline ::QuestUI::ColorSetting *AddConfigValueColorPicker(
 }
 
 #include "HMUI/Touchable.hpp"
+#include "UnityEngine/UI/Selectable.hpp"
 
 void ConfigViewController::DidDeactivate(bool removedFromHierarchy,
                                          bool screenSystemDisabling) {
@@ -176,11 +178,11 @@ void ConfigViewController::DidActivate(bool firstActivation,
   using namespace QuestUI;
 
   static ArrayW<StringW> options(5);
-	  options[0] = "Menu";
-	  options[1] = "Energy Bar";
-	  options[2] = "Multiring";
-	  options[3] = "Progress Bar";
-	  options[4] = "Combo Indicator";
+  options[0] = "Menu";
+  options[1] = "Energy Bar";
+  options[2] = "Multiring";
+  options[3] = "Progress Bar";
+  options[4] = "Combo Indicator";
 
   if (firstActivation) {
 	auto root = BeatSaberUI::CreateVerticalLayoutGroup(get_transform());
@@ -201,27 +203,27 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	headerA->set_alignment(TMPro::TextAlignmentOptions::_get_Center());
 	headerA->set_color(Color::get_gray());
 
-	MenuConfiguration configuration = getColoramaConfig().menuConfiguration.GetValue();
+	MenuConfiguration configuration =
+	    getColoramaConfig().menuConfiguration.GetValue();
 
-#define CPE(title, subValue) \
-	CreateColorPickerEnable( \
-		_menuTab->get_transform(), title, \
-		configuration.subValue.enabled, \
-	    configuration.subValue, \
-		[this](bool newValue) { \
-		  auto cfg = getColoramaConfig().menuConfiguration.GetValue(); \
-	      cfg.subValue.enabled = newValue;\
-	      getColoramaConfig().menuConfiguration.SetValue(cfg, false); \
-		  this->_menuColorSwapper->UpdateColors(); \
-		}, \
-		[this](Color newValue) {   \
-	      auto cfg = getColoramaConfig().menuConfiguration.GetValue(); \
-	      auto newPair = ColorPair::convert(newValue, cfg.subValue.enabled); \
-	      cfg.subValue = newPair; \
-	      getColoramaConfig().menuConfiguration.SetValue(cfg, false); \
-	      this->_menuColorSwapper->UpdateColors(); \
-		}, \
-		this->_menuColorSwapper);
+#define CPE(title, subValue)                                               \
+  CreateColorPickerEnable(                                                 \
+      _menuTab->get_transform(), title, configuration.subValue.enabled,    \
+      configuration.subValue,                                              \
+      [this](bool newValue) {                                              \
+	    auto cfg = getColoramaConfig().menuConfiguration.GetValue();       \
+	    cfg.subValue.enabled = newValue;                                   \
+	    getColoramaConfig().menuConfiguration.SetValue(cfg, false);        \
+	    this->_menuColorSwapper->UpdateColors();                           \
+      },                                                                   \
+      [this](Color newValue) {                                             \
+	    auto cfg = getColoramaConfig().menuConfiguration.GetValue();       \
+	    auto newPair = ColorPair::convert(newValue, cfg.subValue.enabled); \
+	    cfg.subValue = newPair;                                            \
+	    getColoramaConfig().menuConfiguration.SetValue(cfg, false);        \
+	    this->_menuColorSwapper->UpdateColors();                           \
+      },                                                                   \
+      this->_menuColorSwapper);
 
 	CPE("Gamemode Selection Menu", gamemodeLighting);
 	CPE("Solo/Party Menu", freeplayLighting);
@@ -236,18 +238,21 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	headerB->set_alignment(TMPro::TextAlignmentOptions::_get_Center());
 	headerB->set_color(Color::get_gray());
 
-	auto vertGroup_menuTab = BeatSaberUI::CreateVerticalLayoutGroup(_menuTab->get_transform());
+	auto vertGroup_menuTab =
+	    BeatSaberUI::CreateModifierContainer(_menuTab->get_transform());
 
-#define CMT(title, configValue) \
-	BeatSaberUI::CreateToggle(vertGroup_menuTab->get_transform(), title, configuration.configValue, [this](bool newValue) { \
-      auto cfg = getColoramaConfig().menuConfiguration.GetValue(); \
-	  cfg.configValue = newValue; \
-	  getColoramaConfig().menuConfiguration.SetValue(cfg, false); \
-	  this->_menuColorSwapper->UpdateColors(); \
-	});
+#define CMT(title, configValue)                                             \
+  BeatSaberUI::CreateToggle(                                                \
+      vertGroup_menuTab->get_transform(), title, configuration.configValue, \
+      [this](bool newValue) {                                               \
+	    auto cfg = getColoramaConfig().menuConfiguration.GetValue();        \
+	    cfg.configValue = newValue;                                         \
+	    getColoramaConfig().menuConfiguration.SetValue(cfg, false);         \
+	    this->_menuColorSwapper->UpdateColors();                            \
+      });
 
 	CMT("Enable Fog Ring", enableFogRing)
-    CMT("Enable Menu Floor", enableFloor)
+	CMT("Enable Menu Floor", enableFloor)
 	CMT("Enable Note Decor", enableNoteDecor)
 	CMT("Enable Logo Glow Lines", enableLogoGlowLines)
 
@@ -259,8 +264,113 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	DEFINE_TAB(energyTab, false)
 	DEFINE_TAB(multiplierRingTab, false)
 	DEFINE_TAB(progressBarTab, false)
-	DEFINE_TAB(comboTab, false)
-  }
+
+#pragma region Combo Tab
+	auto _comboTab =
+	    BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
+
+	ComboConfiguration comboConfig =
+	    getColoramaConfig().comboConfiguration.GetValue();
+
+	auto modifierContainerCombo = BeatSaberUI::CreateModifierContainer(_comboTab->get_transform());
+
+	static SafePtrUnity<HorizontalLayoutGroup> nonGradientContainerHoz =
+	    BeatSaberUI::CreateHorizontalLayoutGroup(_comboTab->get_transform());
+	auto nonGradientContainer = BeatSaberUI::CreateVerticalLayoutGroup(
+	    nonGradientContainerHoz.ptr()->get_transform());
+	nonGradientContainer->set_spacing(0.25f);
+	nonGradientContainer->set_padding(RectOffset::New_ctor(2, 2, 2, 2));
+
+	static SafePtrUnity<HorizontalLayoutGroup> gradientContainerHoz =
+	    BeatSaberUI::CreateHorizontalLayoutGroup(_comboTab->get_transform());
+	auto gradientContainer = BeatSaberUI::CreateVerticalLayoutGroup(
+	    gradientContainerHoz.ptr()->get_transform());
+	gradientContainer->set_padding(RectOffset::New_ctor(2, 2, 2, 2));
+
+	BeatSaberUI::CreateToggle(
+	    modifierContainerCombo->get_transform(), "Use Gradient", comboConfig.useGradient,
+	    [](bool newValue) {
+	      auto cfg = getColoramaConfig().comboConfiguration.GetValue();
+	      cfg.useGradient = newValue;
+	      getColoramaConfig().comboConfiguration.SetValue(cfg);
+	      nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(! newValue);
+	      gradientContainerHoz.ptr()->get_gameObject()->SetActive(newValue);
+	    })->get_transform();
+
+	BeatSaberUI::CreateToggle(
+	    modifierContainerCombo->get_transform(), "Enabled", comboConfig.enabled,
+	    [](bool newValue) {
+	      auto cfg = getColoramaConfig().comboConfiguration.GetValue();
+	      cfg.enabled = newValue;
+	      getColoramaConfig().comboConfiguration.SetValue(cfg);
+	      nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(newValue);
+	      gradientContainerHoz.ptr()->get_gameObject()->SetActive(newValue);
+	    });
+
+	// Non-Gradient
+
+	BeatSaberUI::CreateText(nonGradientContainer->get_transform(),
+	                        "<size=5><u>Simple</u></size>");
+
+	BeatSaberUI::CreateColorPicker(
+	    nonGradientContainer->get_transform(), "Top Line Color",
+	    comboConfig.topLineColor, [](Color newValue) {
+	      auto cfg = getColoramaConfig().comboConfiguration.GetValue();
+	      cfg.topLineColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().comboConfiguration.SetValue(cfg);
+	    });
+
+	BeatSaberUI::CreateColorPicker(
+	    nonGradientContainer->get_transform(), "Bottom Line Color",
+	    comboConfig.bottomLineColor, [](Color newValue) {
+	      auto cfg = getColoramaConfig().comboConfiguration.GetValue();
+	      cfg.bottomLineColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().comboConfiguration.SetValue(cfg);
+	    });
+
+	// Gradient
+
+	BeatSaberUI::CreateText(gradientContainer->get_transform(),
+	                        "<size=5><u>Gradient</u></size>");
+// clang-format off
+#define GRADIENT_COL_PICK(name, val)                      \
+  BeatSaberUI::CreateColorPicker(  \
+  gradientContainer->get_transform(),                                   \
+  name, comboConfig.val,                   \
+  [](Color newValue) {         \
+	auto cfg = getColoramaConfig().comboConfiguration.GetValue(); \
+	cfg.val = ConvertedColor::convert(newValue); \
+	getColoramaConfig().comboConfiguration.SetValue(cfg); \
+  });
+// clang-format on
+
+  GRADIENT_COL_PICK("Top Left", topLeft);
+  GRADIENT_COL_PICK("Top Right", topRight);
+  static SafePtrUnity<ColorSetting> btl = GRADIENT_COL_PICK("Bottom Left", bottomLeft);
+  static SafePtrUnity<ColorSetting> btr = GRADIENT_COL_PICK("Bottom Right", bottomRight);
+
+  BeatSaberUI::CreateToggle(
+      gradientContainer->get_transform(), "Mirror Top To Bottom",
+      comboConfig.mirrorToBottom,
+      [](bool newValue) {
+	    auto cfg = getColoramaConfig().comboConfiguration.GetValue();
+	    cfg.mirrorToBottom = newValue;
+	    getColoramaConfig().comboConfiguration.SetValue(cfg);
+	    btl.ptr()->set_interactable(! newValue);
+	    btr.ptr()->set_interactable(! newValue);
+      })
+      ->get_transform()
+      ->SetSiblingIndex(1);
+
+  // ==============================
+
+  nonGradientContainerHoz->get_gameObject()->SetActive(
+      ! comboConfig.useGradient);
+  gradientContainerHoz->get_gameObject()->SetActive(comboConfig.useGradient);
+
+  this->comboTab = AdjustedScrollContainerObject(_comboTab, false);
+#pragma endregion
+}
 }
 
 void ConfigViewController::SwitchTab(int idx) {

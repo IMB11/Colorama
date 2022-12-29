@@ -42,18 +42,18 @@ DECLARE_JSON_CLASS(
       return col;
     };)
 
-DECLARE_JSON_CLASS(ComboConfiguration,
-                   NAMED_VALUE_DEFAULT(bool, enabled, false, "enabled");
-                   NAMED_VALUE_DEFAULT(ConvertedColor, topLineColor, {}, "topLineColor");
-                   NAMED_VALUE_DEFAULT(ConvertedColor, bottomLineColor, {}, "bottomLineColor");
+DECLARE_JSON_CLASS(
+    ComboConfiguration, NAMED_VALUE_DEFAULT(bool, enabled, false, "enabled");
+    NAMED_VALUE_DEFAULT(ConvertedColor, topLineColor, {}, "topLineColor");
+    NAMED_VALUE_DEFAULT(ConvertedColor, bottomLineColor, {}, "bottomLineColor");
 
-                   NAMED_VALUE_DEFAULT(bool, useGradient, false, "useGradient");
-                   NAMED_VALUE_DEFAULT(bool, mirrorToBottom, false, "gradient_mirrorToBottom");
-                   NAMED_VALUE_DEFAULT(ConvertedColor, topLeft, {}, "gradient_topLeft");
-                   NAMED_VALUE_DEFAULT(ConvertedColor, topRight, {}, "gradient_topRight");
-                   NAMED_VALUE_DEFAULT(ConvertedColor, bottomLeft, {}, "gradient_bottomLeft");
-                   NAMED_VALUE_DEFAULT(ConvertedColor, bottomRight, {}, "gradient_bottomRight");
-                   )
+    NAMED_VALUE_DEFAULT(bool, useGradient, false, "useGradient");
+    NAMED_VALUE_DEFAULT(bool, mirrorToBottom, false, "gradient_mirrorToBottom");
+    NAMED_VALUE_DEFAULT(ConvertedColor, topLeft, {}, "gradient_topLeft");
+    NAMED_VALUE_DEFAULT(ConvertedColor, topRight, {}, "gradient_topRight");
+    NAMED_VALUE_DEFAULT(ConvertedColor, bottomLeft, {}, "gradient_bottomLeft");
+    NAMED_VALUE_DEFAULT(ConvertedColor, bottomRight, {},
+                        "gradient_bottomRight");)
 
 DECLARE_JSON_CLASS(
     MenuConfiguration,
@@ -74,6 +74,7 @@ DECLARE_JSON_CLASS(
     NAMED_VALUE_DEFAULT(bool, enableFloor, true, "enableFloor");)
 
 DECLARE_CONFIG(ColoramaConfig,
-               CONFIG_VALUE(comboConfiguration, ComboConfiguration, "Combo Configuration Tab", {});
+               CONFIG_VALUE(comboConfiguration, ComboConfiguration,
+                            "Combo Configuration Tab", {});
                CONFIG_VALUE(menuConfiguration, MenuConfiguration,
                             "Menu Configuration Tab", {});)

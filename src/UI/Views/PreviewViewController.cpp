@@ -30,6 +30,7 @@ void PreviewViewController::DidActivate(bool firstActivation, bool addedToHierar
 	  vertLayout->get_rectTransform()->set_anchoredPosition({0, 30});
 
 	  auto headerText = BeatSaberUI::CreateText(vertLayout->get_transform(), "Preview");
+	  headerText->set_fontSize(18);
 	  headerText->set_alignment(TMPro::TextAlignmentOptions::_get_Center());
 	  headerText->set_color(Color::get_gray());
     }
