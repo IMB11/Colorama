@@ -1,30 +1,22 @@
-# PLEASE DO NOT FORK AND CONTINUE, I WILL RETURN EVENTUALLY.
-
-<div align="center">
-  <img src="cover.png" width="50%" height="auto">
-</div>
-
 # Colorama
 
-Change the colors of the menu and other neat color related options.
+Colorama is a mod for Beat Saber on the Meta Quest 2 and Meta Quest 2 Pro that allows you to change the atmospheric colors of each menu location.
 
-## Contributing
+Download from the releases page.
 
-You can contribute to any of my mods. Fork and modify to your heart's content as long as it respects the license.
+## Contribution
 
-I will not accept any of the following "Contributions":
+Contributions are accepted, please respect the license when creating a PR and keep code standards high (where possible).
 
-- Version bumps; I will update my mods myself to new versions of Beat Saber unless specifically stated - if I haven't updated the mod, it means I either do not support it or I am in process of rewriting the mod.
-- README edits; Editing the readme file to fix a typo does not make you a contributor.
+## Compiling
 
-### Contributor(s)
+If you want to build colorama yourself, you will need Ninja, CMake, and qpm-rust installed. 
 
-Here are the person(s) that have contributed to this mod.
+Run these commands in order to create a QMod file that can be uploaded to QuestPatcher or BMBF.
 
-<a href="https://github.com/cal117/colorama/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=cal117/colorama" />
-</a>
+```shell
+qpm-rust restore # restore QPM dependencies
+./build.ps1 -Clean
+./createqmod.ps1 Colorama
+```
 
-#### Notable Mentions
-
-Kaitlyn - for the settings layout - anytweaks inspired.
