@@ -27,9 +27,7 @@ Logger &getLogger();
 
 namespace Colorama {
     class Hooks {
-      private:
         inline static std::vector<void (*)(Logger &logger)> installFuncs;
-
       public:
         static void AddInstallFunc(void (*installFunc)(Logger &logger)) {
             installFuncs.push_back(installFunc);

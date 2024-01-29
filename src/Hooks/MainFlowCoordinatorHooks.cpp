@@ -12,21 +12,18 @@ using namespace GlobalNamespace;
 using namespace Colorama;
 
 namespace MFCH_Utils {
-    GlobalNamespace::ColorSO *createColorSO(Color color) {
-        float t = color.r + color.g + color.b;
-        auto so = ScriptableObject::CreateInstance<
-            GlobalNamespace::SimpleColorSO *>();
+    ColorSO *createColorSO(const Color color) {
+        const auto so = ScriptableObject::CreateInstance<SimpleColorSO *>();
         so->color = color;
         return so;
     }
 
-    GlobalNamespace::MenuLightsPresetSO *createMenuLights(Color color) {
-        float t = color.r + color.g + color.b;
-        auto colorSO = createColorSO(color);
-        auto menuPresetSO = Object::Instantiate(defaultLights);
+    MenuLightsPresetSO *createMenuLights(const Color color) {
+        const auto colorSO = createColorSO(color);
+        const auto menuPresetSO = Object::Instantiate(defaultLights);
         auto colorPairs = menuPresetSO->lightIdColorPairs;
         for (int i = 0; i < colorPairs.Length(); ++i) {
-            auto pair = GlobalNamespace::MenuLightsPresetSO::LightIdColorPair::
+            const auto pair = MenuLightsPresetSO::LightIdColorPair::
                 New_ctor();
             pair->lightId = colorPairs[i]->lightId;
             pair->baseColor = colorSO;
@@ -48,9 +45,9 @@ MAKE_HOOK_MATCH(MainMenu, &GlobalNamespace::MainFlowCoordinator::DidActivate,
 
     mfc = self->menuLightsManager;
 
-    auto soloFreeplay = self->soloFreePlayFlowCoordinator;
-    auto partyFreeplay = self->partyFreePlayFlowCoordinator;
-    auto campaignCoordinator = self->campaignFlowCoordinator;
+    const auto soloFreeplay = self->soloFreePlayFlowCoordinator;
+    const auto partyFreeplay = self->partyFreePlayFlowCoordinator;
+    const auto campaignCoordinator = self->campaignFlowCoordinator;
 
     getLogger().info("MainFlowCoordinator::DidActivate - Begin Inject");
 
@@ -59,10 +56,7 @@ MAKE_HOOK_MATCH(MainMenu, &GlobalNamespace::MainFlowCoordinator::DidActivate,
             ->GetComponentInChildren<SpriteRenderer *>()
             ->set_color(getColoramaConfig().Menu_FeetColor.GetValue());
 
-        GameObject *menuEnvCore = GameObject::Find("DefaultMenuEnvironment");
-
-        if (menuEnvCore) {
-
+        if (GameObject *menuEnvCore = GameObject::Find("DefaultMenuEnvironment")) {
             auto bgTransform =
                 menuEnvCore->get_transform()->FindChild("GlowLines");
             if (bgTransform) {
@@ -134,11 +128,8 @@ MAKE_HOOK_MATCH(MainMenu, &GlobalNamespace::MainFlowCoordinator::DidActivate,
             getColoramaConfig().Menu_CampaignsColor.GetValue());
 
     } else {
-
-        GameObject *menuEnvCore = GameObject::Find("DefaultMenuEnvironment");
-
-        if (menuEnvCore) {
-
+        if (GameObject *menuEnvCore =
+                GameObject::Find("DefaultMenuEnvironment")) {
             auto bgTransform =
                 menuEnvCore->get_transform()->FindChild("GlowLines");
             if (bgTransform) { bgTransform->get_gameObject()->SetActive(true); }

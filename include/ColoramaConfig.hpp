@@ -7,8 +7,6 @@
 
 using namespace UnityEngine;
 
-
-
 // clang-format off
 DECLARE_CONFIG(ColoramaConfig,
     CONFIG_VALUE(Enabled, bool, "Colorama Enabled", false);

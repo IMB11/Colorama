@@ -1,9 +1,6 @@
 # include some defines automatically made by qpm
 include(qpm_defines.cmake)
 
-# override mod id
-set(MOD_ID "colorama")
-
 # Enable link time optimization
 # In my experience, this can be highly unstable but it nets a huge size optimization and likely performance
 # However, the instability was seen using Android.mk/ndk-build builds. With Ninja + CMake, this problem seems to have been solved.
@@ -13,6 +10,9 @@ set(MOD_ID "colorama")
 
 cmake_minimum_required(VERSION 3.21)
 project(${COMPILE_ID})
+
+# export compile commands for significantly better intellisense
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # c++ standard
 set(CMAKE_CXX_STANDARD 20)
@@ -27,7 +27,6 @@ add_compile_options(-frtti -fexceptions)
 add_compile_options(-O3)
 # compile definitions used
 add_compile_definitions(VERSION=\"${MOD_VERSION}\")
-add_compile_definitions(ID=\"${MOD_ID}\")
 add_compile_definitions(MOD_ID=\"${MOD_ID}\")
 
 # recursively get all src files
@@ -44,15 +43,13 @@ add_library(
 
 target_include_directories(${COMPILE_ID} PRIVATE .)
 
-target_include_directories(${COMPILE_ID} PRIVATE extern/includes/questui_components)
-
 # add src dir as include dir
 target_include_directories(${COMPILE_ID} PRIVATE ${SOURCE_DIR})
 # add include dir as include dir
 target_include_directories(${COMPILE_ID} PRIVATE ${INCLUDE_DIR})
 # add shared dir as include dir
 target_include_directories(${COMPILE_ID} PUBLIC ${SHARED_DIR})
-# codegen includes 
+# codegen includes
 target_include_directories(${COMPILE_ID} PRIVATE ${EXTERN_DIR}/includes/${CODEGEN_ID}/include)
 
 target_link_libraries(${COMPILE_ID} PRIVATE -llog)
@@ -67,14 +64,35 @@ add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
 add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory debug
         COMMENT "Make directory for debug symbols"
-        )
+)
 
 add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E rename lib${COMPILE_ID}.so debug/lib${COMPILE_ID}.so
         COMMENT "Rename the lib to debug_ since it has debug symbols"
-        )
+)
 
+# strip debug symbols from the .so and all dependencies
 add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E rename stripped_lib${COMPILE_ID}.so lib${COMPILE_ID}.so
         COMMENT "Rename the stripped lib to regular"
+)
+foreach(so_file ${so_list})
+        cmake_path(GET so_file FILENAME file)
+
+        add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy ${so_file} debug/${file}
+                COMMENT "Copy so files for ndk stack"
         )
+
+        add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
+                COMMAND ${CMAKE_STRIP} -g -S -d --strip-all ${so_file} -o ${file}
+                COMMENT "Strip debug symbols from the dependencies")
+endforeach()
+
+foreach(a_file ${a_list})
+        cmake_path(GET a_file FILENAME file)
+
+        add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy ${a_file} debug/${file}
+                COMMENT "Copy a files for ndk stack")
+endforeach()

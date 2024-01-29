@@ -32,7 +32,7 @@ void CFlowCoordinator::BackButtonWasPressed(
     using namespace UnityEngine;
 
     if (currentViewController) {
-        SetTitle(ID, ViewController::AnimationType::In);
+        SetTitle(MOD_ID, ViewController::AnimationType::In);
         ReplaceTopViewController(cViewController, this, this, nullptr, ViewController::AnimationType::Out, ViewController::AnimationDirection::Horizontal);
 
         currentViewController = nullptr;
