@@ -21,15 +21,14 @@ using namespace QuestUI;
 using namespace GlobalNamespace;
 using namespace Colorama::UI;
 
-template<::QuestUI::BeatSaberUI::HasTransform P>
-inline ::QuestUI::ColorSetting* CreateConfigValueColorPicker(P parent, ConfigUtils::ConfigValue<ConfigUtils::Color>& configValue) {
-    auto object = ::QuestUI::BeatSaberUI::CreateColorPicker(parent, configValue.GetName(), configValue.GetValue(),
-                                                            [&configValue](::UnityEngine::Color value) {
+template<BeatSaberUI::HasTransform P> ColorSetting* CreateConfigValueColorPicker(P parent, ConfigUtils::ConfigValue<ConfigUtils::Color>& configValue) {
+    auto object = BeatSaberUI::CreateColorPicker(parent, configValue.GetName(), configValue.GetValue(),
+                                                            [&configValue](Color value) {
                                                                 configValue.SetValue(value);
                                                             }
     );
     if(!configValue.GetHoverHint().empty())
-        ::QuestUI::BeatSaberUI::AddHoverHint(object, configValue.GetHoverHint());
+        BeatSaberUI::AddHoverHint(object, configValue.GetHoverHint());
     return object;
 }
 

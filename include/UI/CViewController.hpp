@@ -13,6 +13,6 @@ DECLARE_CLASS_CODEGEN(Colorama::UI, CViewController, HMUI::ViewController,
 
 public:
     // Credits AnyTweaks - amazing UI layout.
-    UnityEngine::UI::Button* CreateUIViewControllerButton(UnityEngine::Transform* parent, std::string title, std::string description, HMUI::ViewController* viewController);
+    UnityEngine::UI::Button* CreateUIViewControllerButton(UnityEngine::Transform* parent, const std::string& title, std::string description, HMUI::ViewController* viewController) const;
 )
 // clang-format on

@@ -12,7 +12,7 @@ using namespace Colorama::UI;
 void AtmosphereViewController::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
     if (firstActivation) {
         GameObject *container = BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
-        auto parent = container->get_transform();
+        const auto parent = container->get_transform();
 
         AddConfigValueToggle(parent, getColoramaConfig().Menu_LogoGlowLines);
         AddConfigValueToggle(parent, getColoramaConfig().Menu_Notes);
