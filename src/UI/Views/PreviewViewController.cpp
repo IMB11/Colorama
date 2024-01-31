@@ -140,26 +140,30 @@ void PreviewViewController::Update() {
 
 void PreviewViewController::UpdateComboPanel() {
   ComboConfiguration config = getColoramaConfig().comboConfiguration.GetValue();
-
+  objectGrabber->comboPanel->SetActive(false);
+  objectGrabber->comboPanel->SetActive(true);
   if(config.useGradient) {
-	comboLines[0]->gradient = true;
-	comboLines[1]->gradient = true;
-	
-	comboLines[0]->color0 = config.topLeft;
-	comboLines[0]->color1 = config.topRight;
 
-	if(config.mirrorToBottom) {
-	  comboLines[1]->color0 = config.topLeft;
-	  comboLines[1]->color1 = config.topRight;
-	} else {
-	  comboLines[1]->color0 = config.bottomLeft;
-	  comboLines[1]->color1 = config.bottomRight;
-	}
+    comboLines[0]->gradient = true;
+    comboLines[0]->set_color(Color::get_white());
+    comboLines[1]->gradient = true;
+    comboLines[1]->set_color(Color::get_white());
+
+    comboLines[0]->color0 = config.topLeft;
+    comboLines[0]->color1 = config.topRight;
+
+    if(config.mirrorToBottom) {
+      comboLines[1]->color0 = config.topLeft;
+      comboLines[1]->color1 = config.topRight;
+    } else {
+      comboLines[1]->color0 = config.bottomLeft;
+      comboLines[1]->color1 = config.bottomRight;
+    }
   } else {
-	comboLines[0]->gradient = false;
-	comboLines[1]->gradient = false;
-	comboLines[0]->set_color(config.topLineColor);
-	comboLines[1]->set_color(config.bottomLineColor);
+    comboLines[0]->gradient = false;
+    comboLines[1]->gradient = false;
+    comboLines[0]->set_color(config.topLineColor);
+    comboLines[1]->set_color(config.bottomLineColor);
   }
 }
 

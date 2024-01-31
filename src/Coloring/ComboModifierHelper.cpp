@@ -9,8 +9,9 @@ using namespace HMUI;
 using namespace GlobalNamespace;
 
 MAKE_HOOK_MATCH(ComboUIController_StartHook, &ComboUIController::Start, void, ComboUIController* self) {
-  ComboConfiguration config = getColoramaConfig().comboConfiguration.GetValue();
+  ComboUIController_StartHook(self);
 
+  ComboConfiguration config = getColoramaConfig().comboConfiguration.GetValue();
   if(self->get_isActiveAndEnabled() && config.enabled) {
     auto fullComboLines = self->GetComponentsInChildren<ImageView*>();
 

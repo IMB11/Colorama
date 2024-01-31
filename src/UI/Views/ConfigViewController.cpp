@@ -302,7 +302,6 @@ void ConfigViewController::DidActivate(bool firstActivation,
           }
 
 	      if(newValue) {
-            auto hasGradient = cfg.useGradient;
             nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(!cfg.useGradient);
             gradientContainerHoz.ptr()->get_gameObject()->SetActive(cfg.useGradient);
 	      } else {
@@ -314,19 +313,20 @@ void ConfigViewController::DidActivate(bool firstActivation,
 
     gradientToggle = BeatSaberUI::CreateToggle(
             modifierContainerCombo->get_transform(), "Use Gradient", comboConfig.useGradient,
-            [](bool newValue) {
+            [this](bool newValue) {
               auto cfg = getColoramaConfig().comboConfiguration.GetValue();
               cfg.useGradient = newValue;
               getColoramaConfig().comboConfiguration.SetValue(cfg);
 
               if(cfg.enabled) {
-                auto hasGradient = cfg.useGradient;
                 nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(!cfg.useGradient);
                 gradientContainerHoz.ptr()->get_gameObject()->SetActive(cfg.useGradient);
               } else {
                 nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
                 gradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
               }
+
+              this->_previewViewController->UpdateComboPanel();
     });
 
 	// Non-Gradient
