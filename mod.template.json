@@ -4,6 +4,7 @@
 	"id": "colorama",
 	"author": "mineblock11",
 	"version": "${version}",
+	"modloader": "QuestLoader",
 	"coverImage": "cover.png",
 	"packageId": "com.beatgames.beatsaber",
 	"packageVersion": "1.25.1",

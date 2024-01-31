@@ -289,25 +289,45 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	    gradientContainerHoz.ptr()->get_transform());
 	gradientContainer->set_padding(RectOffset::New_ctor(2, 2, 2, 2));
 
-	BeatSaberUI::CreateToggle(
-	    modifierContainerCombo->get_transform(), "Use Gradient", comboConfig.useGradient,
-	    [](bool newValue) {
-	      auto cfg = getColoramaConfig().comboConfiguration.GetValue();
-	      cfg.useGradient = newValue;
-	      getColoramaConfig().comboConfiguration.SetValue(cfg);
-	      nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(! newValue);
-	      gradientContainerHoz.ptr()->get_gameObject()->SetActive(newValue);
-	    })->get_transform();
-
+    Toggle* gradientToggle = nullptr;
 	BeatSaberUI::CreateToggle(
 	    modifierContainerCombo->get_transform(), "Enabled", comboConfig.enabled,
-	    [](bool newValue) {
+	    [gradientToggle](bool newValue) {
 	      auto cfg = getColoramaConfig().comboConfiguration.GetValue();
 	      cfg.enabled = newValue;
 	      getColoramaConfig().comboConfiguration.SetValue(cfg);
-	      nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(newValue);
-	      gradientContainerHoz.ptr()->get_gameObject()->SetActive(newValue);
+
+          if(gradientToggle != nullptr) {
+            gradientToggle->get_gameObject()->SetActive(newValue);
+          }
+
+	      if(newValue) {
+            auto hasGradient = cfg.useGradient;
+            nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(!cfg.useGradient);
+            gradientContainerHoz.ptr()->get_gameObject()->SetActive(cfg.useGradient);
+	      } else {
+            nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
+            gradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
+	      }
+
 	    });
+
+    gradientToggle = BeatSaberUI::CreateToggle(
+            modifierContainerCombo->get_transform(), "Use Gradient", comboConfig.useGradient,
+            [](bool newValue) {
+              auto cfg = getColoramaConfig().comboConfiguration.GetValue();
+              cfg.useGradient = newValue;
+              getColoramaConfig().comboConfiguration.SetValue(cfg);
+
+              if(cfg.enabled) {
+                auto hasGradient = cfg.useGradient;
+                nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(!cfg.useGradient);
+                gradientContainerHoz.ptr()->get_gameObject()->SetActive(cfg.useGradient);
+              } else {
+                nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
+                gradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
+              }
+    });
 
 	// Non-Gradient
 

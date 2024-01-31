@@ -18,8 +18,6 @@ extern "C" void setup(ModInfo &info) {
   INFO("Completed setup!");
 }
 
-#include "GlobalNamespace/ComboUIController.hpp"
-
 extern "C" void load() {
 
   using namespace Colorama::Installers;
@@ -35,10 +33,9 @@ extern "C" void load() {
 
   auto zenjector = Zenjector::Get();
 
-  zenjector->Expose<GlobalNamespace::ComboUIController*>("Environment");
+  // zenjector->Expose<GlobalNamespace::ComboUIController*>("Environment");
 
   zenjector->Install<MenuColorInstaller *>(Location::Menu);
-  zenjector->Install<PanelModifierInstaller *>(Location::StandardPlayer | Location::CampaignPlayer);
 
   INFO("Completed Zenject");
 

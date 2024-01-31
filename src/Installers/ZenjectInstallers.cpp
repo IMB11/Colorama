@@ -1,7 +1,6 @@
 #include "Installers/ZenjectInstallers.hpp"
 
 #include "Coloring/MenuColorSwapper.hpp"
-#include "Coloring/ComboModifierHelper.hpp"
 
 #include "UI/ColoramaFlowCoordinator.hpp"
 #include "UI/MenuButtonManager.hpp"
@@ -20,7 +19,6 @@
 
 
 DEFINE_TYPE(Colorama::Installers, MenuColorInstaller)
-DEFINE_TYPE(Colorama::Installers, PanelModifierInstaller)
 
 using namespace Colorama::UI;
 using namespace Colorama::Coloring;
@@ -45,12 +43,4 @@ void MenuColorInstaller::InstallBindings() {
   container->BindInterfacesAndSelfTo<MenuButtonManager*>()->AsSingle();
 
   container->BindInterfacesAndSelfTo<MenuColorSwapper*>()->AsSingle();
-}
-
-void PanelModifierInstaller::InstallBindings() {
-  auto container = get_Container();
-
-  Lapiz::Zenject::ZenjectExtensions::FromNewComponentOnNewGameObject(
-      container->Bind<ComboModifierHelper*>())
-      ->AsSingle();
 }
