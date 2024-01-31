@@ -27,6 +27,7 @@ extern "C" void load() {
 
   il2cpp_functions::Init();
   custom_types::Register::AutoRegister();
+  ::Lapiz::Attributes::AutoRegister();
 
   getColoramaConfig().Init(modInfo);
 

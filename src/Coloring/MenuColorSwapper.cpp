@@ -9,7 +9,7 @@ using namespace GlobalNamespace;
 using namespace UnityEngine;
 using namespace Colorama::Coloring;
 
-void MenuColorSwapper::Inject(
+void MenuColorSwapper::ctor(
     MenuLightsManager *menuLightsManager,
     MainFlowCoordinator *mainFlowCoordinator,
     CampaignFlowCoordinator *campaignFlowCoordinator,

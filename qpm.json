@@ -27,7 +27,7 @@
     },
     {
       "id": "codegen",
-      "versionRange": "^0.28.0",
+      "versionRange": "^0.33.0",
       "additionalData": {}
     },
     {
@@ -37,27 +37,27 @@
     },
     {
       "id": "custom-types",
-      "versionRange": "^0.15.22",
+      "versionRange": "*",
       "additionalData": {}
     },
     {
       "id": "lapiz",
-      "versionRange": "^0.1.4",
+      "versionRange": "*",
       "additionalData": {}
     },
     {
       "id": "bsml",
-      "versionRange": "^0.2.1",
+      "versionRange": "*",
       "additionalData": {}
     },
     {
       "id": "paper",
-      "versionRange": "^1.2.9",
+      "versionRange": "*",
       "additionalData": {}
     },
     {
       "id": "config-utils",
-      "versionRange": "^1.0.1",
+      "versionRange": "*",
       "additionalData": {}
     }
   ]

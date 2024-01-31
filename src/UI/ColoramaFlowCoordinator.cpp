@@ -10,7 +10,7 @@ DEFINE_TYPE(Colorama::UI, ColoramaFlowCoordinator);
 using namespace Colorama::UI;
 using namespace Colorama::Coloring;
 
-void ColoramaFlowCoordinator::Construct(
+void ColoramaFlowCoordinator::SetupFields(
     GlobalNamespace::MainFlowCoordinator *mainFlowCoordinator,
     InfoViewController *infoViewController, ConfigViewController *configViewController, PreviewViewController* previewViewController) {
   this->_mainFlowCoordinator = mainFlowCoordinator;

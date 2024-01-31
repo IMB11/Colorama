@@ -30,3 +30,5 @@ template <class T, class U>
 bool is_inst(U u) {
   return il2cpp_utils::try_cast<T>(u).has_value();
 }
+
+#define GET_ZENJECT_METHOD(method) il2cpp_utils::il2cpp_type_check::MetadataGetter<&method>::get()
