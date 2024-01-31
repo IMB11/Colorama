@@ -135,11 +135,13 @@ DEFINE_TYPE(Colorama::UI, ConfigViewController)
 
 using namespace Colorama::UI;
 
-void ConfigViewController::Construct(
+void ConfigViewController::Inject(
     Colorama::Coloring::MenuColorSwapper *menuColorSwapper,
     PreviewViewController *previewViewController) {
   this->_menuColorSwapper = menuColorSwapper;
   this->_previewViewController = previewViewController;
+
+  INFO("Injected args into ConfigViewController")
 }
 
 template <::QuestUI::BeatSaberUI::HasTransform P>

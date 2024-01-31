@@ -12,7 +12,7 @@ using namespace HMUI;
 void PreviewViewController::DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
 	auto grabber = GameObject::Find("ColoramaPreviewGrabber");
 
-    if(firstActivation && !grabber) {
+    if(firstActivation && grabber == nullptr) {
 	  grabber = GameObject::New_ctor("ColoramaPreviewGrabber");
 	  grabber->get_transform()->set_position(DEFAULT_GRABBER_POS);
 	  grabber->get_transform()->Rotate(0, 57, 0);
@@ -42,15 +42,18 @@ void PreviewViewController::DidDeactivate(bool removedFromHierarchy, bool screen
 
 int random(int min, int max)
 {
-  return min + rand() % (( max + 1 ) - min);
+  return min + rand() % (max + 1 - min);
 }
 
 void PreviewViewController::UpdatePanelVisibility(int idx) {
+    INFO("x1")
+    if(objectGrabber == nullptr) return;
 	if(!objectGrabber->isCompleted) return;
+    INFO("x2")
 	auto host = objectGrabber;
-
+    INFO("x3")
     currentTab = idx;
-
+    INFO("x4")
     ///
     // [0] "Menu"
     // [1] "Energy Bar"
@@ -59,7 +62,7 @@ void PreviewViewController::UpdatePanelVisibility(int idx) {
     // [4] "Combo Indicator"
     // TODO: [5] "Italics"
     ///
-
+    INFO("x5")
     switch (idx) {
 	  case 0:
 	    host->multiplierPanel->get_transform()->set_localPosition(VOID_VECT3);
@@ -192,8 +195,8 @@ custom_types::Helpers::Coroutine PreviewViewController::FinalizePanels() {
     multiplierText = multiplierPanel->GetComponentsInChildren<CurvedTextMeshPro*>().Last();
     multiplierCircles = multiplierPanel->get_transform()->GetComponentsInChildren<Image*>();
     // TODO: MULTIPLIER CIRCLES
-//    multiplierCircles[0].color = CONFIG_MULTIPLIER_ONE;
-//    multiplierCircles[1].color = CONFIG_MULTIPLIER_ONE_WITH_ALPHA_0.25
+    // multiplierCircles[0].color = CONFIG_MULTIPLIER_ONE;
+    // multiplierCircles[1].color = CONFIG_MULTIPLIER_ONE_WITH_ALPHA_0.25
 
     energyBar = objectGrabber->energyPanel->get_transform()->Find("EnergyBarWrapper/EnergyBar")->GetComponent<Image*>();
 

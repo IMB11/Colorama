@@ -10,10 +10,14 @@
 #include "UI/Views/InfoViewController.hpp"
 
 #include "Zenject/ConcreteIdBinderGeneric_1.hpp"
+#include "Zenject/ConcreteIdBinderNonGeneric.hpp"
 #include "Zenject/DiContainer.hpp"
 #include "Zenject/FromBinderNonGeneric.hpp"
 
+#include "System/Type.hpp"
+
 #include "lapiz/shared/utilities/ZenjectExtensions.hpp"
+
 
 DEFINE_TYPE(Colorama::Installers, MenuColorInstaller)
 DEFINE_TYPE(Colorama::Installers, PanelModifierInstaller)
@@ -26,16 +30,16 @@ void MenuColorInstaller::InstallBindings() {
   auto container = get_Container();
 
   Lapiz::Zenject::ZenjectExtensions::FromNewComponentOnNewGameObject(
-      container->Bind<ColoramaFlowCoordinator*>())
+      container->BindInterfacesAndSelfTo<ColoramaFlowCoordinator*>())
       ->AsSingle();
   Lapiz::Zenject::ZenjectExtensions::FromNewComponentAsViewController(
-      container->Bind<InfoViewController*>())
+      container->BindInterfacesAndSelfTo<InfoViewController*>())
       ->AsSingle();
   Lapiz::Zenject::ZenjectExtensions::FromNewComponentAsViewController(
-      container->Bind<ConfigViewController*>())
+      container->BindInterfacesAndSelfTo<ConfigViewController*>())
       ->AsSingle();
   Lapiz::Zenject::ZenjectExtensions::FromNewComponentAsViewController(
-      container->Bind<PreviewViewController*>())
+      container->BindInterfacesAndSelfTo<PreviewViewController*>())
       ->AsSingle();
 
   container->BindInterfacesAndSelfTo<MenuButtonManager*>()->AsSingle();

@@ -37,6 +37,8 @@ void MenuColorSwapper::Initialize() {
   this->_playersPlace =
       playersPlace->GetComponentInChildren<SpriteRenderer *>();
   UpdateColors();
+
+  INFO("Initialized MenuColorSwapper");
 }
 
 void MenuColorSwapper::PreviewColor(UnityEngine::Color color) {
@@ -48,10 +50,10 @@ void MenuColorSwapper::UpdateColors() {
 
   MenuConfiguration configuration = getColoramaConfig().menuConfiguration.GetValue();
 
-  _playersPlace->set_color(
-      configuration.feetColor.enabled
-          ? configuration.feetColor
-          : _playersPlace->get_color());
+  // this->_playersPlace->set_color(
+  //     configuration.feetColor.enabled
+  //         ? configuration.feetColor
+  //         : _playersPlace->get_color());
 
   if (configuration.freeplayLighting) {
 	auto lights = Utils::createMenuLights(this->_defaultLightPreset, configuration.freeplayLighting);

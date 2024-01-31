@@ -17,7 +17,7 @@ DECLARE_CLASS_CODEGEN(
     DECLARE_INSTANCE_FIELD(UnityEngine::GameObject*, comboTab);
     DECLARE_INSTANCE_FIELD(HMUI::FlowCoordinator*, parentFlow);
     DECLARE_INJECT_METHOD(
-        void, Construct,
+        void, Inject,
         Colorama::Coloring::MenuColorSwapper* menuColorSwapper, Colorama::UI::PreviewViewController* previewViewController);
     DECLARE_INSTANCE_METHOD(void, SwitchTab, int idx);
     DECLARE_OVERRIDE_METHOD_MATCH(void, DidActivate,
