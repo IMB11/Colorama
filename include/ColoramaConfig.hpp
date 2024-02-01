@@ -56,6 +56,14 @@ DECLARE_JSON_CLASS(
                         "gradient_bottomRight");)
 
 DECLARE_JSON_CLASS(
+  EnergyBarConfiguration, NAMED_VALUE_DEFAULT(bool, enabled, false, "enabled");
+  NAMED_VALUE_DEFAULT(bool, rainbowFull, false, "rainbowFull");
+
+  NAMED_VALUE_DEFAULT(ConvertedColor, lowColor, {}, "lowColor");
+  NAMED_VALUE_DEFAULT(ConvertedColor, midColor, {}, "midColor");
+  NAMED_VALUE_DEFAULT(ConvertedColor, highColor, {}, "highColor");)
+
+DECLARE_JSON_CLASS(
     MenuConfiguration,
     NAMED_VALUE_DEFAULT(ColorPair, gamemodeLighting, {}, "gamemodeLighting");
     NAMED_VALUE_DEFAULT(ColorPair, freeplayLighting, {}, "freeplayLighting");
@@ -73,8 +81,7 @@ DECLARE_JSON_CLASS(
     NAMED_VALUE_DEFAULT(bool, enableLogoGlowLines, true, "enableLogoGlowLines");
     NAMED_VALUE_DEFAULT(bool, enableFloor, true, "enableFloor");)
 
-DECLARE_CONFIG(ColoramaConfig,
-               CONFIG_VALUE(comboConfiguration, ComboConfiguration,
-                            "Combo Configuration Tab", {});
-               CONFIG_VALUE(menuConfiguration, MenuConfiguration,
-                            "Menu Configuration Tab", {});)
+DECLARE_CONFIG(
+  ColoramaConfig, CONFIG_VALUE(energyBarConfiguration, EnergyBarConfiguration, "Energy Configuration Tab", {});
+    CONFIG_VALUE(comboConfiguration, ComboConfiguration, "Combo Configuration Tab", {});
+    CONFIG_VALUE(menuConfiguration, MenuConfiguration, "Menu Configuration Tab", {});)

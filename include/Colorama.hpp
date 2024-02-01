@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "GlobalNamespace/MenuLightsManager.hpp"
 #include "GlobalNamespace/MenuLightsPresetSO.hpp"
 #include "beatsaber-hook/shared/config/config-utils.hpp"

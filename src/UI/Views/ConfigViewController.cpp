@@ -263,7 +263,76 @@ void ConfigViewController::DidActivate(bool firstActivation,
 
 #pragma endregion
 
-	DEFINE_TAB(energyTab, false)
+#pragma region Energy Bar Tab
+    auto _energyTab = BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
+    auto _energyEntries = BeatSaberUI::CreateModifierContainer(_energyTab->get_transform());
+
+    EnergyBarConfiguration energyBarConfig = getColoramaConfig().energyBarConfiguration.GetValue();
+
+    Toggle* rainbowToggle = nullptr;
+    ColorSetting* lowColor = nullptr;
+    ColorSetting* midColor = nullptr;
+    ColorSetting* highColor = nullptr;
+    BeatSaberUI::CreateToggle(_energyEntries->get_transform(), "Enabled", energyBarConfig.enabled, [rainbowToggle, lowColor, midColor, highColor](bool newValue) {
+      auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
+      cfg.enabled = newValue;
+      getColoramaConfig().energyBarConfiguration.SetValue(cfg);
+
+      if(rainbowToggle != nullptr) {
+        rainbowToggle->set_interactable(newValue);
+      }
+
+      if(lowColor != nullptr) {
+        lowColor->set_interactable(newValue);
+      }
+
+      if(midColor != nullptr) {
+        midColor->set_interactable(newValue);
+      }
+
+      if(highColor != nullptr) {
+        highColor->set_interactable(newValue);
+      }
+    });
+
+    rainbowToggle = BeatSaberUI::CreateToggle(_energyEntries->get_transform(), "Rainbow When Full", energyBarConfig.rainbowFull, [](bool newValue) {
+      auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
+      cfg.rainbowFull = newValue;
+      getColoramaConfig().energyBarConfiguration.SetValue(cfg);
+    });
+
+    lowColor = BeatSaberUI::CreateColorPicker(
+        _energyEntries->get_transform(), "Low Energy Color",
+        energyBarConfig.lowColor, [](Color newValue) {
+          auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
+          cfg.lowColor = ConvertedColor::convert(newValue);
+          getColoramaConfig().energyBarConfiguration.SetValue(cfg);
+    });
+
+    midColor = BeatSaberUI::CreateColorPicker(
+        _energyEntries->get_transform(), "Medium Energy Color",
+        energyBarConfig.midColor, [](Color newValue) {
+          auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
+          cfg.midColor = ConvertedColor::convert(newValue);
+          getColoramaConfig().energyBarConfiguration.SetValue(cfg);
+    });
+
+    highColor = BeatSaberUI::CreateColorPicker(
+        _energyEntries->get_transform(), "High Energy Color",
+        energyBarConfig.highColor, [](Color newValue) {
+          auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
+          cfg.highColor = ConvertedColor::convert(newValue);
+          getColoramaConfig().energyBarConfiguration.SetValue(cfg);
+    });
+
+	BeatSaberUI::CreateSliderSetting(_energyEntries->get_transform(), "Preview Value", 0.05F, this->_previewViewController->fillAmount, 0.0F, 1.0F, [this](float newValue) {
+	  this->_previewViewController->fillAmount = newValue;
+	});
+
+    this->energyTab = AdjustedScrollContainerObject(_energyTab, false);
+
+#pragma endregion
+
 	DEFINE_TAB(multiplierRingTab, false)
 	DEFINE_TAB(progressBarTab, false)
 

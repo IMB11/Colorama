@@ -9,6 +9,7 @@
 #include "UnityEngine/UI/Image.hpp"
 
 #include "UnityEngine/MonoBehaviour.hpp"
+#include "UnityEngine/Time.hpp"
 
 #define VOID_VECT3 UnityEngine::Vector3(0.0f, -1000.0f, 0.0f)
 #define DEFAULT_GRABBER_POS UnityEngine::Vector3(3.53f, 1.1f, 2.4f)
@@ -36,7 +37,7 @@ DECLARE_CLASS_CODEGEN(Colorama::UI, PreviewViewController, HMUI::ViewController,
                       DECLARE_INSTANCE_FIELD(HMUI::CurvedTextMeshPro*, rankText);
                       DECLARE_INSTANCE_FIELD_DEFAULT(float, rank, 0.00f);
 
-                      DECLARE_INSTANCE_METHOD(void, UpdateEnergyBar, float fillAmount);
+                      DECLARE_INSTANCE_METHOD(void, UpdateEnergyBar);
                       DECLARE_INSTANCE_METHOD(void, UpdateComboPanel);
                       DECLARE_INSTANCE_METHOD(void, UpdateProgressBar, float time);
                       DECLARE_INSTANCE_METHOD(void, UpdateImmediateRankPanel);

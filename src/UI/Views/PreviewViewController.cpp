@@ -46,14 +46,10 @@ int random(int min, int max)
 }
 
 void PreviewViewController::UpdatePanelVisibility(int idx) {
-    INFO("x1")
     if(objectGrabber == nullptr) return;
 	if(!objectGrabber->isCompleted) return;
-    INFO("x2")
-	auto host = objectGrabber;
-    INFO("x3")
+
     currentTab = idx;
-    INFO("x4")
     ///
     // [0] "Menu"
     // [1] "Energy Bar"
@@ -62,45 +58,44 @@ void PreviewViewController::UpdatePanelVisibility(int idx) {
     // [4] "Combo Indicator"
     // TODO: [5] "Italics"
     ///
-    INFO("x5")
     switch (idx) {
 	  case 0:
-	    host->multiplierPanel->get_transform()->set_localPosition(VOID_VECT3);
-	    host->energyPanel->SetActive(false);
-	    host->comboPanel->SetActive(false);
-	    host->progressPanel->SetActive(false);
-	    host->immediateRankPanel->SetActive(false);
+	    objectGrabber->multiplierPanel->get_transform()->set_localPosition(VOID_VECT3);
+	    objectGrabber->energyPanel->SetActive(false);
+	    objectGrabber->comboPanel->SetActive(false);
+	    objectGrabber->progressPanel->SetActive(false);
+	    objectGrabber->immediateRankPanel->SetActive(false);
 	    break;
 	  case 1:
-	    host->multiplierPanel->get_transform()->set_localPosition(VOID_VECT3);
-	    host->energyPanel->SetActive(true);
-	    host->comboPanel->SetActive(false);
-	    host->progressPanel->SetActive(false);
-	    host->immediateRankPanel->SetActive(false);
+	    objectGrabber->multiplierPanel->get_transform()->set_localPosition(VOID_VECT3);
+	    objectGrabber->energyPanel->SetActive(true);
+	    objectGrabber->comboPanel->SetActive(false);
+	    objectGrabber->progressPanel->SetActive(false);
+	    objectGrabber->immediateRankPanel->SetActive(false);
 	    break;
 	  case 2:
-	    host->multiplierPanel->get_transform()->set_localPosition(Vector3::get_zero());
-	    host->energyPanel->SetActive(false);
-	    host->comboPanel->SetActive(false);
-	    host->progressPanel->SetActive(false);
-	    host->immediateRankPanel->SetActive(false);
+	    objectGrabber->multiplierPanel->get_transform()->set_localPosition(Vector3::get_zero());
+	    objectGrabber->energyPanel->SetActive(false);
+	    objectGrabber->comboPanel->SetActive(false);
+	    objectGrabber->progressPanel->SetActive(false);
+	    objectGrabber->immediateRankPanel->SetActive(false);
 	    break;
 	  case 3:
-	    host->multiplierPanel->get_transform()->set_localPosition(VOID_VECT3);
-	    host->energyPanel->SetActive(false);
-	    host->comboPanel->SetActive(false);
-	    host->progressPanel->SetActive(true);
-	    host->immediateRankPanel->SetActive(false);
+	    objectGrabber->multiplierPanel->get_transform()->set_localPosition(VOID_VECT3);
+	    objectGrabber->energyPanel->SetActive(false);
+	    objectGrabber->comboPanel->SetActive(false);
+	    objectGrabber->progressPanel->SetActive(true);
+	    objectGrabber->immediateRankPanel->SetActive(false);
 	    break;
 	  case 4:
-	    host->multiplierPanel->get_transform()->set_localPosition(VOID_VECT3);
-	    host->energyPanel->SetActive(false);
-	    host->comboPanel->SetActive(true);
-	    host->progressPanel->SetActive(false);
-	    host->immediateRankPanel->SetActive(false);
+	    objectGrabber->multiplierPanel->get_transform()->set_localPosition(VOID_VECT3);
+	    objectGrabber->energyPanel->SetActive(false);
+	    objectGrabber->comboPanel->SetActive(true);
+	    objectGrabber->progressPanel->SetActive(false);
+	    objectGrabber->immediateRankPanel->SetActive(false);
 
 	    numText->set_text(std::to_string(random(0, 250)));
-	    host->comboPanel->get_transform()->set_localPosition(Vector3::get_zero());
+	    objectGrabber->comboPanel->get_transform()->set_localPosition(Vector3::get_zero());
 	    break;
 	  case 5:
 	    // TODO: Italics Options
@@ -123,18 +118,17 @@ void PreviewViewController::Update() {
 
     switch(currentTab) {
 	  case 1:
-	    UpdateEnergyBar(fillAmount);
+	    UpdateEnergyBar();
 	    // TODO: Rainbow On Max Config
 	    break;
 	  case 2:
 	    // TODO: Multiplier Rainbow On Max Config
 		break;
 	  case 3:
-	    // TODO: Progress Bar Config
 	    break;
 	  case 4:
 	    UpdateComboPanel();
-//	    UpdateImmediateRankPanel(); TODO: Italic Options?
+//	    UpdateImmediateRankPanel();
     }
 }
 
@@ -167,12 +161,47 @@ void PreviewViewController::UpdateComboPanel() {
   }
 }
 
+namespace PreviewUtils {
+float repeat(float t, float length = 1.0F) {
+  return std::clamp(t - std::floor(t / length) * length, 0.0f, length);
+}
+
+float pingPong(float t, float length = 1.0F) {
+  t = repeat(t, length * 2.0F);
+  return length - std::abs(t - length);
+}
+}
+
+
 void PreviewViewController::UpdateImmediateRankPanel() {
 
 }
 
-void PreviewViewController::UpdateEnergyBar(float fillAmount) {
+void PreviewViewController::UpdateEnergyBar() {
+  EnergyBarConfiguration config = getColoramaConfig().energyBarConfiguration.GetValue();
 
+  energyBar->get_rectTransform()->set_anchorMax(Vector2(fillAmount, 1.0F));
+
+  if (fillAmount == 1.0F && config.rainbowFull) {
+    energyBar->set_color(Color::HSVToRGB(PreviewUtils::pingPong(Time::get_time() * 0.5F, 1.0F), 1.0F, 1.0F));
+    return;
+  }
+
+  if (fillAmount == 1.0F) {
+    energyBar->set_color(config.highColor);
+  }
+
+  if (fillAmount == 0.5F) {
+    energyBar->set_color(config.midColor);
+  }
+
+  if (fillAmount > 0.5F && fillAmount < 1) {
+    energyBar->set_color(Color::Lerp(config.midColor, config.highColor, (fillAmount - 0.5F) * 2));
+  }
+
+  if(fillAmount < 0.5F) {
+    energyBar->set_color(Color::Lerp(config.lowColor, config.midColor, fillAmount * 2));
+  }
 }
 
 void PreviewViewController::UpdateProgressBar(float time) {
