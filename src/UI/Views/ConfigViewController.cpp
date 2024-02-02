@@ -279,19 +279,19 @@ void ConfigViewController::DidActivate(bool firstActivation,
       getColoramaConfig().energyBarConfiguration.SetValue(cfg);
 
       if(rainbowToggle != nullptr) {
-        rainbowToggle->set_interactable(newValue);
+        rainbowToggle->get_gameObject()->set_active(newValue);
       }
 
       if(lowColor != nullptr) {
-        lowColor->set_interactable(newValue);
+        lowColor->get_gameObject()->set_active(newValue);
       }
 
       if(midColor != nullptr) {
-        midColor->set_interactable(newValue);
+        midColor->get_gameObject()->set_active(newValue);
       }
 
       if(highColor != nullptr) {
-        highColor->set_interactable(newValue);
+        highColor->get_gameObject()->set_active(newValue);
       }
     });
 

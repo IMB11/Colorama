@@ -44,16 +44,32 @@ void MenuColorSwapper::Initialize() {
 void MenuColorSwapper::PreviewColor(UnityEngine::Color color) {
   this->_menuLightsManager->SetColorPreset(Utils::createMenuLights(this->_defaultLightPreset, color), true);
 }
-// TODO: Menu Objects
+
 void MenuColorSwapper::UpdateColors() {
 #define resetPreset(val) val = this->_defaultLightPreset
 
   MenuConfiguration configuration = getColoramaConfig().menuConfiguration.GetValue();
 
-  // this->_playersPlace->set_color(
-  //     configuration.feetColor.enabled
-  //         ? configuration.feetColor
-  //         : _playersPlace->get_color());
+  this->_playersPlace->set_color(
+      configuration.feetColor.enabled
+          ? configuration.feetColor
+          : _playersPlace->get_color());
+
+#define SetActiveIfFound(parent, childName, setActive) \
+do { \
+if (Transform* bgTransform = (parent)->get_transform()->FindChild(childName)) { \
+bgTransform->get_gameObject()->SetActive(setActive); \
+} \
+} while (false)
+
+  if (GameObject* menuEnvCore = GameObject::Find("DefaultMenuEnvironment")) {
+    SetActiveIfFound(menuEnvCore, "GlowLines", configuration.enableLogoGlowLines);
+    SetActiveIfFound(menuEnvCore, "GlowLines (1)", configuration.enableLogoGlowLines);
+    SetActiveIfFound(menuEnvCore, "PileOfNotes", configuration.enableNoteDecor);
+    SetActiveIfFound(menuEnvCore, "Notes", configuration.enableNoteDecor);
+    SetActiveIfFound(menuEnvCore, "MenuFogRing", configuration.enableFogRing);
+    SetActiveIfFound(menuEnvCore, "BasicMenuGround", configuration.enableFloor);
+  }
 
   if (configuration.freeplayLighting) {
 	auto lights = Utils::createMenuLights(this->_defaultLightPreset, configuration.freeplayLighting);
