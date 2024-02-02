@@ -10,7 +10,8 @@
 using namespace UnityEngine;
 
 DECLARE_JSON_CLASS(
-    ColorPair, NAMED_VALUE_DEFAULT(float, r, 255.0f, "r");
+    ColorPair,
+    NAMED_VALUE_DEFAULT(float, r, 255.0f, "r");
     NAMED_VALUE_DEFAULT(float, g, 0.0, "g");
     NAMED_VALUE_DEFAULT(float, b, 0.0f, "b");
     NAMED_VALUE_DEFAULT(float, a, 1.0f, "a");
@@ -28,7 +29,8 @@ DECLARE_JSON_CLASS(
     };)
 
 DECLARE_JSON_CLASS(
-    ConvertedColor, NAMED_VALUE_DEFAULT(float, r, 255.0f, "r");
+    ConvertedColor,
+    NAMED_VALUE_DEFAULT(float, r, 255.0f, "r");
     NAMED_VALUE_DEFAULT(float, g, 0.0, "g");
     NAMED_VALUE_DEFAULT(float, b, 0.0f, "b");
     NAMED_VALUE_DEFAULT(float, a, 1.0f, "a");
@@ -43,7 +45,8 @@ DECLARE_JSON_CLASS(
     };)
 
 DECLARE_JSON_CLASS(
-    ComboConfiguration, NAMED_VALUE_DEFAULT(bool, enabled, false, "enabled");
+    ComboConfiguration,
+    NAMED_VALUE_DEFAULT(bool, enabled, false, "enabled");
     NAMED_VALUE_DEFAULT(ConvertedColor, topLineColor, {}, "topLineColor");
     NAMED_VALUE_DEFAULT(ConvertedColor, bottomLineColor, {}, "bottomLineColor");
 
@@ -56,7 +59,8 @@ DECLARE_JSON_CLASS(
                         "gradient_bottomRight");)
 
 DECLARE_JSON_CLASS(
-  EnergyBarConfiguration, NAMED_VALUE_DEFAULT(bool, enabled, false, "enabled");
+  EnergyBarConfiguration,
+  NAMED_VALUE_DEFAULT(bool, enabled, false, "enabled");
   NAMED_VALUE_DEFAULT(bool, rainbowFull, false, "rainbowFull");
 
   NAMED_VALUE_DEFAULT(ConvertedColor, lowColor, {}, "lowColor");
@@ -81,7 +85,20 @@ DECLARE_JSON_CLASS(
     NAMED_VALUE_DEFAULT(bool, enableLogoGlowLines, true, "enableLogoGlowLines");
     NAMED_VALUE_DEFAULT(bool, enableFloor, true, "enableFloor");)
 
+DECLARE_JSON_CLASS(
+  ProgressBarConfiguration,
+  NAMED_VALUE_DEFAULT(bool, enabled, false, "enabled");
+  NAMED_VALUE_DEFAULT(bool, enableGradient, false, "enableGradient");
+  NAMED_VALUE_DEFAULT(ConvertedColor, fillColor, {}, "fillColor");
+  NAMED_VALUE_DEFAULT(ConvertedColor, handleColor, {}, "handleColor");
+  NAMED_VALUE_DEFAULT(ConvertedColor, bgColor, {}, "bgColor");
+  NAMED_VALUE_DEFAULT(ConvertedColor, startColor, {}, "startColor");
+  NAMED_VALUE_DEFAULT(ConvertedColor, endColor, {}, "endColor");
+  )
+
 DECLARE_CONFIG(
-  ColoramaConfig, CONFIG_VALUE(energyBarConfiguration, EnergyBarConfiguration, "Energy Configuration Tab", {});
-    CONFIG_VALUE(comboConfiguration, ComboConfiguration, "Combo Configuration Tab", {});
-    CONFIG_VALUE(menuConfiguration, MenuConfiguration, "Menu Configuration Tab", {});)
+  ColoramaConfig,
+  CONFIG_VALUE(progressBarConfiguration, ProgressBarConfiguration, "Progress Bar Configuration", {});
+  CONFIG_VALUE(energyBarConfiguration, EnergyBarConfiguration, "Energy Configuration Tab", {});
+  CONFIG_VALUE(comboConfiguration, ComboConfiguration, "Combo Configuration Tab", {});
+  CONFIG_VALUE(menuConfiguration, MenuConfiguration, "Menu Configuration Tab", {});)

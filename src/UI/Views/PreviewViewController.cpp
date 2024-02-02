@@ -125,6 +125,7 @@ void PreviewViewController::Update() {
 	    // TODO: Multiplier Rainbow On Max Config
 		break;
 	  case 3:
+	    UpdateProgressBar();
 	    break;
 	  case 4:
 	    UpdateComboPanel();
@@ -182,6 +183,9 @@ void PreviewViewController::UpdateEnergyBar() {
 
   energyBar->get_rectTransform()->set_anchorMax(Vector2(fillAmount, 1.0F));
 
+  energyBar->get_gameObject()->set_active(false);
+  energyBar->get_gameObject()->set_active(true);
+
   if (fillAmount == 1.0F && config.rainbowFull) {
     energyBar->set_color(Color::HSVToRGB(PreviewUtils::pingPong(Time::get_time() * 0.5F, 1.0F), 1.0F, 1.0F));
     return;
@@ -204,8 +208,24 @@ void PreviewViewController::UpdateEnergyBar() {
   }
 }
 
-void PreviewViewController::UpdateProgressBar(float time) {
+void PreviewViewController::UpdateProgressBar() {
+  ProgressBarConfiguration config = getColoramaConfig().progressBarConfiguration.GetValue();
 
+  Color colorWithAlpha = Color(config.bgColor.r, config.bgColor.g, config.bgColor.b, 0.25F);
+  progressPanelImages[1]->set_color(colorWithAlpha);
+  progressPanelImages[2]->set_color(config.handleColor);
+
+  if(config.enableGradient) {
+    float modifiedFill = (progressFillAmount - 0.5F) * 50;
+    progressPanelImages[0]->get_rectTransform()->set_anchorMax(Vector2(progressFillAmount, 1));
+    progressPanelImages[2]->get_transform()->set_localPosition(Vector3(modifiedFill, 0, 0));
+    progressPanelImages[0]->set_color(Color::Lerp(config.startColor, config.endColor, progressFillAmount));
+  } else {
+    progressPanelImages[0]->get_rectTransform()->set_anchorMax(Vector2(0.5F, 1));
+    progressPanelImages[2]->get_transform()->set_localPosition(Vector3::get_zero());
+
+    progressPanelImages[0]->set_color(config.fillColor);
+  }
 }
 
 #include "UnityEngine/WaitUntil.hpp"

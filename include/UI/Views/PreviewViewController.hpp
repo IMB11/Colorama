@@ -31,6 +31,7 @@ DECLARE_CLASS_CODEGEN(Colorama::UI, PreviewViewController, HMUI::ViewController,
                       DECLARE_INSTANCE_FIELD(HMUI::CurvedTextMeshPro*, comboText);
 
                       DECLARE_INSTANCE_FIELD(ArrayW<UnityEngine::UI::Image*>, progressPanelImages);
+                      DECLARE_INSTANCE_FIELD_DEFAULT(float, progressFillAmount, 0.01f);
 
                       DECLARE_INSTANCE_FIELD(HMUI::CurvedTextMeshPro*, scoreText);
                       DECLARE_INSTANCE_FIELD(HMUI::CurvedTextMeshPro*, percentageText);
@@ -39,7 +40,7 @@ DECLARE_CLASS_CODEGEN(Colorama::UI, PreviewViewController, HMUI::ViewController,
 
                       DECLARE_INSTANCE_METHOD(void, UpdateEnergyBar);
                       DECLARE_INSTANCE_METHOD(void, UpdateComboPanel);
-                      DECLARE_INSTANCE_METHOD(void, UpdateProgressBar, float time);
+                      DECLARE_INSTANCE_METHOD(void, UpdateProgressBar);
                       DECLARE_INSTANCE_METHOD(void, UpdateImmediateRankPanel);
 
                       DECLARE_INSTANCE_METHOD(void, UpdatePanelVisibility, int idx);

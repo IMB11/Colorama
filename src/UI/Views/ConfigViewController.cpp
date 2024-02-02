@@ -11,6 +11,14 @@
 #define MakeADelegate(DelegateType, varName) \
   (custom_types::MakeDelegate<DelegateType>(varName))
 
+#define ToggleObj(obj, var) \
+  obj->get_gameObject()->SetActive(var);
+
+#define SafeToggleObj(obj, var) \
+  if (obj != nullptr) { \
+    ToggleObj(obj, var) \
+  }
+
 QuestUI::CustomTextSegmentedControlData *CreateTextSegmentedControlFIX(
     UnityEngine::Transform *parent, UnityEngine::Vector2 anchoredPosition,
     UnityEngine::Vector2 sizeDelta, ArrayW<StringW> values,
@@ -278,21 +286,10 @@ void ConfigViewController::DidActivate(bool firstActivation,
       cfg.enabled = newValue;
       getColoramaConfig().energyBarConfiguration.SetValue(cfg);
 
-      if(rainbowToggle != nullptr) {
-        rainbowToggle->get_gameObject()->set_active(newValue);
-      }
-
-      if(lowColor != nullptr) {
-        lowColor->get_gameObject()->set_active(newValue);
-      }
-
-      if(midColor != nullptr) {
-        midColor->get_gameObject()->set_active(newValue);
-      }
-
-      if(highColor != nullptr) {
-        highColor->get_gameObject()->set_active(newValue);
-      }
+      SafeToggleObj(rainbowToggle, newValue);
+      SafeToggleObj(lowColor, newValue);
+      SafeToggleObj(midColor, newValue);
+      SafeToggleObj(highColor, newValue);
     });
 
     rainbowToggle = BeatSaberUI::CreateToggle(_energyEntries->get_transform(), "Rainbow When Full", energyBarConfig.rainbowFull, [](bool newValue) {
@@ -325,6 +322,12 @@ void ConfigViewController::DidActivate(bool firstActivation,
           getColoramaConfig().energyBarConfiguration.SetValue(cfg);
     });
 
+    ToggleObj(rainbowToggle, energyBarConfig.enabled);
+    ToggleObj(lowColor, energyBarConfig.enabled);
+    ToggleObj(midColor, energyBarConfig.enabled);
+    ToggleObj(highColor, energyBarConfig.enabled);
+
+
 	BeatSaberUI::CreateSliderSetting(_energyEntries->get_transform(), "Preview Value", 0.05F, this->_previewViewController->fillAmount, 0.0F, 1.0F, [this](float newValue) {
 	  this->_previewViewController->fillAmount = newValue;
 	});
@@ -334,7 +337,6 @@ void ConfigViewController::DidActivate(bool firstActivation,
 #pragma endregion
 
 	DEFINE_TAB(multiplierRingTab, false)
-	DEFINE_TAB(progressBarTab, false)
 
 #pragma region Combo Tab
 	auto _comboTab =
@@ -461,7 +463,99 @@ void ConfigViewController::DidActivate(bool firstActivation,
 
   this->comboTab = AdjustedScrollContainerObject(_comboTab, false);
 #pragma endregion
-}
+
+#pragma region Progress Bar Tab
+
+    auto _progressBarTab =
+        BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
+
+    ProgressBarConfiguration progressConfig = getColoramaConfig().progressBarConfiguration.GetValue();
+
+    auto _progressEntries = BeatSaberUI::CreateModifierContainer(_progressBarTab->get_transform());
+
+    Toggle* progressGradientToggle = nullptr;
+    ColorSetting* bgColor = nullptr;
+    ColorSetting* handleColor = nullptr;
+    ColorSetting* fillColor = nullptr;
+    ColorSetting* endColor = nullptr;
+    ColorSetting* startColor = nullptr;
+    BeatSaberUI::CreateToggle(_progressEntries->get_transform(), "Enabled", progressConfig.enabled, [progressGradientToggle, bgColor, handleColor, fillColor, startColor, endColor](bool newValue) {
+      auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+      cfg.enabled = newValue;
+      getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+
+      SafeToggleObj(progressGradientToggle, newValue);
+      SafeToggleObj(bgColor, newValue);
+      SafeToggleObj(handleColor, newValue);
+      SafeToggleObj(fillColor, (newValue && !cfg.enableGradient));
+      SafeToggleObj(startColor, (newValue && cfg.enableGradient));
+      SafeToggleObj(endColor, (newValue && cfg.enableGradient));
+    });
+
+    progressGradientToggle = BeatSaberUI::CreateToggle(_progressEntries->get_transform(), "Use Gradient", progressConfig.enableGradient, [fillColor, endColor, startColor](bool newValue) {
+      auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+      cfg.enableGradient = newValue;
+      getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+
+      SafeToggleObj(fillColor, !newValue)
+      SafeToggleObj(startColor, newValue)
+      SafeToggleObj(endColor, newValue)
+    });
+
+    bgColor = BeatSaberUI::CreateColorPicker(
+        _progressEntries->get_transform(), "Background Color",
+        progressConfig.bgColor, [](Color newValue) {
+          auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+          cfg.bgColor = ConvertedColor::convert(newValue);
+          getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+    });
+
+    handleColor = BeatSaberUI::CreateColorPicker(
+        _progressEntries->get_transform(), "Handle Color",
+        progressConfig.handleColor, [](Color newValue) {
+          auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+          cfg.handleColor = ConvertedColor::convert(newValue);
+          getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+    });
+
+    startColor = BeatSaberUI::CreateColorPicker(
+        _progressEntries->get_transform(), "Start Color",
+        progressConfig.startColor, [](Color newValue) {
+          auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+          cfg.startColor = ConvertedColor::convert(newValue);
+          getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+    });
+
+    endColor = BeatSaberUI::CreateColorPicker(
+        _progressEntries->get_transform(), "End Color",
+        progressConfig.endColor, [](Color newValue) {
+          auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+          cfg.endColor = ConvertedColor::convert(newValue);
+          getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+    });
+
+    fillColor = BeatSaberUI::CreateColorPicker(
+        _progressEntries->get_transform(), "Fill Color",
+        progressConfig.fillColor, [](Color newValue) {
+          auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+          cfg.fillColor = ConvertedColor::convert(newValue);
+          getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+    });
+
+    ToggleObj(progressGradientToggle, progressConfig.enabled);
+    ToggleObj(bgColor, progressConfig.enabled);
+    ToggleObj(handleColor, progressConfig.enabled);
+    ToggleObj(fillColor, progressConfig.enabled && !progressConfig.enableGradient);
+    ToggleObj(startColor, progressConfig.enabled && progressConfig.enableGradient);
+    ToggleObj(endColor, progressConfig.enabled && progressConfig.enableGradient);
+
+    BeatSaberUI::CreateSliderSetting(_progressEntries->get_transform(), "Preview Fill", 0.01F, this->_previewViewController->progressFillAmount, 0.0F, 1.0F, [this](float newValue) {
+      this->_previewViewController->progressFillAmount = newValue;
+    });
+
+    this->progressBarTab = AdjustedScrollContainerObject(_progressBarTab, false);
+#pragma endregion
+  }
 }
 
 void ConfigViewController::SwitchTab(int idx) {
