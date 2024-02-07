@@ -18,5 +18,5 @@ DECLARE_CLASS_CODEGEN(Colorama::Coloring, ProgressBarColorizer, MonoBehaviour,
   DECLARE_INSTANCE_METHOD(void, Update);
 
   public:
-    std::vector<UI::Image*> barComponents = {};
+    std::vector<UnityEngine::UI::Image*> barComponents = {};
 )

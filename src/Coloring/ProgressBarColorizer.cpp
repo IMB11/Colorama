@@ -52,8 +52,10 @@ MAKE_HOOK_MATCH(SongProgressUIController_StartHook, &SongProgressUIController::S
   if(config.enabled) {
     self->get_gameObject()->AddComponent<ProgressBarColorizer*>()->Construct(self, self->audioTimeSource);
   }
-
-
 }
 
+void ProgressUIHooks(Logger& logger) {
+  INSTALL_HOOK(logger, SongProgressUIController_StartHook);
+}
 
+ColoramaInstallHooks(ProgressUIHooks)

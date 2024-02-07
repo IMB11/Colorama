@@ -215,15 +215,13 @@ void PreviewViewController::UpdateProgressBar() {
   progressPanelImages[1]->set_color(colorWithAlpha);
   progressPanelImages[2]->set_color(config.handleColor);
 
+  float modifiedFill = (progressFillAmount - 0.5F) * 50;
+  progressPanelImages[2]->get_transform()->set_localPosition(Vector3(modifiedFill, 0, 0));
+  progressPanelImages[0]->get_rectTransform()->set_anchorMax(Vector2(progressFillAmount, 1));
+
   if(config.enableGradient) {
-    float modifiedFill = (progressFillAmount - 0.5F) * 50;
-    progressPanelImages[0]->get_rectTransform()->set_anchorMax(Vector2(progressFillAmount, 1));
-    progressPanelImages[2]->get_transform()->set_localPosition(Vector3(modifiedFill, 0, 0));
     progressPanelImages[0]->set_color(Color::Lerp(config.startColor, config.endColor, progressFillAmount));
   } else {
-    progressPanelImages[0]->get_rectTransform()->set_anchorMax(Vector2(0.5F, 1));
-    progressPanelImages[2]->get_transform()->set_localPosition(Vector3::get_zero());
-
     progressPanelImages[0]->set_color(config.fillColor);
   }
 }
