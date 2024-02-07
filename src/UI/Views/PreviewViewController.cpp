@@ -145,12 +145,10 @@ void PreviewViewController::Update() {
 	  break;
 	case 2:
 	  if (previewCoroOn8x && config.enableRainbow) {
+	    multiplierCircles[1]->set_fillAmount(0);
 		multiplierCircles[0]->set_color(Color::HSVToRGB(
 		    PreviewUtils::pingPong(Time::get_time() * 0.5F, 1.0F), 1.0F, 1.0F));
-	  } else if (previewCoroOn8x) {
-		multiplierCircles[0]->set_color(Color(config.eightColor.r,
-		                                      config.eightColor.g,
-		                                      config.eightColor.b, 0.25F));
+	    break;
 	  }
 	  break;
 	case 3:
@@ -273,7 +271,7 @@ custom_types::Helpers::Coroutine PreviewViewController::FinalizePanels() {
   MultiplierConfig _mpConfig =
       getColoramaConfig().multiplierConfiguration.GetValue();
 
-  multiplierCircles[0]->set_fillAmount(0.5f);
+  multiplierCircles[1]->set_fillAmount(0.5f);
   multiplierCircles[1]->set_color(_mpConfig.oneColor);
   multiplierCircles[0]->set_color(Color(
       _mpConfig.oneColor.r, _mpConfig.oneColor.g, _mpConfig.oneColor.b, 0.25F));
@@ -328,14 +326,17 @@ PreviewViewController::MultiplierPreviewCoroutine() {
 	    WaitUntil::New_ctor(
 	        custom_types::MakeDelegate<System::Func_1<bool>*>(func)));
 	previewCoroOn8x = false;
-	multiplierCircles[0]->set_fillAmount(0.5f);
+	multiplierCircles[1]->set_fillAmount(0.25f);
 
 #define WITH_ALPHA(color, alpha) Color(color.r, color.g, color.b, alpha)
+
 	multiplierCircles[0]->set_color(WITH_ALPHA(config.oneColor, 0.25F));
 	multiplierCircles[1]->set_color(config.oneColor);
 	multiplierText->set_text("1");
 	co_yield reinterpret_cast<System::Collections::IEnumerator*>(
 	    WaitForSecondsRealtime::New_ctor(1));
+
+    multiplierCircles[1]->set_fillAmount(0.5f);
 
 	multiplierCircles[0]->set_color(WITH_ALPHA(config.twoColor, 0.25F));
 	multiplierCircles[1]->set_color(config.twoColor);
@@ -343,6 +344,7 @@ PreviewViewController::MultiplierPreviewCoroutine() {
 	co_yield reinterpret_cast<System::Collections::IEnumerator*>(
 	    WaitForSecondsRealtime::New_ctor(1));
 
+    multiplierCircles[1]->set_fillAmount(0.75f);
 	multiplierCircles[0]->set_color(WITH_ALPHA(config.fourColor, 0.25F));
 	multiplierCircles[1]->set_color(config.fourColor);
 	multiplierText->set_text("4");
@@ -351,10 +353,9 @@ PreviewViewController::MultiplierPreviewCoroutine() {
 
 	previewCoroOn8x = true;
 	multiplierText->set_text("8");
-	multiplierCircles[1]->set_fillAmount(0);
-	if (! config.enableRainbow) {
-	  multiplierCircles[0]->set_color(WITH_ALPHA(config.eightColor, 0.25F));
-	}
+	multiplierCircles[1]->set_fillAmount(1.0f);
+    multiplierCircles[0]->set_color(WITH_ALPHA(config.eightColor, 0.25F));
+    multiplierCircles[1]->set_color(config.eightColor);
 
 	co_yield reinterpret_cast<System::Collections::IEnumerator*>(
 	    WaitForSecondsRealtime::New_ctor(1));

@@ -3,7 +3,6 @@ include(qpm_defines.cmake)
 
 # override mod id
 set(MOD_ID "colorama")
-set(ENABLE_KOFI_FEATURES false)
 
 # Enable link time optimization
 # In my experience, this can be highly unstable but it nets a huge size optimization and likely performance

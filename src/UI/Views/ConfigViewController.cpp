@@ -349,10 +349,10 @@ void ConfigViewController::DidActivate(bool firstActivation,
 #pragma region Multiplier Ring Tab
 	auto _multiplierTab =
 	    BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
-	auto _multiplierEntries =
-	    BeatSaberUI::CreateModifierContainer(_multiplierTab->get_transform());
 
-#ifdef ENABLE_KOFI_FEATURES
+    auto _multiplierEntries =
+        BeatSaberUI::CreateModifierContainer(_multiplierTab->get_transform());
+
 	MultiplierConfig multiplierConfig =
 	    getColoramaConfig().multiplierConfiguration.GetValue();
 
@@ -423,24 +423,23 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	      cfg.eightColor = ConvertedColor::convert(newValue);
 	      getColoramaConfig().multiplierConfiguration.SetValue(cfg);
 	    });
-#else
-
-	auto text1 = BeatSaberUI::CreateText(_multiplierEntries->get_transform(),
-	                                     "Kofi Features Disabled");
-	text1->set_color(Color::get_red());
-
-	BeatSaberUI::CreateText(
-	    _multiplierEntries->get_transform(),
-	    "The multiplier ring colorizer is currently in beta, and only "
-	    "available to Ko-Fi supporters for testing.");
-	BeatSaberUI::CreateText(
-	    _multiplierEntries->get_transform(),
-	    "If you would like to support the development of this feature, please "
-	    "consider becoming a member at the link below.");
-	BeatSaberUI::CreateText(_multiplierEntries->get_transform(),
-	                        "https://ko-fi.com/mineblock11");
-
-#endif
+    // } else {
+    //   auto vertGroup = BeatSaberUI::CreateVerticalLayoutGroup(_multiplierTab->get_transform());
+    //   auto text1 = BeatSaberUI::CreateText(vertGroup->get_transform(),
+    //                                        "Kofi Features Disabled");
+    //   text1->set_color(Color::get_red());
+    //
+    //   BeatSaberUI::CreateText(
+    //       vertGroup->get_transform(),
+    //       "The multiplier ring colorizer is currently in beta, and only "
+    //       "available to Ko-Fi supporters for testing.");
+    //   BeatSaberUI::CreateText(
+    //       vertGroup->get_transform(),
+    //       "If you would like to support the development of this feature, please "
+    //       "consider becoming a member at the link below.");
+    //   BeatSaberUI::CreateText(vertGroup->get_transform(),
+    //                           "https://ko-fi.com/mineblock11");
+    // }
 
 	this->multiplierRingTab =
 	    AdjustedScrollContainerObject(_multiplierTab, false);
