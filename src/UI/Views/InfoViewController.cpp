@@ -128,10 +128,10 @@ void InfoViewController::DidActivate(bool firstActivation,
 	CreateApplicationButton(scrollView->get_transform(), "Discord",
 	                        "Join my discord to stay updated with the latest "
 	                        "releases and come chat!",
-	                        " https://discord.gg/UzHtJKqHny");
-	CreateApplicationButton(scrollView->get_transform(), "Website",
-	                        "Checkout my blog and social links on my website.",
-	                        " https://mineblock11.dev/");
+	                        " https://discord.imb11.dev/");
+	CreateApplicationButton(scrollView->get_transform(), "GitHub",
+	                        "Checkout the GitHub repository for Colorama.",
+	                        " https://github.com/IMB11/Colorama");
 
 	HorizontalLayoutGroup *horizontalLayoutGroup =
 	    QuestUI::BeatSaberUI::CreateHorizontalLayoutGroup(
@@ -141,7 +141,7 @@ void InfoViewController::DidActivate(bool firstActivation,
 
 	auto licenseText = BeatSaberUI::CreateText(
 	    horizontalLayoutGroup->get_transform(),
-	    string_format("Colorama %d (GPL-2.0) mineblock11", year),
+	    string_format("Colorama %d (GPL-2.0) IMB11 (mineblock11)", year),
 	    Vector2::get_zero(), Vector2(4, 4));
 
 	licenseText->set_alignment(TMPro::TextAlignmentOptions::_get_Center());
