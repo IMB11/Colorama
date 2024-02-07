@@ -63,7 +63,7 @@ custom_types::Helpers::Coroutine SettingsPanelObjectGrabber::GrabPanels() {
 UnityEngine::GameObject *SettingsPanelObjectGrabber::FinalizePanel(
     UnityEngine::MonoBehaviour *controller) {
   auto go = Instantiate(controller->get_gameObject());
-  Destroy(go->GetComponent(controller->GetType()));
+  Destroy(go->GetComponent(il2cpp_utils::GetSystemType(controller->klass)));
   go->get_transform()->SetParent(get_transform());
   go->get_transform()->set_localPosition(Vector3::get_zero());
   go->get_transform()->set_localRotation(Quaternion::get_identity());

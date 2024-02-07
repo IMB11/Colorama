@@ -136,13 +136,14 @@ void PreviewViewController::Update() {
   // [4] "Combo Indicator"
   ///
 
+  MultiplierConfig config =
+            getColoramaConfig().multiplierConfiguration.GetValue();
+
   switch (currentTab) {
 	case 1:
 	  UpdateEnergyBar();
 	  break;
 	case 2:
-	  MultiplierConfig config =
-	      getColoramaConfig().multiplierConfiguration.GetValue();
 	  if (previewCoroOn8x && config.enableRainbow) {
 		multiplierCircles[0]->set_color(Color::HSVToRGB(
 		    PreviewUtils::pingPong(Time::get_time() * 0.5F, 1.0F), 1.0F, 1.0F));
@@ -157,6 +158,8 @@ void PreviewViewController::Update() {
 	  break;
 	case 4:
 	  UpdateComboPanel();
+      break;
+	default:;
   }
 }
 
