@@ -1,19 +1,18 @@
 #pragma once
 
+#include <string_view>
+
+#include "ColoramaConfig.hpp"
+#include "ColoramaHooks.hpp"
+#include "ColoramaMacros.hpp"
 #include "GlobalNamespace/MenuLightsManager.hpp"
 #include "GlobalNamespace/MenuLightsPresetSO.hpp"
 #include "beatsaber-hook/shared/config/config-utils.hpp"
 #include "beatsaber-hook/shared/utils/hooking.hpp"
 #include "beatsaber-hook/shared/utils/il2cpp-functions.hpp"
 #include "beatsaber-hook/shared/utils/logging.hpp"
-#include "paper/shared/logger.hpp"
 #include "modloader/shared/modloader.hpp"
-
-#include <string_view>
-
-#include "ColoramaHooks.hpp"
-#include "ColoramaConfig.hpp"
-#include "ColoramaMacros.hpp"
+#include "paper/shared/logger.hpp"
 
 static ModInfo modInfo;
 

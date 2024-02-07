@@ -12,7 +12,9 @@ using namespace Colorama::Coloring;
 
 void ColoramaFlowCoordinator::SetupFields(
     GlobalNamespace::MainFlowCoordinator *mainFlowCoordinator,
-    InfoViewController *infoViewController, ConfigViewController *configViewController, PreviewViewController* previewViewController) {
+    InfoViewController *infoViewController,
+    ConfigViewController *configViewController,
+    PreviewViewController *previewViewController) {
   this->_mainFlowCoordinator = mainFlowCoordinator;
   this->_infoViewController = infoViewController;
   this->_configViewController = configViewController;
@@ -31,8 +33,8 @@ void ColoramaFlowCoordinator::DidActivate(bool firstActivation,
   if (firstActivation) {
 	SetTitle("Colorama", ViewController::AnimationType::_get_In());
 	showBackButton = true;
-	ProvideInitialViewControllers(_configViewController, _infoViewController, _previewViewController,
-	                              nullptr, nullptr);
+	ProvideInitialViewControllers(_configViewController, _infoViewController,
+	                              _previewViewController, nullptr, nullptr);
   }
 }
 
@@ -43,5 +45,6 @@ void ColoramaFlowCoordinator::BackButtonWasPressed(
   using namespace UnityEngine;
 
   getColoramaConfig().Save();
-  parentFlowCoordinator->DismissFlowCoordinator(this, ViewController::AnimationDirection::Horizontal, nullptr, false);
+  parentFlowCoordinator->DismissFlowCoordinator(
+      this, ViewController::AnimationDirection::Horizontal, nullptr, false);
 }

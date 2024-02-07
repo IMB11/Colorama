@@ -1,22 +1,17 @@
 #include "Installers/ZenjectInstallers.hpp"
 
 #include "Coloring/MenuColorSwapper.hpp"
-
+#include "System/Type.hpp"
 #include "UI/ColoramaFlowCoordinator.hpp"
 #include "UI/MenuButtonManager.hpp"
 #include "UI/Views/ConfigViewController.hpp"
-#include "UI/Views/PreviewViewController.hpp"
 #include "UI/Views/InfoViewController.hpp"
-
+#include "UI/Views/PreviewViewController.hpp"
 #include "Zenject/ConcreteIdBinderGeneric_1.hpp"
 #include "Zenject/ConcreteIdBinderNonGeneric.hpp"
 #include "Zenject/DiContainer.hpp"
 #include "Zenject/FromBinderNonGeneric.hpp"
-
-#include "System/Type.hpp"
-
 #include "lapiz/shared/utilities/ZenjectExtensions.hpp"
-
 
 DEFINE_TYPE(Colorama::Installers, MenuColorInstaller)
 

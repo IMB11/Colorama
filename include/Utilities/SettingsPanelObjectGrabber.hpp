@@ -13,8 +13,7 @@ DECLARE_CLASS_CODEGEN(
     DECLARE_INSTANCE_FIELD(UnityEngine::GameObject*, comboPanel);
     DECLARE_INSTANCE_FIELD(UnityEngine::GameObject*, progressPanel);
     DECLARE_INSTANCE_FIELD(UnityEngine::GameObject*, immediateRankPanel);
-    DECLARE_INSTANCE_METHOD(UnityEngine::GameObject*, FinalizePanel, UnityEngine::MonoBehaviour* controller);
-    DECLARE_INSTANCE_METHOD(void, Start);
-    public:
-    	custom_types::Helpers::Coroutine GrabPanels();
-    )
+    DECLARE_INSTANCE_METHOD(UnityEngine::GameObject*, FinalizePanel,
+                            UnityEngine::MonoBehaviour* controller);
+    DECLARE_INSTANCE_METHOD(void, Start); public
+    : custom_types::Helpers::Coroutine GrabPanels();)

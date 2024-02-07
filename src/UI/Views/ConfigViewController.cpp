@@ -265,78 +265,187 @@ void ConfigViewController::DidActivate(bool firstActivation,
 #pragma endregion
 
 #pragma region Energy Bar Tab
-    auto _energyTab = BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
-    auto _energyEntries = BeatSaberUI::CreateModifierContainer(_energyTab->get_transform());
+	auto _energyTab =
+	    BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
+	auto _energyEntries =
+	    BeatSaberUI::CreateModifierContainer(_energyTab->get_transform());
 
-    EnergyBarConfiguration energyBarConfig = getColoramaConfig().energyBarConfiguration.GetValue();
+	EnergyBarConfiguration energyBarConfig =
+	    getColoramaConfig().energyBarConfiguration.GetValue();
 
-    Toggle* rainbowToggle = nullptr;
-    ColorSetting* lowColor = nullptr;
-    ColorSetting* midColor = nullptr;
-    ColorSetting* highColor = nullptr;
-    BeatSaberUI::CreateToggle(_energyEntries->get_transform(), "Enabled", energyBarConfig.enabled, [rainbowToggle, lowColor, midColor, highColor](bool newValue) {
-      auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
-      cfg.enabled = newValue;
-      getColoramaConfig().energyBarConfiguration.SetValue(cfg);
+	Toggle *rainbowToggle = nullptr;
+	ColorSetting *lowColor = nullptr;
+	ColorSetting *midColor = nullptr;
+	ColorSetting *highColor = nullptr;
+	BeatSaberUI::CreateToggle(
+	    _energyEntries->get_transform(), "Enabled", energyBarConfig.enabled,
+	    [rainbowToggle, lowColor, midColor, highColor](bool newValue) {
+	      auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
+	      cfg.enabled = newValue;
+	      getColoramaConfig().energyBarConfiguration.SetValue(cfg);
 
-      if (rainbowToggle != nullptr) {
-        rainbowToggle->set_interactable(newValue);
-      }
-      if (lowColor != nullptr) {
-        lowColor->set_interactable(newValue);
-      }
-      if (midColor != nullptr) {
-        midColor->set_interactable(newValue);
-      }
-      if (highColor != nullptr) {
-        highColor->set_interactable(newValue);
-      }
-    });
+	      if (rainbowToggle != nullptr) {
+		    rainbowToggle->set_interactable(newValue);
+	      }
+	      if (lowColor != nullptr) {
+		    lowColor->set_interactable(newValue);
+	      }
+	      if (midColor != nullptr) {
+		    midColor->set_interactable(newValue);
+	      }
+	      if (highColor != nullptr) {
+		    highColor->set_interactable(newValue);
+	      }
+	    });
 
-    rainbowToggle = BeatSaberUI::CreateToggle(_energyEntries->get_transform(), "Rainbow When Full", energyBarConfig.rainbowFull, [](bool newValue) {
-      auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
-      cfg.rainbowFull = newValue;
-      getColoramaConfig().energyBarConfiguration.SetValue(cfg);
-    });
+	rainbowToggle = BeatSaberUI::CreateToggle(
+	    _energyEntries->get_transform(), "Rainbow When Full",
+	    energyBarConfig.rainbowFull, [](bool newValue) {
+	      auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
+	      cfg.rainbowFull = newValue;
+	      getColoramaConfig().energyBarConfiguration.SetValue(cfg);
+	    });
 
-    lowColor = BeatSaberUI::CreateColorPicker(
-        _energyEntries->get_transform(), "Low Energy Color",
-        energyBarConfig.lowColor, [](Color newValue) {
-          auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
-          cfg.lowColor = ConvertedColor::convert(newValue);
-          getColoramaConfig().energyBarConfiguration.SetValue(cfg);
-    });
+	lowColor = BeatSaberUI::CreateColorPicker(
+	    _energyEntries->get_transform(), "Low Energy Color",
+	    energyBarConfig.lowColor, [](Color newValue) {
+	      auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
+	      cfg.lowColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().energyBarConfiguration.SetValue(cfg);
+	    });
 
-    midColor = BeatSaberUI::CreateColorPicker(
-        _energyEntries->get_transform(), "Medium Energy Color",
-        energyBarConfig.midColor, [](Color newValue) {
-          auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
-          cfg.midColor = ConvertedColor::convert(newValue);
-          getColoramaConfig().energyBarConfiguration.SetValue(cfg);
-    });
+	midColor = BeatSaberUI::CreateColorPicker(
+	    _energyEntries->get_transform(), "Medium Energy Color",
+	    energyBarConfig.midColor, [](Color newValue) {
+	      auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
+	      cfg.midColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().energyBarConfiguration.SetValue(cfg);
+	    });
 
-    highColor = BeatSaberUI::CreateColorPicker(
-        _energyEntries->get_transform(), "High Energy Color",
-        energyBarConfig.highColor, [](Color newValue) {
-          auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
-          cfg.highColor = ConvertedColor::convert(newValue);
-          getColoramaConfig().energyBarConfiguration.SetValue(cfg);
-    });
+	highColor = BeatSaberUI::CreateColorPicker(
+	    _energyEntries->get_transform(), "High Energy Color",
+	    energyBarConfig.highColor, [](Color newValue) {
+	      auto cfg = getColoramaConfig().energyBarConfiguration.GetValue();
+	      cfg.highColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().energyBarConfiguration.SetValue(cfg);
+	    });
 
-    rainbowToggle->set_interactable(energyBarConfig.enabled);
-    lowColor->set_interactable(energyBarConfig.enabled);
-    midColor->set_interactable(energyBarConfig.enabled);
-    highColor->set_interactable(energyBarConfig.enabled);
+	rainbowToggle->set_interactable(energyBarConfig.enabled);
+	lowColor->set_interactable(energyBarConfig.enabled);
+	midColor->set_interactable(energyBarConfig.enabled);
+	highColor->set_interactable(energyBarConfig.enabled);
 
-	BeatSaberUI::CreateSliderSetting(_energyEntries->get_transform(), "Preview Value", 0.05F, this->_previewViewController->fillAmount, 0.0F, 1.0F, [this](float newValue) {
-	  this->_previewViewController->fillAmount = newValue;
-	});
+	BeatSaberUI::CreateSliderSetting(
+	    _energyEntries->get_transform(), "Preview Value", 0.05F,
+	    this->_previewViewController->fillAmount, 0.0F, 1.0F,
+	    [this](float newValue) {
+	      this->_previewViewController->fillAmount = newValue;
+	    });
 
-    this->energyTab = AdjustedScrollContainerObject(_energyTab, false);
+	this->energyTab = AdjustedScrollContainerObject(_energyTab, false);
 
 #pragma endregion
 
-	DEFINE_TAB(multiplierRingTab, false)
+#pragma region Multiplier Ring Tab
+	auto _multiplierTab =
+	    BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
+	auto _multiplierEntries =
+	    BeatSaberUI::CreateModifierContainer(_multiplierTab->get_transform());
+
+#ifdef ENABLE_KOFI_FEATURES
+	MultiplierConfig multiplierConfig =
+	    getColoramaConfig().multiplierConfiguration.GetValue();
+
+	static SafePtrUnity<HorizontalLayoutGroup> _multiplierHoz =
+	    BeatSaberUI::CreateHorizontalLayoutGroup(
+	        _multiplierTab->get_transform());
+	auto _multiplierContainer = BeatSaberUI::CreateVerticalLayoutGroup(
+	    _multiplierHoz.ptr()->get_transform());
+	_multiplierContainer->set_spacing(0.25f);
+	_multiplierContainer->set_padding(RectOffset::New_ctor(2, 2, 2, 2));
+
+	static SafePtrUnity<Toggle> rainbow8Toggle = nullptr;
+	static SafePtrUnity<ColorSetting> _8Color = nullptr;
+	BeatSaberUI::CreateToggle(
+	    _multiplierEntries->get_transform(), "Enabled",
+	    multiplierConfig.enabled, [_multiplierContainer](bool newValue) {
+	      auto cfg = getColoramaConfig().multiplierConfiguration.GetValue();
+	      cfg.enabled = newValue;
+	      getColoramaConfig().multiplierConfiguration.SetValue(cfg);
+
+	      if (rainbow8Toggle.ptr() != nullptr) {
+		    rainbow8Toggle.ptr()->set_interactable(newValue);
+	      }
+
+	      _multiplierContainer->get_gameObject()->SetActive(newValue);
+	    });
+
+	rainbow8Toggle = BeatSaberUI::CreateToggle(
+	    _multiplierEntries->get_transform(), "Enable Rainbow x8",
+	    multiplierConfig.enableRainbow, [](bool newValue) {
+	      auto cfg = getColoramaConfig().multiplierConfiguration.GetValue();
+	      cfg.enableRainbow = newValue;
+	      getColoramaConfig().multiplierConfiguration.SetValue(cfg);
+
+	      if (_8Color.ptr() != nullptr) {
+		    _8Color.ptr()->set_interactable(! newValue);
+	      }
+	    });
+
+	BeatSaberUI::CreateColorPicker(
+	    _multiplierContainer->get_transform(), "x1 Multiplier Color",
+	    multiplierConfig.oneColor, [](Color newValue) {
+	      auto cfg = getColoramaConfig().multiplierConfiguration.GetValue();
+	      cfg.oneColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().multiplierConfiguration.SetValue(cfg);
+	    });
+
+	BeatSaberUI::CreateColorPicker(
+	    _multiplierContainer->get_transform(), "x2 Multiplier Color",
+	    multiplierConfig.twoColor, [](Color newValue) {
+	      auto cfg = getColoramaConfig().multiplierConfiguration.GetValue();
+	      cfg.twoColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().multiplierConfiguration.SetValue(cfg);
+	    });
+
+	BeatSaberUI::CreateColorPicker(
+	    _multiplierContainer->get_transform(), "x4 Multiplier Color",
+	    multiplierConfig.fourColor, [](Color newValue) {
+	      auto cfg = getColoramaConfig().multiplierConfiguration.GetValue();
+	      cfg.fourColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().multiplierConfiguration.SetValue(cfg);
+	    });
+
+	_8Color = BeatSaberUI::CreateColorPicker(
+	    _multiplierContainer->get_transform(), "x8 Multiplier Color",
+	    multiplierConfig.eightColor, [](Color newValue) {
+	      auto cfg = getColoramaConfig().multiplierConfiguration.GetValue();
+	      cfg.eightColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().multiplierConfiguration.SetValue(cfg);
+	    });
+#else
+
+	auto text1 = BeatSaberUI::CreateText(_multiplierEntries->get_transform(),
+	                                     "Kofi Features Disabled");
+	text1->set_color(Color::get_red());
+
+	BeatSaberUI::CreateText(
+	    _multiplierEntries->get_transform(),
+	    "The multiplier ring colorizer is currently in beta, and only "
+	    "available to Ko-Fi supporters for testing.");
+	BeatSaberUI::CreateText(
+	    _multiplierEntries->get_transform(),
+	    "If you would like to support the development of this feature, please "
+	    "consider becoming a member at the link below.");
+	BeatSaberUI::CreateText(_multiplierEntries->get_transform(),
+	                        "https://ko-fi.com/mineblock11");
+
+#endif
+
+	this->multiplierRingTab =
+	    AdjustedScrollContainerObject(_multiplierTab, false);
+
+#pragma endregion
 
 #pragma region Combo Tab
 	auto _comboTab =
@@ -345,7 +454,8 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	ComboConfiguration comboConfig =
 	    getColoramaConfig().comboConfiguration.GetValue();
 
-	auto modifierContainerCombo = BeatSaberUI::CreateModifierContainer(_comboTab->get_transform());
+	auto modifierContainerCombo =
+	    BeatSaberUI::CreateModifierContainer(_comboTab->get_transform());
 
 	static SafePtrUnity<HorizontalLayoutGroup> nonGradientContainerHoz =
 	    BeatSaberUI::CreateHorizontalLayoutGroup(_comboTab->get_transform());
@@ -360,7 +470,7 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	    gradientContainerHoz.ptr()->get_transform());
 	gradientContainer->set_padding(RectOffset::New_ctor(2, 2, 2, 2));
 
-    static SafePtrUnity<Toggle> gradientToggle = nullptr;
+	static SafePtrUnity<Toggle> gradientToggle = nullptr;
 	BeatSaberUI::CreateToggle(
 	    modifierContainerCombo->get_transform(), "Enabled", comboConfig.enabled,
 	    [](bool newValue) {
@@ -368,37 +478,40 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	      cfg.enabled = newValue;
 	      getColoramaConfig().comboConfiguration.SetValue(cfg);
 
-          if(gradientToggle.ptr() != nullptr) {
-            gradientToggle.ptr()->set_interactable(newValue);
-          }
-
-	      if(newValue) {
-            nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(!cfg.useGradient);
-            gradientContainerHoz.ptr()->get_gameObject()->SetActive(cfg.useGradient);
-	      } else {
-            nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
-            gradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
+	      if (gradientToggle.ptr() != nullptr) {
+		    gradientToggle.ptr()->set_interactable(newValue);
 	      }
 
+	      if (newValue) {
+		    nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(
+		        ! cfg.useGradient);
+		    gradientContainerHoz.ptr()->get_gameObject()->SetActive(
+		        cfg.useGradient);
+	      } else {
+		    nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
+		    gradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
+	      }
 	    });
 
-    gradientToggle = BeatSaberUI::CreateToggle(
-            modifierContainerCombo->get_transform(), "Use Gradient", comboConfig.useGradient,
-            [this](bool newValue) {
-              auto cfg = getColoramaConfig().comboConfiguration.GetValue();
-              cfg.useGradient = newValue;
-              getColoramaConfig().comboConfiguration.SetValue(cfg);
+	gradientToggle = BeatSaberUI::CreateToggle(
+	    modifierContainerCombo->get_transform(), "Use Gradient",
+	    comboConfig.useGradient, [this](bool newValue) {
+	      auto cfg = getColoramaConfig().comboConfiguration.GetValue();
+	      cfg.useGradient = newValue;
+	      getColoramaConfig().comboConfiguration.SetValue(cfg);
 
-              if(cfg.enabled) {
-                nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(!cfg.useGradient);
-                gradientContainerHoz.ptr()->get_gameObject()->SetActive(cfg.useGradient);
-              } else {
-                nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
-                gradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
-              }
+	      if (cfg.enabled) {
+		    nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(
+		        ! cfg.useGradient);
+		    gradientContainerHoz.ptr()->get_gameObject()->SetActive(
+		        cfg.useGradient);
+	      } else {
+		    nonGradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
+		    gradientContainerHoz.ptr()->get_gameObject()->SetActive(false);
+	      }
 
-              this->_previewViewController->UpdateComboPanel();
-    });
+	      this->_previewViewController->UpdateComboPanel();
+	    });
 
 	// Non-Gradient
 
@@ -425,7 +538,7 @@ void ConfigViewController::DidActivate(bool firstActivation,
 
 	BeatSaberUI::CreateText(gradientContainer->get_transform(),
 	                        "<size=5><u>Gradient Mode</u></size>");
-// clang-format off
+	// clang-format off
 #define GRADIENT_COL_PICK(name, val)                      \
   BeatSaberUI::CreateColorPicker(  \
   gradientContainer->get_transform(),                                   \
@@ -435,154 +548,175 @@ void ConfigViewController::DidActivate(bool firstActivation,
 	cfg.val = ConvertedColor::convert(newValue); \
 	getColoramaConfig().comboConfiguration.SetValue(cfg); \
   });
-// clang-format on
+	// clang-format on
 
-  GRADIENT_COL_PICK("Top Left", topLeft);
-  GRADIENT_COL_PICK("Top Right", topRight);
-  static SafePtrUnity<ColorSetting> btl = GRADIENT_COL_PICK("Bottom Left", bottomLeft);
-  static SafePtrUnity<ColorSetting> btr = GRADIENT_COL_PICK("Bottom Right", bottomRight);
+	GRADIENT_COL_PICK("Top Left", topLeft);
+	GRADIENT_COL_PICK("Top Right", topRight);
+	static SafePtrUnity<ColorSetting> btl =
+	    GRADIENT_COL_PICK("Bottom Left", bottomLeft);
+	static SafePtrUnity<ColorSetting> btr =
+	    GRADIENT_COL_PICK("Bottom Right", bottomRight);
 
-  BeatSaberUI::CreateToggle(
-      gradientContainer->get_transform(), "Mirror Top To Bottom",
-      comboConfig.mirrorToBottom,
-      [](bool newValue) {
-	    auto cfg = getColoramaConfig().comboConfiguration.GetValue();
-	    cfg.mirrorToBottom = newValue;
-	    getColoramaConfig().comboConfiguration.SetValue(cfg);
-	    btl.ptr()->set_interactable(! newValue);
-	    btr.ptr()->set_interactable(! newValue);
-      })
-      ->get_transform()
-      ->SetSiblingIndex(1);
+	BeatSaberUI::CreateToggle(
+	    gradientContainer->get_transform(), "Mirror Top To Bottom",
+	    comboConfig.mirrorToBottom,
+	    [](bool newValue) {
+	      auto cfg = getColoramaConfig().comboConfiguration.GetValue();
+	      cfg.mirrorToBottom = newValue;
+	      getColoramaConfig().comboConfiguration.SetValue(cfg);
+	      btl.ptr()->set_interactable(! newValue);
+	      btr.ptr()->set_interactable(! newValue);
+	    })
+	    ->get_transform()
+	    ->SetSiblingIndex(1);
 
-  // ==============================
+	// ==============================
 
-  nonGradientContainerHoz->get_gameObject()->SetActive(
-      ! comboConfig.useGradient);
-  gradientContainerHoz->get_gameObject()->SetActive(comboConfig.useGradient);
+	nonGradientContainerHoz->get_gameObject()->SetActive(
+	    ! comboConfig.useGradient);
+	gradientContainerHoz->get_gameObject()->SetActive(comboConfig.useGradient);
 
-  this->comboTab = AdjustedScrollContainerObject(_comboTab, false);
+	this->comboTab = AdjustedScrollContainerObject(_comboTab, false);
 #pragma endregion
 
 #pragma region Progress Bar Tab
 
-    auto _progressBarTab =
-        BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
+	auto _progressBarTab =
+	    BeatSaberUI::CreateScrollableSettingsContainer(get_transform());
 
-    ProgressBarConfiguration progressConfig = getColoramaConfig().progressBarConfiguration.GetValue();
+	ProgressBarConfiguration progressConfig =
+	    getColoramaConfig().progressBarConfiguration.GetValue();
 
-    VerticalLayoutGroup* _progressEntries = BeatSaberUI::CreateModifierContainer(_progressBarTab->get_transform());
+	VerticalLayoutGroup *_progressEntries =
+	    BeatSaberUI::CreateModifierContainer(_progressBarTab->get_transform());
 
-    static SafePtrUnity<HorizontalLayoutGroup> progressSimpleHoz =
-        BeatSaberUI::CreateHorizontalLayoutGroup(_progressBarTab->get_transform());
-    auto progressSimple = BeatSaberUI::CreateVerticalLayoutGroup(
-        progressSimpleHoz.ptr()->get_transform());
-    progressSimple->set_padding(RectOffset::New_ctor(2, 2, 2, 2));
+	static SafePtrUnity<HorizontalLayoutGroup> progressSimpleHoz =
+	    BeatSaberUI::CreateHorizontalLayoutGroup(
+	        _progressBarTab->get_transform());
+	auto progressSimple = BeatSaberUI::CreateVerticalLayoutGroup(
+	    progressSimpleHoz.ptr()->get_transform());
+	progressSimple->set_padding(RectOffset::New_ctor(2, 2, 2, 2));
 
-    BeatSaberUI::CreateText(progressSimple->get_transform(),
-                                "<size=5><u>Simple Mode</u></size>");
+	BeatSaberUI::CreateText(progressSimple->get_transform(),
+	                        "<size=5><u>Simple Mode</u></size>");
 
-    static SafePtrUnity<HorizontalLayoutGroup> progressGradientHoz =
-        BeatSaberUI::CreateHorizontalLayoutGroup(_progressBarTab->get_transform());
-    auto progressGradient = BeatSaberUI::CreateVerticalLayoutGroup(
-        progressGradientHoz.ptr()->get_transform());
-     progressGradient->set_padding(RectOffset::New_ctor(2, 2, 2, 2));
+	static SafePtrUnity<HorizontalLayoutGroup> progressGradientHoz =
+	    BeatSaberUI::CreateHorizontalLayoutGroup(
+	        _progressBarTab->get_transform());
+	auto progressGradient = BeatSaberUI::CreateVerticalLayoutGroup(
+	    progressGradientHoz.ptr()->get_transform());
+	progressGradient->set_padding(RectOffset::New_ctor(2, 2, 2, 2));
 
-    BeatSaberUI::CreateText(progressGradient->get_transform(),
-                                "<size=5><u>Gradient Mode</u></size>");
+	BeatSaberUI::CreateText(progressGradient->get_transform(),
+	                        "<size=5><u>Gradient Mode</u></size>");
 
-    static SafePtrUnity<Toggle> gradientToggleProgress = nullptr;
-    static SafePtrUnity<ColorSetting> progressHandle = nullptr;
-    static SafePtrUnity<ColorSetting> progressBg = nullptr;
-    static SafePtrUnity<SliderSetting> previewFillSlider = nullptr;
-    BeatSaberUI::CreateToggle(_progressEntries->get_transform(), "Enabled", progressConfig.enabled, [progressGradient, progressSimple](bool newValue) {
-      auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
-      cfg.enabled = newValue;
-      getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+	static SafePtrUnity<Toggle> gradientToggleProgress = nullptr;
+	static SafePtrUnity<ColorSetting> progressHandle = nullptr;
+	static SafePtrUnity<ColorSetting> progressBg = nullptr;
+	static SafePtrUnity<SliderSetting> previewFillSlider = nullptr;
+	BeatSaberUI::CreateToggle(
+	    _progressEntries->get_transform(), "Enabled", progressConfig.enabled,
+	    [progressGradient, progressSimple](bool newValue) {
+	      auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+	      cfg.enabled = newValue;
+	      getColoramaConfig().progressBarConfiguration.SetValue(cfg);
 
-      if(gradientToggleProgress.ptr() != nullptr) {
-        gradientToggleProgress.ptr()->set_interactable(newValue);
-      }
+	      if (gradientToggleProgress.ptr() != nullptr) {
+		    gradientToggleProgress.ptr()->set_interactable(newValue);
+	      }
 
-      if(previewFillSlider.ptr() != nullptr) {
-        previewFillSlider.ptr()->slider->set_interactable(newValue);
-      }
+	      if (previewFillSlider.ptr() != nullptr) {
+		    previewFillSlider.ptr()->slider->set_interactable(newValue);
+	      }
 
-      if(progressHandle.ptr() != nullptr) {
-        progressHandle.ptr()->set_interactable(newValue);
-      }
+	      if (progressHandle.ptr() != nullptr) {
+		    progressHandle.ptr()->set_interactable(newValue);
+	      }
 
-      if(progressBg.ptr() != nullptr) {
-        progressBg.ptr()->set_interactable(newValue);
-      }
+	      if (progressBg.ptr() != nullptr) {
+		    progressBg.ptr()->set_interactable(newValue);
+	      }
 
-      progressGradient->get_gameObject()->SetActive(newValue && cfg.enableGradient);
-      progressSimple->get_gameObject()->SetActive(newValue && !cfg.enableGradient);
+	      progressGradient->get_gameObject()->SetActive(newValue &&
+	                                                    cfg.enableGradient);
+	      progressSimple->get_gameObject()->SetActive(newValue &&
+	                                                  ! cfg.enableGradient);
 
-      progressSimple->CalculateLayoutInputVertical();
-      progressGradient->CalculateLayoutInputVertical();
-    });
+	      progressSimple->CalculateLayoutInputVertical();
+	      progressGradient->CalculateLayoutInputVertical();
+	    });
 
-    previewFillSlider = BeatSaberUI::CreateSliderSetting(_progressEntries->get_transform(), "Preview Fill", 0.01F, this->_previewViewController->progressFillAmount, 0.0F, 1.0F, [this](float newValue) {
-      this->_previewViewController->progressFillAmount = newValue;
-    });
+	previewFillSlider = BeatSaberUI::CreateSliderSetting(
+	    _progressEntries->get_transform(), "Preview Fill", 0.01F,
+	    this->_previewViewController->progressFillAmount, 0.0F, 1.0F,
+	    [this](float newValue) {
+	      this->_previewViewController->progressFillAmount = newValue;
+	    });
 
-    gradientToggleProgress = BeatSaberUI::CreateToggle(_progressEntries->get_transform(), "Use Gradient", progressConfig.enableGradient, [progressGradient, progressSimple](bool newValue) {
-      auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
-      cfg.enableGradient = newValue;
-      getColoramaConfig().progressBarConfiguration.SetValue(cfg);
-      progressGradient->get_gameObject()->SetActive(newValue && cfg.enabled);
-      progressSimple->get_gameObject()->SetActive(!newValue && cfg.enabled);
-    });
+	gradientToggleProgress = BeatSaberUI::CreateToggle(
+	    _progressEntries->get_transform(), "Use Gradient",
+	    progressConfig.enableGradient,
+	    [progressGradient, progressSimple](bool newValue) {
+	      auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+	      cfg.enableGradient = newValue;
+	      getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+	      progressGradient->get_gameObject()->SetActive(newValue &&
+	                                                    cfg.enabled);
+	      progressSimple->get_gameObject()->SetActive(! newValue &&
+	                                                  cfg.enabled);
+	    });
 
-    progressBg = BeatSaberUI::CreateColorPicker(
-        _progressEntries->get_transform(), "Background Color",
-        progressConfig.bgColor, [](Color newValue) {
-          auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
-          cfg.bgColor = ConvertedColor::convert(newValue);
-          getColoramaConfig().progressBarConfiguration.SetValue(cfg);
-    });
+	progressBg = BeatSaberUI::CreateColorPicker(
+	    _progressEntries->get_transform(), "Background Color",
+	    progressConfig.bgColor, [](Color newValue) {
+	      auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+	      cfg.bgColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+	    });
 
-    progressHandle = BeatSaberUI::CreateColorPicker(
-        _progressEntries->get_transform(), "Handle Color",
-        progressConfig.handleColor, [](Color newValue) {
-          auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
-          cfg.handleColor = ConvertedColor::convert(newValue);
-          getColoramaConfig().progressBarConfiguration.SetValue(cfg);
-    });
+	progressHandle = BeatSaberUI::CreateColorPicker(
+	    _progressEntries->get_transform(), "Handle Color",
+	    progressConfig.handleColor, [](Color newValue) {
+	      auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+	      cfg.handleColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+	    });
 
-    BeatSaberUI::CreateColorPicker(
-        progressGradient->get_transform(), "Start Color",
-        progressConfig.startColor, [](Color newValue) {
-          auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
-          cfg.startColor = ConvertedColor::convert(newValue);
-          getColoramaConfig().progressBarConfiguration.SetValue(cfg);
-    });
+	BeatSaberUI::CreateColorPicker(
+	    progressGradient->get_transform(), "Start Color",
+	    progressConfig.startColor, [](Color newValue) {
+	      auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+	      cfg.startColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+	    });
 
-    BeatSaberUI::CreateColorPicker(
-        progressGradient->get_transform(), "End Color",
-        progressConfig.endColor, [](Color newValue) {
-          auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
-          cfg.endColor = ConvertedColor::convert(newValue);
-          getColoramaConfig().progressBarConfiguration.SetValue(cfg);
-    });
+	BeatSaberUI::CreateColorPicker(
+	    progressGradient->get_transform(), "End Color", progressConfig.endColor,
+	    [](Color newValue) {
+	      auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+	      cfg.endColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+	    });
 
-    BeatSaberUI::CreateColorPicker(
-        progressSimple->get_transform(), "Fill Color",
-        progressConfig.fillColor, [](Color newValue) {
-          auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
-          cfg.fillColor = ConvertedColor::convert(newValue);
-          getColoramaConfig().progressBarConfiguration.SetValue(cfg);
-    });
+	BeatSaberUI::CreateColorPicker(
+	    progressSimple->get_transform(), "Fill Color", progressConfig.fillColor,
+	    [](Color newValue) {
+	      auto cfg = getColoramaConfig().progressBarConfiguration.GetValue();
+	      cfg.fillColor = ConvertedColor::convert(newValue);
+	      getColoramaConfig().progressBarConfiguration.SetValue(cfg);
+	    });
 
-    progressSimple->get_gameObject()->SetActive(!progressConfig.enableGradient && progressConfig.enabled);
-    progressGradient->get_gameObject()->SetActive(progressConfig.enableGradient && progressConfig.enabled);
-    gradientToggleProgress.ptr()->set_interactable(progressConfig.enabled);
-    previewFillSlider.ptr()->slider->set_interactable(progressConfig.enabled);
-    progressHandle.ptr()->set_interactable(progressConfig.enabled);
-    progressBg.ptr()->set_interactable(progressConfig.enabled);
+	progressSimple->get_gameObject()->SetActive(
+	    ! progressConfig.enableGradient && progressConfig.enabled);
+	progressGradient->get_gameObject()->SetActive(
+	    progressConfig.enableGradient && progressConfig.enabled);
+	gradientToggleProgress.ptr()->set_interactable(progressConfig.enabled);
+	previewFillSlider.ptr()->slider->set_interactable(progressConfig.enabled);
+	progressHandle.ptr()->set_interactable(progressConfig.enabled);
+	progressBg.ptr()->set_interactable(progressConfig.enabled);
 
-    this->progressBarTab = AdjustedScrollContainerObject(_progressBarTab, false);
+	this->progressBarTab =
+	    AdjustedScrollContainerObject(_progressBarTab, false);
 #pragma endregion
   }
 }

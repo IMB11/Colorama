@@ -19,7 +19,6 @@ extern "C" void setup(ModInfo &info) {
 }
 
 extern "C" void load() {
-
   using namespace Colorama::Installers;
   using namespace ::Lapiz::Zenject;
 

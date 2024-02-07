@@ -42,37 +42,42 @@ void MenuColorSwapper::Initialize() {
 }
 
 void MenuColorSwapper::PreviewColor(UnityEngine::Color color) {
-  this->_menuLightsManager->SetColorPreset(Utils::createMenuLights(this->_defaultLightPreset, color), true);
+  this->_menuLightsManager->SetColorPreset(
+      Utils::createMenuLights(this->_defaultLightPreset, color), true);
 }
 
 void MenuColorSwapper::UpdateColors() {
 #define resetPreset(val) val = this->_defaultLightPreset
 
-  MenuConfiguration configuration = getColoramaConfig().menuConfiguration.GetValue();
+  MenuConfiguration configuration =
+      getColoramaConfig().menuConfiguration.GetValue();
 
-  this->_playersPlace->set_color(
-      configuration.feetColor.enabled
-          ? configuration.feetColor
-          : _playersPlace->get_color());
+  this->_playersPlace->set_color(configuration.feetColor.enabled
+                                     ? configuration.feetColor
+                                     : _playersPlace->get_color());
 
-#define SetActiveIfFound(parent, childName, setActive) \
-do { \
-if (Transform* bgTransform = (parent)->get_transform()->FindChild(childName)) { \
-bgTransform->get_gameObject()->SetActive(setActive); \
-} \
-} while (false)
+#define SetActiveIfFound(parent, childName, setActive)         \
+  do {                                                         \
+	if (Transform *bgTransform =                               \
+	        (parent)->get_transform()->FindChild(childName)) { \
+	  bgTransform->get_gameObject()->SetActive(setActive);     \
+	}                                                          \
+  } while (false)
 
-  if (GameObject* menuEnvCore = GameObject::Find("DefaultMenuEnvironment")) {
-    SetActiveIfFound(menuEnvCore, "GlowLines", configuration.enableLogoGlowLines);
-    SetActiveIfFound(menuEnvCore, "GlowLines (1)", configuration.enableLogoGlowLines);
-    SetActiveIfFound(menuEnvCore, "PileOfNotes", configuration.enableNoteDecor);
-    SetActiveIfFound(menuEnvCore, "Notes", configuration.enableNoteDecor);
-    SetActiveIfFound(menuEnvCore, "MenuFogRing", configuration.enableFogRing);
-    SetActiveIfFound(menuEnvCore, "BasicMenuGround", configuration.enableFloor);
+  if (GameObject *menuEnvCore = GameObject::Find("DefaultMenuEnvironment")) {
+	SetActiveIfFound(menuEnvCore, "GlowLines",
+	                 configuration.enableLogoGlowLines);
+	SetActiveIfFound(menuEnvCore, "GlowLines (1)",
+	                 configuration.enableLogoGlowLines);
+	SetActiveIfFound(menuEnvCore, "PileOfNotes", configuration.enableNoteDecor);
+	SetActiveIfFound(menuEnvCore, "Notes", configuration.enableNoteDecor);
+	SetActiveIfFound(menuEnvCore, "MenuFogRing", configuration.enableFogRing);
+	SetActiveIfFound(menuEnvCore, "BasicMenuGround", configuration.enableFloor);
   }
 
   if (configuration.freeplayLighting) {
-	auto lights = Utils::createMenuLights(this->_defaultLightPreset, configuration.freeplayLighting);
+	auto lights = Utils::createMenuLights(this->_defaultLightPreset,
+	                                      configuration.freeplayLighting);
 	this->_soloFreePlayFlowCoordinator->defaultLightsPreset = lights;
 	this->_partyFreePlayFlowCoordinator->defaultLightsPreset = lights;
   } else {
@@ -81,7 +86,8 @@ bgTransform->get_gameObject()->SetActive(setActive); \
   }
 
   if (configuration.resultsLighting) {
-	auto lights = Utils::createMenuLights(this->_defaultLightPreset, configuration.resultsLighting);
+	auto lights = Utils::createMenuLights(this->_defaultLightPreset,
+	                                      configuration.resultsLighting);
 	this->_soloFreePlayFlowCoordinator->resultsClearedLightsPreset = lights;
 	this->_campaignFlowCoordinator->resultsClearedLightsPreset = lights;
 	this->_partyFreePlayFlowCoordinator->resultsClearedLightsPreset = lights;
@@ -93,8 +99,8 @@ bgTransform->get_gameObject()->SetActive(setActive); \
   }
 
   if (configuration.resultsFailLighting) {
-	auto lights = Utils::createMenuLights(
-	    this->_defaultLightPreset, configuration.resultsFailLighting);
+	auto lights = Utils::createMenuLights(this->_defaultLightPreset,
+	                                      configuration.resultsFailLighting);
 	this->_soloFreePlayFlowCoordinator->resultsFailedLightsPreset = lights;
 	this->_partyFreePlayFlowCoordinator->resultsClearedLightsPreset = lights;
   } else {
@@ -105,16 +111,16 @@ bgTransform->get_gameObject()->SetActive(setActive); \
   }
 
   if (configuration.campaignLighting) {
-	auto lights = Utils::createMenuLights(
-	    this->_defaultLightPreset, configuration.campaignLighting);
+	auto lights = Utils::createMenuLights(this->_defaultLightPreset,
+	                                      configuration.campaignLighting);
 	this->_campaignFlowCoordinator->defaultLightsPreset = lights;
   } else {
 	resetPreset(this->_campaignFlowCoordinator->defaultLightsPreset);
   }
 
   if (configuration.multiplayerIdleColor) {
-	auto lights = Utils::createMenuLights(
-	    this->_defaultLightPreset, configuration.multiplayerIdleColor);
+	auto lights = Utils::createMenuLights(this->_defaultLightPreset,
+	                                      configuration.multiplayerIdleColor);
 	this->_centerStageScreenController->lobbyLightsPreset = lights;
   } else {
 	resetPreset(this->_centerStageScreenController->lobbyLightsPreset);
@@ -129,7 +135,8 @@ bgTransform->get_gameObject()->SetActive(setActive); \
   }
 
   if (configuration.gamemodeLighting) {
-	auto lights = Utils::createMenuLights(this->_defaultLightPreset, configuration.gamemodeLighting);
+	auto lights = Utils::createMenuLights(this->_defaultLightPreset,
+	                                      configuration.gamemodeLighting);
 	this->_mainFlowCoordinator->defaultLightsPreset = lights;
   } else {
 	resetPreset(this->_mainFlowCoordinator->defaultLightsPreset);

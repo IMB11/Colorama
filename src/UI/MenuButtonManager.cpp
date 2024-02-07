@@ -7,14 +7,20 @@ DEFINE_TYPE(Colorama::UI, MenuButtonManager);
 using namespace Colorama::UI;
 
 void MenuButtonManager::SummonModFlowCoordinator() {
-  _mainFlowCoordinator->YoungestChildFlowCoordinatorOrSelf()->PresentFlowCoordinator(
-      this->_modFlowCoordinator, nullptr,
-      HMUI::ViewController::AnimationDirection::_get_Vertical(), false, false);
+  _mainFlowCoordinator->YoungestChildFlowCoordinatorOrSelf()
+      ->PresentFlowCoordinator(
+          this->_modFlowCoordinator, nullptr,
+          HMUI::ViewController::AnimationDirection::_get_Vertical(), false,
+          false);
 }
 
 void MenuButtonManager::ctor(GlobalNamespace::MainFlowCoordinator *mfc,
-                               ColoramaFlowCoordinator *mofc, InfoViewController *infoViewController, ConfigViewController *configViewController, PreviewViewController* previewViewController) {
-  mofc->SetupFields(mfc, infoViewController, configViewController, previewViewController);
+                             ColoramaFlowCoordinator *mofc,
+                             InfoViewController *infoViewController,
+                             ConfigViewController *configViewController,
+                             PreviewViewController *previewViewController) {
+  mofc->SetupFields(mfc, infoViewController, configViewController,
+                    previewViewController);
   this->_mainFlowCoordinator = mfc;
   this->_menuButton = BSML::MenuButton::Make_new(
       "Colorama", "Open Colorama's configuration screen.",

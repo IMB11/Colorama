@@ -11,34 +11,37 @@ void SettingsPanelObjectGrabber::Start() {
   StartCoroutine(custom_types::Helpers::CoroutineHelper::New(GrabPanels()));
 }
 
-#include "UnityEngine/SceneManagement/SceneManager.hpp"
-#include "UnityEngine/AsyncOperation.hpp"
-#include "UnityEngine/WaitForSecondsRealtime.hpp"
-#include "UnityEngine/Resources.hpp"
-
-#include "System/Collections/IEnumerator.hpp"
-
-#include "GlobalNamespace/ScoreMultiplierUIController.hpp"
-#include "GlobalNamespace/GameEnergyUIPanel.hpp"
 #include "GlobalNamespace/ComboUIController.hpp"
-#include "GlobalNamespace/SongProgressUIController.hpp"
+#include "GlobalNamespace/GameEnergyUIPanel.hpp"
 #include "GlobalNamespace/ImmediateRankUIPanel.hpp"
+#include "GlobalNamespace/ScoreMultiplierUIController.hpp"
+#include "GlobalNamespace/SongProgressUIController.hpp"
+#include "System/Collections/IEnumerator.hpp"
+#include "UnityEngine/AsyncOperation.hpp"
+#include "UnityEngine/Resources.hpp"
+#include "UnityEngine/SceneManagement/SceneManager.hpp"
+#include "UnityEngine/WaitForSecondsRealtime.hpp"
 
 using namespace UnityEngine::SceneManagement;
 
 custom_types::Helpers::Coroutine SettingsPanelObjectGrabber::GrabPanels() {
   bool isSceneLoaded = false;
-  AsyncOperation* loadScene = SceneManager::LoadSceneAsync("DefaultEnvironment", LoadSceneMode::_get_Additive());
-  while(!loadScene->get_isDone()) co_yield nullptr;
+  AsyncOperation *loadScene = SceneManager::LoadSceneAsync(
+      "DefaultEnvironment", LoadSceneMode::_get_Additive());
+  while (! loadScene->get_isDone()) co_yield nullptr;
   isSceneLoaded = true;
-  co_yield reinterpret_cast<System::Collections::IEnumerator*>(WaitForSecondsRealtime::New_ctor(0.1f));
+  co_yield reinterpret_cast<System::Collections::IEnumerator *>(
+      WaitForSecondsRealtime::New_ctor(0.1f));
 
-  std::vector<MonoBehaviour*> _controllers = {
-      Resources::FindObjectsOfTypeAll<ScoreMultiplierUIController*>().FirstOrDefault(),
-      Resources::FindObjectsOfTypeAll<GameEnergyUIPanel*>().FirstOrDefault(),
-      Resources::FindObjectsOfTypeAll<ComboUIController*>().FirstOrDefault(),
-      Resources::FindObjectsOfTypeAll<SongProgressUIController*>().FirstOrDefault(),
-      Resources::FindObjectsOfTypeAll<ImmediateRankUIPanel*>().FirstOrDefault(),
+  std::vector<MonoBehaviour *> _controllers = {
+      Resources::FindObjectsOfTypeAll<ScoreMultiplierUIController *>()
+          .FirstOrDefault(),
+      Resources::FindObjectsOfTypeAll<GameEnergyUIPanel *>().FirstOrDefault(),
+      Resources::FindObjectsOfTypeAll<ComboUIController *>().FirstOrDefault(),
+      Resources::FindObjectsOfTypeAll<SongProgressUIController *>()
+          .FirstOrDefault(),
+      Resources::FindObjectsOfTypeAll<ImmediateRankUIPanel *>()
+          .FirstOrDefault(),
   };
 
   multiplierPanel = FinalizePanel(_controllers[0]);
@@ -47,7 +50,8 @@ custom_types::Helpers::Coroutine SettingsPanelObjectGrabber::GrabPanels() {
   progressPanel = FinalizePanel(_controllers[3]);
   immediateRankPanel = FinalizePanel(_controllers[4]);
 
-  if(multiplierPanel && energyPanel && comboPanel && progressPanel && immediateRankPanel)  {
+  if (multiplierPanel && energyPanel && comboPanel && progressPanel &&
+      immediateRankPanel) {
 	this->isCompleted = true;
   }
 
@@ -56,7 +60,8 @@ custom_types::Helpers::Coroutine SettingsPanelObjectGrabber::GrabPanels() {
   co_return;
 }
 
-UnityEngine::GameObject *SettingsPanelObjectGrabber::FinalizePanel(UnityEngine::MonoBehaviour *controller) {
+UnityEngine::GameObject *SettingsPanelObjectGrabber::FinalizePanel(
+    UnityEngine::MonoBehaviour *controller) {
   auto go = Instantiate(controller->get_gameObject());
   Destroy(go->GetComponent(controller->GetType()));
   go->get_transform()->SetParent(get_transform());

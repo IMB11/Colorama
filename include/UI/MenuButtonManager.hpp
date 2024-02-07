@@ -13,9 +13,11 @@ DECLARE_CLASS_CODEGEN_ZENJECT(
     DECLARE_INSTANCE_FIELD(GlobalNamespace::MainFlowCoordinator*,
                            _mainFlowCoordinator);
     DECLARE_INSTANCE_FIELD(ColoramaFlowCoordinator*, _modFlowCoordinator);
-    DECLARE_CTOR(ctor,
-                          GlobalNamespace::MainFlowCoordinator* mainfc,
-                          ColoramaFlowCoordinator* modfc, InfoViewController *infoViewController, ConfigViewController *configViewController, PreviewViewController* previewViewController);
+    DECLARE_CTOR(ctor, GlobalNamespace::MainFlowCoordinator* mainfc,
+                 ColoramaFlowCoordinator* modfc,
+                 InfoViewController* infoViewController,
+                 ConfigViewController* configViewController,
+                 PreviewViewController* previewViewController);
     DECLARE_INSTANCE_FIELD(BSML::MenuButton*, _menuButton);
     DECLARE_INSTANCE_METHOD(void, SummonModFlowCoordinator);
     DECLARE_OVERRIDE_METHOD(void, Initialize,
