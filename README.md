@@ -1,30 +1,20 @@
-# PLEASE DO NOT FORK AND CONTINUE, I WILL RETURN EVENTUALLY.
-
-<div align="center">
-  <img src="cover.png" width="50%" height="auto">
-</div>
-
 # Colorama
 
-Change the colors of the menu and other neat color related options.
+Change the colours of the menu and other neat color related options.
 
-## Contributing
+You can change the following:
 
-You can contribute to any of my mods. Fork and modify to your heart's content as long as it respects the license.
+- Menu Atmospheric Colours
+- Menu Objects (floating notes, floor, logo lines)
+- Combo Indicator Lines
+- Multiplier Ring Colours
+- Energy Bar Colours
+- Song Progress Bar Colours
 
-I will not accept any of the following "Contributions":
-
-- Version bumps; I will update my mods myself to new versions of Beat Saber unless specifically stated - if I haven't updated the mod, it means I either do not support it or I am in process of rewriting the mod.
-- README edits; Editing the readme file to fix a typo does not make you a contributor.
-
-### Contributor(s)
-
-Here are the person(s) that have contributed to this mod.
-
-<a href="https://github.com/cal117/colorama/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=cal117/colorama" />
-</a>
+Qounters and Redbar support will be coming in a future update.
 
 #### Notable Mentions
 
-Kaitlyn - for the settings layout - anytweaks inspired.
+Kaitlyn - for the info panel layout - anytweaks inspired.
+
+DIColors and UITweaks PC mods for the "SettingsObjectGrabber" logic and the "PreviewViewController" logic.
