@@ -2,7 +2,6 @@
 
 #include "UnityEngine/Mathf.hpp"
 #include "UnityEngine/Time.hpp"
-#include "custom-types/shared/coroutine.hpp"
 
 DEFINE_TYPE(Colorama::UI::Components, Shimmer);
 
@@ -19,7 +18,9 @@ float pingPong(float t, float length = 1.0F) {
 }
 }  // namespace ShimmerUtils
 
-void Shimmer::Awake() { text = GetComponent<TMPro::TextMeshProUGUI *>(); }
+void Shimmer::Awake() {
+  text = GetComponent<TMPro::TextMeshProUGUI *>();
+}
 
 void Shimmer::Update() {
   text->set_color(Color::HSVToRGB(
