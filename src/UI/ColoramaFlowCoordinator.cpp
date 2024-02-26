@@ -11,15 +11,15 @@ using namespace Colorama::UI;
 using namespace Colorama::Coloring;
 
 void ColoramaFlowCoordinator::SetupFields(
-    GlobalNamespace::MainFlowCoordinator *mainFlowCoordinator,
-    InfoViewController *infoViewController,
-    ConfigViewController *configViewController,
-    PreviewViewController *previewViewController) {
-  this->_mainFlowCoordinator = mainFlowCoordinator;
-  this->_infoViewController = infoViewController;
-  this->_configViewController = configViewController;
+  GlobalNamespace::MainFlowCoordinator *mainFlowCoordinator,
+  InfoViewController                   *infoViewController,
+  ConfigViewController                 *configViewController,
+  PreviewViewController                *previewViewController) {
+  this->_mainFlowCoordinator              = mainFlowCoordinator;
+  this->_infoViewController               = infoViewController;
+  this->_configViewController             = configViewController;
   this->_configViewController->parentFlow = this;
-  this->_previewViewController = previewViewController;
+  this->_previewViewController            = previewViewController;
 }
 
 void ColoramaFlowCoordinator::DidActivate(bool firstActivation,
@@ -31,20 +31,23 @@ void ColoramaFlowCoordinator::DidActivate(bool firstActivation,
 
   LOG("DidActivate");
   if (firstActivation) {
-	SetTitle("Colorama", ViewController::AnimationType::_get_In());
-	showBackButton = true;
-	ProvideInitialViewControllers(_configViewController, _infoViewController,
-	                              _previewViewController, nullptr, nullptr);
+    SetTitle("Colorama", ViewController::AnimationType::_get_In());
+    showBackButton = true;
+    ProvideInitialViewControllers(_configViewController,
+                                  _infoViewController,
+                                  _previewViewController,
+                                  nullptr,
+                                  nullptr);
   }
 }
 
 void ColoramaFlowCoordinator::BackButtonWasPressed(
-    HMUI::ViewController *topViewController) {
+  HMUI::ViewController *topViewController) {
   using namespace GlobalNamespace;
   using namespace HMUI;
   using namespace UnityEngine;
 
   getColoramaConfig().Save();
   parentFlowCoordinator->DismissFlowCoordinator(
-      this, ViewController::AnimationDirection::Horizontal, nullptr, false);
+    this, ViewController::AnimationDirection::Horizontal, nullptr, false);
 }

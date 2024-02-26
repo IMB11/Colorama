@@ -12,9 +12,9 @@ Logger &getLogger() {
 }
 
 extern "C" void setup(ModInfo &info) {
-  info.id = MOD_ID;
+  info.id      = MOD_ID;
   info.version = VERSION;
-  modInfo = info;
+  modInfo      = info;
   INFO("Completed setup!");
 }
 
