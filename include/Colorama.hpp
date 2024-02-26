@@ -15,6 +15,7 @@
 #include "paper/shared/logger.hpp"
 
 static ModInfo modInfo;
+static bool SHOULD_PANIC_REDBAR;
 
 Logger &getLogger();
 

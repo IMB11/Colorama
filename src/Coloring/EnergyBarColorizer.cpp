@@ -131,6 +131,8 @@ MAKE_HOOK_MATCH(GameEnergyUIPanel_InitHook, &GameEnergyUIPanel::Init, void,
 }
 
 void EnergyBarColorizerHooks(Logger& logger) {
+  if(SHOULD_PANIC_REDBAR) return;
+
   INSTALL_HOOK(logger, GameEnergyUIPanel_InitHook);
 }
 

@@ -40,6 +40,15 @@ extern "C" void load() {
 
   INFO("Installing hooks...");
 
+  for (auto mod : Modloader::getMods()) {
+    ModInfo mod_info = mod.second.info;
+
+    if(mod_info.id == "RedBar") {
+      SHOULD_PANIC_REDBAR = true;
+      INFO("Found redbar! Disabling certain features...")
+    }
+  }
+
   Colorama::Hooks::InstallHooks(getLogger());
 
   INFO("Installed all hooks!");
