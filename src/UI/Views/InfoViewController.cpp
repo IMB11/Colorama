@@ -79,28 +79,49 @@ int getCurrentYear() {
 #include "UI/Components/Shimmer.hpp"
 #include "UnityEngine/GradientAlphaKey.hpp"
 #include "UnityEngine/GradientColorKey.hpp"
+#include "UI/ColoramaFlowCoordinator.hpp"
 
-// Gradient* populateRainbowGradient(UnityEngine::Gradient* gradient) {
-//   using namespace UnityEngine;
-//   using namespace UnityEngine::UI;
-//   using namespace System::Collections;
-//
-//   std::vector<GradientColorKey> colorKeys = {};
-//   std::vector<GradientAlphaKey> alphaKeys = {};
-//
-//   for(float i = 0.0f; i < 1.0f; i+=0.01f)
-//   {
-//	Color c = Color::HSVToRGB(i, 0.5f, 0.5f);
-//	LOG("%s", static_cast<std::string>(c.ToString()).c_str());
-//	auto colorKey = GradientColorKey(c, i);
-//	auto alphaKey = GradientAlphaKey(1.0f, i);
-//	colorKeys.emplace_back(colorKey);
-//	alphaKeys.emplace_back(alphaKey);
-//   }
-//   LOG("Is it this!?");
-//   gradient->SetKeys(il2cpp_utils::vectorToArray(colorKeys),
-//   il2cpp_utils::vectorToArray(alphaKeys)); LOG("NAH"); return gradient;
-// }
+void InfoViewController::ShowDonationModal() {
+  using namespace QuestUI;
+
+  ColoramaFlowCoordinator* flow_coordinator = reinterpret_cast<ColoramaFlowCoordinator*>(this->parentFlow);
+  HMUI::ModalView* modalView = BeatSaberUI::CreateModal(flow_coordinator->_configViewController->get_transform(), UnityEngine::Vector2(80.0f, 88.0f), [](HMUI::ModalView* modalView){
+        Destroy(modalView->get_gameObject());
+    });
+
+  auto layout = BeatSaberUI::CreateVerticalLayoutGroup(modalView->get_transform());
+  layout->GetComponent<UnityEngine::UI::ContentSizeFitter*>()->set_horizontalFit(UnityEngine::UI::ContentSizeFitter::FitMode::Unconstrained);
+
+  layout->set_padding(UnityEngine::RectOffset::New_ctor(2, 2, 4, 4));
+  layout->set_childAlignment(UnityEngine::TextAnchor::UpperLeft);
+  layout->set_childControlHeight(true);
+  layout->set_childForceExpandHeight(false);
+  layout->set_childControlWidth(false);
+  layout->set_childForceExpandWidth(true);
+
+  auto hoz1 = BeatSaberUI::CreateHorizontalLayoutGroup(layout);
+  hoz1->GetComponent<UnityEngine::UI::LayoutElement*>()->set_ignoreLayout(true);
+  auto rectHoz1 = hoz1->get_rectTransform();
+  rectHoz1->set_anchorMax({0.97f, 1.0f});
+  rectHoz1->set_anchorMin({0.03f, 1.0f});
+  rectHoz1->set_anchoredPosition({0.0f, -5.0f});
+
+  auto hozText = BeatSaberUI::CreateText(hoz1, "Support Me On Ko-Fi!");
+  hozText->set_alignment(TMPro::TextAlignmentOptions::Center);
+
+  auto text2 = BeatSaberUI::CreateText(layout, "Enjoying Colorama? Support it's development on Ko-Fi!");
+  text2->set_enableWordWrapping(true);
+  text2->set_alignment(TMPro::TextAlignmentOptions::Center);
+
+  auto hoz2 = BeatSaberUI::CreateHorizontalLayoutGroup(layout);
+  BeatSaberUI::CreateUIButton(hoz2, "Open Ko-Fi", [] {
+    Application::OpenURL("https://ko-fi.com/mineblock11");
+  });
+
+  INFO("Showing modal!")
+  modalView->Show(true, false, nullptr);
+}
+
 
 void InfoViewController::DidActivate(bool firstActivation,
                                      bool addedToHierarchy,
@@ -110,10 +131,18 @@ void InfoViewController::DidActivate(bool firstActivation,
   using namespace UnityEngine::UI;
   using namespace QuestUI;
 
+  static const std::string version = "3.0.1";
+
   if (firstActivation) {
+    // INFO("{}", getColoramaConfig().donationShownVersion.GetValue())
+    //   if(getColoramaConfig().donationShownVersion.GetValue() != version) {
+    //     // getColoramaConfig().donationShownVersion.SetValue(version);
+    //     // ShowDonationModal();
+    //   }
+
 	auto vertGroup = BeatSaberUI::CreateVerticalLayoutGroup(get_transform());
 	auto titleText = BeatSaberUI::CreateText(
-	    vertGroup->get_transform(), "<size=18><b>Colorama</b></size> v3.0.0");
+	    vertGroup->get_transform(), string_format("<size=18><b>Colorama</b></size> v%s", version.c_str()));
 
 	titleText->set_alignment(TMPro::TextAlignmentOptions::_get_Center());
 	titleText->get_gameObject()->AddComponent<Components::Shimmer *>();
@@ -132,6 +161,9 @@ void InfoViewController::DidActivate(bool firstActivation,
 	CreateApplicationButton(scrollView->get_transform(), "GitHub",
 	                        "Checkout the GitHub repository for Colorama.",
 	                        " https://github.com/IMB11/Colorama");
+    CreateApplicationButton(scrollView->get_transform(), "Support",
+                            "Support Colorama's development on Ko-Fi!",
+                            " https://ko-fi.com/mineblock11");
 
 	HorizontalLayoutGroup *horizontalLayoutGroup =
 	    QuestUI::BeatSaberUI::CreateHorizontalLayoutGroup(

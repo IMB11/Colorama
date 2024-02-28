@@ -15,9 +15,9 @@
 #include "paper/shared/logger.hpp"
 
 static ModInfo modInfo;
-static bool SHOULD_PANIC_REDBAR;
 
 Logger &getLogger();
+bool isRedbarInstalled();
 
 #define LOG(...) INFO(__VA_ARGS__);
 #define INFO(...) Paper::Logger::fmtLog<Paper::LogLevel::INF>(__VA_ARGS__);

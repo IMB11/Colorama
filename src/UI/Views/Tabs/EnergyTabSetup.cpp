@@ -19,6 +19,14 @@ void ConfigViewController::SetupEnergyTab() {
 	EnergyBarConfiguration energyBarConfig =
 	    getColoramaConfig().energyBarConfiguration.GetValue();
 
+    if(isRedbarInstalled()) {
+      BeatSaberUI::CreateText(_energyEntries, "Redbar is installed.");
+      BeatSaberUI::CreateText(_energyEntries, "This functionality is disabled.");
+      BeatSaberUI::CreateText(_energyEntries, "Remove RedBar to enable.");
+      this->energyTab = AdjustedScrollContainerObject(_energyTab, false);
+      return;
+    }
+
 	Toggle *rainbowToggle = nullptr;
 	ColorSetting *lowColor = nullptr;
 	ColorSetting *midColor = nullptr;

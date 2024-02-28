@@ -17,6 +17,7 @@ void ColoramaFlowCoordinator::SetupFields(
   PreviewViewController                *previewViewController) {
   this->_mainFlowCoordinator              = mainFlowCoordinator;
   this->_infoViewController               = infoViewController;
+  this->_infoViewController->parentFlow = this;
   this->_configViewController             = configViewController;
   this->_configViewController->parentFlow = this;
   this->_previewViewController            = previewViewController;

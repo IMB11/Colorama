@@ -119,4 +119,6 @@ DECLARE_CONFIG(ColoramaConfig,
                CONFIG_VALUE(menuConfiguration,
                             MenuConfiguration,
                             "Menu Configuration Tab",
-                            {});)
+                            {});
+               CONFIG_VALUE(donationShownVersion, std::string, "Donation Shown", "0.0.0");
+)

@@ -119,7 +119,10 @@ void EnergyBarColorizer::HandleEnergyChange(float energy) {
 void EnergyBarColorizer::Start() {
   EnergyBarConfiguration config =
       getColoramaConfig().energyBarConfiguration.GetValue();
-  if (! config.enabled) return;
+  if (! config.enabled || isRedbarInstalled()) {
+    Destroy(this);
+    return;
+  }
 
   StartCoroutine(custom_types::Helpers::CoroutineHelper::New(PrepareColors()));
 }
@@ -131,7 +134,7 @@ MAKE_HOOK_MATCH(GameEnergyUIPanel_InitHook, &GameEnergyUIPanel::Init, void,
 }
 
 void EnergyBarColorizerHooks(Logger& logger) {
-  if(SHOULD_PANIC_REDBAR) return;
+  if(isRedbarInstalled()) return;
 
   INSTALL_HOOK(logger, GameEnergyUIPanel_InitHook);
 }

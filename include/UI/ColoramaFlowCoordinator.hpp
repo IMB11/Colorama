@@ -18,7 +18,7 @@ DECLARE_CLASS_CODEGEN(
     DECLARE_INSTANCE_FIELD_PRIVATE(InfoViewController*, _infoViewController);
     DECLARE_INSTANCE_FIELD_PRIVATE(PreviewViewController*,
                                    _previewViewController);
-    DECLARE_INSTANCE_FIELD_PRIVATE(ConfigViewController*,
+    DECLARE_INSTANCE_FIELD(ConfigViewController*,
                                    _configViewController);
     DECLARE_INSTANCE_METHOD(
         void, SetupFields,
